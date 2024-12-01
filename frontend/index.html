@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avatar Selection</title>
+    <title>Chatbot Customization</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,10 +19,25 @@
         label {
             font-weight: bold;
         }
-        textarea {
+        textarea, input[type="text"] {
             width: 100%;
-            height: 100px;
             margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .qa-pair {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .qa-pair input {
+            flex: 1;
+        }
+        .qa-list {
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
         }
         .checkbox-group {
             display: flex;
@@ -53,37 +68,41 @@
             <textarea id="knowledgeBase" placeholder="Enter knowledge base details here..."></textarea>
         </div>
         <div class="section">
-            <label for="predefinedQuestions">Predefined Questions:</label>
-            <textarea id="predefinedQuestions" placeholder="Enter predefined questions here..."></textarea>
-        </div>
-        <div class="section">
-            <label>Language Preference:</label>
-            <div class="checkbox-group">
-                <input type="checkbox" id="english" />
-                <label for="english">English</label>
+            <label>Predefined Questions and Answers:</label>
+            <div id="qa-container" class="qa-list">
+                <!-- Dynamically added question-answer pairs will appear here -->
             </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="french" />
-                <label for="french">French (Canadian)</label>
-            </div>
+            <button id="add-qa-pair" onclick="addQAPair()">Add Question-Answer Pair</button>
         </div>
-        <div class="section">
-            <label>Avatar Selection:</label>
-            <div class="avatar-container">
-                <img src="female_customer_service_avatar.jpeg" alt="Avatar 1" id="avatar1" onclick="selectAvatar('avatar1')">
-                <img src="ai_robot_avatar.png" alt="Avatar 2" id="avatar2" onclick="selectAvatar('avatar2')">
-                <img src="roofing_worker_avatar.jpg" alt="Avatar 3" id="avatar3" onclick="selectAvatar('avatar3')">
-                <img src="ai_friendly_avatar.png" alt="Avatar 4" id="avatar4" onclick="selectAvatar('avatar4')">
-            </div>
+    <div class="section">
+        <label>Language Preference:</label>
+        <div class="checkbox-group">
+            <input type="checkbox" id="english" />
+            <label for="english">English</label>
         </div>
-        <div class="section">
-            <label for="uploadAvatar">Upload Custom Avatar:</label>
-            <input type="file" id="uploadAvatar" accept="image/*" />
+        <div class="checkbox-group">
+            <input type="checkbox" id="french" />
+            <label for="french">French (Canadian)</label>
         </div>
+    </div>
+    <div class="section">
+        <label>Avatar Selection:</label>
+        <div class="avatar-container">
+            <img src="female_customer_service_avatar.jpeg" alt="Avatar 1" id="avatar1" onclick="selectAvatar('avatar1')">
+            <img src="ai_robot_avatar.png" alt="Avatar 2" id="avatar2" onclick="selectAvatar('avatar2')">
+            <img src="roofing_worker_avatar.jpg" alt="Avatar 3" id="avatar3" onclick="selectAvatar('avatar3')">
+            <img src="ai_friendly_avatar.png" alt="Avatar 4" id="avatar4" onclick="selectAvatar('avatar4')">
+        </div>
+    </div>
+    <div class="section">
+        <label for="uploadAvatar">Upload Custom Avatar:</label>
+        <input type="file" id="uploadAvatar" accept="image/*" />
+    </div>
         <div class="section">
             <button id="submit" onclick="submitForm()">Submit</button>
         </div>
     </div>
+</div>
 
     <script>
         function selectAvatar(avatarId) {
@@ -91,16 +110,35 @@
             avatars.forEach(avatar => avatar.classList.remove('selected'));
             document.getElementById(avatarId).classList.add('selected');
         }
+        function addQAPair() {
+            const container = document.getElementById('qa-container');
+            const pair = document.createElement('div');
+            pair.className = 'qa-pair';
+            pair.innerHTML = `
+                <input type="text" placeholder="Question" class="qa-question">
+                <input type="text" placeholder="Answer" class="qa-answer">
+            `;
+            container.appendChild(pair);
+        }
+
         async function submitForm() {
             const knowledgeBase = document.getElementById('knowledgeBase').value;
-            const predefinedQuestions = document.getElementById('predefinedQuestions').value;
+
+            const qaPairs = [];
+            document.querySelectorAll('.qa-pair').forEach(pair => {
+                const question = pair.querySelector('.qa-question').value;
+                const answer = pair.querySelector('.qa-answer').value;
+                if (question && answer) {
+                    qaPairs.push({ question, answer });
+                }
+            });
             const language = document.getElementById('french').checked ? 'fr-CA' : 'en-US';
             const selectedAvatar = document.querySelector('.avatar-container img.selected');
             const uploadedAvatar = document.getElementById('uploadAvatar').files[0];
 
             const formData = new FormData();
             formData.append('knowledgeBase', knowledgeBase);
-            formData.append('predefinedQuestions', predefinedQuestions);
+            formData.append('qaPairs', JSON.stringify(qaPairs));
             formData.append('language', language);
             
             if (uploadedAvatar) {

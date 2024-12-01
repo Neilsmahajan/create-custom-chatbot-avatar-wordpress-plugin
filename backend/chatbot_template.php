@@ -2,7 +2,7 @@
 /*
 Plugin Name: ChatBot Popup with Avatar and Google TTS
 Description: A chatbot plugin with integrated Google Text-to-Speech and a popup interface with an avatar.
-Version: 4.1
+Version: 4.2
 Author: Neil Mahajan
 */
 
@@ -19,19 +19,28 @@ class ChatBotWithAvatar
     private $authorization;
     private $endpoint;
     private $conversationHistory;
+    private $predefinedQA;
 
-    public function __construct($apiKey)
+    public function __construct($apiKey, $predefinedQA)
     {
         $this->authorization = $apiKey;
         $this->endpoint = 'https://api.openai.com/v1/chat/completions';
         $this->conversationHistory = [];
+        $this->predefinedQA = $predefinedQA; // Array of predefined Q&A pairs
     }
 
     public function sendMessage($message)
     {
         $this->conversationHistory[] = ['role' => 'user', 'content' => $message];
 
+        // Add predefined Q&A to system message
         $systemMessage = '{{KNOWLEDGE_BASE}}';
+        if (!empty($this->predefinedQA)) {
+            $systemMessage .= "\nHere are some predefined questions and answers:\n";
+            foreach ($this->predefinedQA as $qa) {
+                $systemMessage .= "Q: {$qa['question']}\nA: {$qa['answer']}\n";
+            }
+        }
 
         $data = [
             'model' => 'gpt-3.5-turbo',
@@ -65,7 +74,6 @@ class ChatBotWithAvatar
         if (!isset($arrResult["choices"][0]["message"]["content"])) {
             return ['text' => 'Error: Unexpected API response format.', 'audio' => ''];
         }
-
         $resultMessage = $arrResult["choices"][0]["message"]["content"];
         $this->conversationHistory[] = ['role' => 'assistant', 'content' => $resultMessage];
 
@@ -106,7 +114,11 @@ class ChatBotWithAvatar
 function chatbot_avatar_ajax_handler()
 {
     $apiKey = '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';
-    $chatbot = new ChatBotWithAvatar($apiKey);
+
+    // Load predefined Q&A
+    $predefinedQA = {{PREDEFINED_QA}};
+
+    $chatbot = new ChatBotWithAvatar($apiKey, $predefinedQA);
 
     $message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
     $response = $chatbot->sendMessage($message);

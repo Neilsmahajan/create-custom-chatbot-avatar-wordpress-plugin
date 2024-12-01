@@ -63,14 +63,14 @@ This project provides a web application that allows Christine's clients to gener
 
 1. Knowledge Base:
    ```
-   "You are a helpful assistant for a real estate business called Neil's Test Real Estate. Currently Neil's Test Real Estate operates in Scottsdale and has 4 homes, two of which are for sale."
+   You are a helpful assistant for a real estate business called Neil's Test Real Estate. Currently Neil's Test Real Estate operates in Scottsdale and has 4 homes, two of which are for sale.
    ```
 2. Predefined Questions:
    ```
-   "What are my Hours of Operation? 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday."
-   "What are the current real estate trends in the city? The market is hot, with prices increasing by 10% over the past year."
-   "How can I find the perfect home for my family? I can search for homes in my price range, and I can also search for homes by location."
-   "What is the process for selling my property? First, I need to find a real estate agent, then we will discuss the price of the home, and then we will list the home on the market."
+   What are my Hours of Operation? 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
+   What are the current real estate trends in the city? The market is hot, with prices increasing by 10% over the past year.
+   How can I find the perfect home for my family? I can search for homes in my price range, and I can also search for homes by location.
+   What is the process for selling my property? First, I need to find a real estate agent, then we will discuss the price of the home, and then we will list the home on the market.
    ```
 3. Avatar Selection: Upload a custom image of a professional real estate agent.
 4. Language Preference: Canadian French
