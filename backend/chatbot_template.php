@@ -71,7 +71,7 @@ function process_message(WP_REST_Request $request) {
     $voiceName = $language === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D';
 
     // OpenAI ChatGPT API
-    $openai_api_key = 'sk-YOUR_OPENAI_API_KEY';
+    $openai_api_key = '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';
     $openai_url = 'https://api.openai.com/v1/chat/completions';
 
     $response = wp_remote_post($openai_url, [
