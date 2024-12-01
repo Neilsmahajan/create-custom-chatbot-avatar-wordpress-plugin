@@ -77,6 +77,10 @@
             </div>
         </div>
         <div class="section">
+            <label for="uploadAvatar">Upload Custom Avatar:</label>
+            <input type="file" id="uploadAvatar" accept="image/*" />
+        </div>
+        <div class="section">
             <button id="submit" onclick="submitForm()">Submit</button>
         </div>
     </div>
@@ -86,6 +90,32 @@
             const avatars = document.querySelectorAll('.avatar-container img');
             avatars.forEach(avatar => avatar.classList.remove('selected'));
             document.getElementById(avatarId).classList.add('selected');
+        }
+        async function submitForm() {
+            const knowledgeBase = document.getElementById('knowledgeBase').value;
+            const predefinedQuestions = document.getElementById('predefinedQuestions').value;
+            const language = document.getElementById('french').checked ? 'fr-CA' : 'en-US';
+            const selectedAvatar = document.querySelector('.avatar-container img.selected');
+            const uploadedAvatar = document.getElementById('uploadAvatar').files[0];
+
+            const formData = new FormData();
+            formData.append('knowledgeBase', knowledgeBase);
+            formData.append('predefinedQuestions', predefinedQuestions);
+            formData.append('language', language);
+            
+            if (uploadedAvatar) {
+                formData.append('avatarUpload', uploadedAvatar);
+            } else if (selectedAvatar) {
+                formData.append('avatar', selectedAvatar.getAttribute('src'));
+            }
+
+            const response = await fetch('../backend/generate-plugin.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            alert(result.message);
         }
     </script>
 </body>
