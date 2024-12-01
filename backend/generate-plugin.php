@@ -1,8 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $knowledgeBase = $_POST['knowledgeBase'];
-    $predefinedQuestions = $_POST['predefinedQuestions'];
-    $language = $_POST['language'];
+    $knowledgeBase = $_POST['knowledgeBase'] ?? '';
+    $predefinedQuestions = $_POST['predefinedQuestions'] ?? '';
+    $language = $_POST['language'] ?? 'en-US';
     $avatarPath = '';
 
     // Handle uploaded avatar
@@ -15,18 +15,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $avatarPath = $_POST['avatar'];
     }
 
-    // Read and customize template
-    $pluginTemplate = file_get_contents('chatbot_template.php');
-    $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $knowledgeBase, $pluginTemplate);
-    $pluginTemplate = str_replace('{{PREDEFINED_QUESTIONS}}', $predefinedQuestions, $pluginTemplate);
+    // Escape special characters to prevent syntax errors
+    $escapedKnowledgeBase = addslashes($knowledgeBase);
+    $escapedPredefinedQuestions = addslashes($predefinedQuestions);
+
+    // Read and customize the template
+    $templatePath = '../backend/chatbot_template.php';
+    $pluginTemplate = file_get_contents($templatePath);
+    $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $escapedKnowledgeBase, $pluginTemplate);
+    $pluginTemplate = str_replace('{{PREDEFINED_QUESTIONS}}', $escapedPredefinedQuestions, $pluginTemplate);
     $pluginTemplate = str_replace('{{LANGUAGE}}', $language, $pluginTemplate);
     $pluginTemplate = str_replace('{{AVATAR}}', $avatarPath, $pluginTemplate);
 
-    // Save the plugin
-    $outputPath = '../generated-plugins/chatbot-' . uniqid() . '.php';
-    file_put_contents($outputPath, $pluginTemplate);
+    // Generate unique plugin filename
+    $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';
+    file_put_contents($outputFilename, $pluginTemplate);
 
-    echo json_encode(['message' => 'Plugin created successfully!', 'file' => $outputPath]);
+    echo json_encode(['message' => 'Plugin created successfully!', 'file' => $outputFilename]);
 } else {
     http_response_code(405);
     echo json_encode(['message' => 'Invalid request method.']);
