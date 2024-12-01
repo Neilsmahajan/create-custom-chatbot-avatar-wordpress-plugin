@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avatar Selection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .avatar-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .avatar-container img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 50%;
+        }
+        .avatar-container img.selected {
+            border-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <label for="knowledgeBase">Knowledge Base:</label>
+            <textarea id="knowledgeBase" placeholder="Enter knowledge base details here..."></textarea>
+        </div>
+        <div class="section">
+            <label for="predefinedQuestions">Predefined Questions:</label>
+            <textarea id="predefinedQuestions" placeholder="Enter predefined questions here..."></textarea>
+        </div>
+        <div class="section">
+            <label>Language Preference:</label>
+            <div class="checkbox-group">
+                <input type="checkbox" id="english" />
+                <label for="english">English</label>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="french" />
+                <label for="french">French (Canadian)</label>
+            </div>
+        </div>
+        <div class="section">
+            <label>Avatar Selection:</label>
+            <div class="avatar-container">
+                <img src="female_customer_service_avatar.jpeg" alt="Avatar 1" id="avatar1" onclick="selectAvatar('avatar1')">
+                <img src="ai_robot_avatar.png" alt="Avatar 2" id="avatar2" onclick="selectAvatar('avatar2')">
+                <img src="roofing_worker_avatar.jpg" alt="Avatar 3" id="avatar3" onclick="selectAvatar('avatar3')">
+                <img src="ai_friendly_avatar.png" alt="Avatar 4" id="avatar4" onclick="selectAvatar('avatar4')">
+            </div>
+        </div>
+        <div class="section">
+            <button id="submit" onclick="submitForm()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        function selectAvatar(avatarId) {
+            const avatars = document.querySelectorAll('.avatar-container img');
+            avatars.forEach(avatar => avatar.classList.remove('selected'));
+            document.getElementById(avatarId).classList.add('selected');
+        }
+    </script>
+</body>
+</html>
