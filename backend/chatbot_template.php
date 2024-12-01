@@ -142,7 +142,79 @@ function chatbot_avatar_shortcode()
         </div>
         <audio id="chat-audio" style="display:none;"></audio>
     </div>
+    <style>
+        #chatbot-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: #fff;
+            font-family: Arial, sans-serif;
+            z-index: 1000;
+        }
+        #chat-avatar {
+            text-align: center;
+            margin-top: 10px;
+            display: block;
+        }
+        #chat-avatar img {
+            width: 80px;
+            height: auto;
+            border-radius: 50%;
+        }
+        #chatbot-header {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #chat-output {
+            height: 150px;
+            overflow-y: auto;
+            padding: 10px;
+            border-top: 1px solid #ccc;
+        }
+        #chat-input-container {
+            display: flex;
+            padding: 10px;
+        }
+        #chat-input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #chat-submit {
+            padding: 5px 10px;
+            margin-left: 5px;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #chat-submit:hover {
+            background: #0056b3;
+        }
+    </style>
     <script>
+        document.getElementById('chatbot-minimize').addEventListener('click', function () {
+            const chatOutput = document.getElementById('chat-output');
+            const chatAvatar = document.getElementById('chat-avatar');
+            const chatInputContainer = document.getElementById('chat-input-container');
+            const isVisible = chatOutput.style.display !== 'none';
+            chatOutput.style.display = isVisible ? 'none' : 'block';
+            chatInputContainer.style.display = isVisible ? 'none' : 'flex';
+            chatAvatar.style.display = isVisible ? 'none' : 'block';
+        });
+
         document.getElementById('chat-submit').addEventListener('click', function () {
             const input = document.getElementById('chat-input');
             const output = document.getElementById('chat-output');
