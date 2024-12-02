@@ -2,7 +2,7 @@
 /*
 Plugin Name: ChatBot Popup with Avatar and Google TTS
 Description: A chatbot plugin with integrated Google Text-to-Speech and a popup interface with an avatar.
-Version: 4.4
+Version: 4.5
 Author: Neil Mahajan
 */
 
@@ -135,7 +135,7 @@ function chatbot_avatar_ajax_handler()
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 
-// Chatbot popup frontend with avatar
+// Register shortcode for chatbot popup
 function chatbot_avatar_shortcode()
 {
     $avatar_url = plugin_dir_url(__FILE__) . 'avatar.jpg';
@@ -146,15 +146,15 @@ function chatbot_avatar_shortcode()
             <img src="<?php echo esc_url($avatar_url); ?>" alt="ChatBot Avatar">
         </div>
         <div id="chatbot-header">
-            <strong>ChatBot</strong>
+            <strong>{{CHATBOT_TITLE}}</strong>
             <button id="chatbot-minimize">&minus;</button>
         </div>
         <div id="chat-output">
-            <p><strong>ChatBot:</strong> Hello! How can I assist you today?</p>
+            <p><strong>{{CHATBOT_TITLE}}:</strong> {{WELCOME_MESSAGE}}</p>
         </div>
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="Type your message here...">
-            <button id="chat-submit">Send</button>
+            <input type="text" id="chat-input" placeholder="{{PLACEHOLDER_TEXT}}">
+            <button id="chat-submit">{{SEND_BUTTON}}</button>
         </div>
         <audio id="chat-audio" style="display:none;"></audio>
     </div>
@@ -248,7 +248,7 @@ function chatbot_avatar_shortcode()
             })
                 .then(response => response.json())
                 .then(data => {
-                    output.innerHTML += `<p><strong>ChatBot:</strong> ${data.text}</p>`;
+                    output.innerHTML += `<p><strong>{{CHATBOT_TITLE}}:</strong> ${data.text}</p>`;
                     if (data.audio) {
                         audio.src = 'data:audio/mp3;base64,' + data.audio;
                         audio.style.display = 'block';
