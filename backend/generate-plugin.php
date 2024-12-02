@@ -2,6 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
     $qaPairs = $_POST['qaPairs'] ?? '[]';
+    $language = $_POST['language'] ?? 'en-US';
 
     // Escape special characters for PHP string
     $escapedKnowledgeBase = addslashes($knowledgeBase);
@@ -9,18 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Format Q&A pairs into a valid PHP array syntax
     $formattedQAPairs = var_export($escapedQAPairs, true);
-
-    // Correct single quotes in the Q&A array output
-    $formattedQAPairs = preg_replace('/\'([^\']+?)\'\s*=>/', '"$1" =>', $formattedQAPairs);
-    $formattedQAPairs = preg_replace('/=>\s*\'([^\']+?)\'/', '=> "$1"', $formattedQAPairs);
+    $formattedQAPairs = str_replace("'", '"', $formattedQAPairs); // Convert single quotes to double quotes
 
     // Load the template
     $templatePath = '../backend/chatbot_template.php';
     $pluginTemplate = file_get_contents($templatePath);
 
-    // Replace placeholders with the escaped Knowledge Base and QA pairs
+    // Replace placeholders
     $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $escapedKnowledgeBase, $pluginTemplate);
     $pluginTemplate = str_replace('{{PREDEFINED_QA}}', $formattedQAPairs, $pluginTemplate);
+    $pluginTemplate = str_replace('{{LANGUAGE}}', $language, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';

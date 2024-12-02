@@ -2,7 +2,7 @@
 /*
 Plugin Name: ChatBot Popup with Avatar and Google TTS
 Description: A chatbot plugin with integrated Google Text-to-Speech and a popup interface with an avatar.
-Version: 4.2
+Version: 4.4
 Author: Neil Mahajan
 */
 
@@ -20,13 +20,15 @@ class ChatBotWithAvatar
     private $endpoint;
     private $conversationHistory;
     private $predefinedQA;
+    private $language;
 
-    public function __construct($apiKey, $predefinedQA)
+    public function __construct($apiKey, $predefinedQA, $language)
     {
         $this->authorization = $apiKey;
         $this->endpoint = 'https://api.openai.com/v1/chat/completions';
         $this->conversationHistory = [];
         $this->predefinedQA = $predefinedQA; // Array of predefined Q&A pairs
+        $this->language = $language; // 'en-US' or 'fr-CA'
     }
 
     public function sendMessage($message)
@@ -74,6 +76,7 @@ class ChatBotWithAvatar
         if (!isset($arrResult["choices"][0]["message"]["content"])) {
             return ['text' => 'Error: Unexpected API response format.', 'audio' => ''];
         }
+
         $resultMessage = $arrResult["choices"][0]["message"]["content"];
         $this->conversationHistory[] = ['role' => 'assistant', 'content' => $resultMessage];
 
@@ -94,8 +97,8 @@ class ChatBotWithAvatar
             $synthesisInput->setText($text);
 
             $voice = new VoiceSelectionParams();
-            $voice->setLanguageCode('en-US');
-            $voice->setName('en-US-Wavenet-D');
+            $voice->setLanguageCode($this->language);
+            $voice->setName($this->language === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D');
 
             $audioConfig = new AudioConfig();
             $audioConfig->setAudioEncoding(AudioEncoding::MP3);
@@ -115,10 +118,11 @@ function chatbot_avatar_ajax_handler()
 {
     $apiKey = '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';
 
-    // Load predefined Q&A
+    // Load predefined Q&A and language preference
     $predefinedQA = {{PREDEFINED_QA}};
+    $language = '{{LANGUAGE}}';
 
-    $chatbot = new ChatBotWithAvatar($apiKey, $predefinedQA);
+    $chatbot = new ChatBotWithAvatar($apiKey, $predefinedQA, $language);
 
     $message = isset($_POST['message']) ? sanitize_text_field($_POST['message']) : '';
     $response = $chatbot->sendMessage($message);

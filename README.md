@@ -62,16 +62,29 @@ This project provides a web application that allows Christine's clients to gener
 ### For a Real Estate Client:
 
 1. Knowledge Base:
-   ```
-   You are a helpful assistant for a real estate business called Neil's Test Real Estate. Currently Neil's Test Real Estate operates in Scottsdale and has 4 homes, two of which are for sale.
-   ```
+   - English:
+      ```
+      You are a helpful assistant for a real estate business called Neil's Test Real Estate. Currently Neil's Test Real Estate operates in Scottsdale and has four homes, two of which are for sale.
+      ```
+   - Canadian French:
+      ```
+      Vous êtes un assistant de confiance pour une entreprise immobilière appelée Neil's Test Real Estate. Actuellement, Neil's Test Real Estate opère à Scottsdale et a quatre maisons, dont deux sont à vendre.
+      ```
 2. Predefined Questions:
-   ```
-   What are my Hours of Operation? 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
-   What are the current real estate trends in the city? The market is hot, with prices increasing by 10% over the past year.
-   How can I find the perfect home for my family? I can search for homes in my price range, and I can also search for homes by location.
-   What is the process for selling my property? First, I need to find a real estate agent, then we will discuss the price of the home, and then we will list the home on the market.
-   ```
+   - English:
+      ```
+      What are my Hours of Operation? 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
+      What are the current real estate trends in the city? The market is hot, with prices increasing by 10% over the past year.
+      How can I find the perfect home for my family? I can search for homes in my price range, and I can also search for homes by location.
+      What is the process for selling my property? First, I need to find a real estate agent, then we will discuss the price of the home, and then we will list the home on the market.
+      ```
+   - Canadian French:
+      ```
+      Quels sont mes horaires d'ouverture? 9h à 17h du lundi au jeudi, 9h à 15h le vendredi.
+      Quels sont les tendances actuelles de l'immobilier dans la ville? Le marché est chaud, avec des prix en hausse de 10% au cours de l'année dernière.
+      Comment puis-je trouver la maison idéale pour ma famille? Je peux rechercher des maisons dans ma gamme de prix, et je peux également rechercher des maisons par emplacement.
+      Quel est le processus pour vendre ma propriété? Tout d'abord, je dois trouver un agent immobilier, puis nous discuterons du prix de la maison, et ensuite nous listerons la maison sur le marché.
+      ```
 3. Avatar Selection: Upload a custom image of a professional real estate agent.
 4. Language Preference: Canadian French
 
