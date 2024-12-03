@@ -138,7 +138,7 @@ add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 // Register shortcode for chatbot popup
 function chatbot_avatar_shortcode()
 {
-    $avatar_url = plugin_dir_url(__FILE__) . 'avatar.jpg';
+    $avatar_url = plugin_dir_url(__FILE__) . '{{AVATAR_FILENAME}}';
     ob_start();
     ?>
     <div id="chatbot-popup">

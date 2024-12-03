@@ -136,6 +136,7 @@
 </div>
 
     <script>
+        let selectedAvatar = '';
         function addQAPair() {
             const container = document.getElementById('qa-container');
             const pair = document.createElement('div');
@@ -150,10 +151,14 @@
         function selectAvatar(avatarId) {
             const avatars = document.querySelectorAll('.avatar-container img');
             avatars.forEach(avatar => avatar.classList.remove('selected'));
-            document.getElementById(avatarId).classList.add('selected');
+            const selectedElement = document.getElementById(avatarId);
+        selectedElement.classList.add('selected');
+        selectedAvatar = selectedElement.getAttribute('src');
         }
 
         async function submitForm() {
+            const formData = new FormData();
+
             const knowledgeBase = document.getElementById('knowledgeBase').value;
             const qaPairs = [];
             document.querySelectorAll('.qa-pair').forEach(pair => {
@@ -164,27 +169,28 @@
                 }
             });
             const language = document.getElementById('french').checked ? 'fr-CA' : 'en-US';
-            const selectedAvatar = document.querySelector('.avatar-container img.selected');
-            const uploadedAvatar = document.getElementById('uploadAvatar').files[0];
 
-            const formData = new FormData();
             formData.append('knowledgeBase', knowledgeBase);
             formData.append('qaPairs', JSON.stringify(qaPairs));
             formData.append('language', language);
             
-            if (uploadedAvatar) {
-                formData.append('avatarUpload', uploadedAvatar);
-            } else if (selectedAvatar) {
-                formData.append('avatar', selectedAvatar.getAttribute('src'));
-            }
+            if (selectedAvatar) {
+            formData.append('avatar', selectedAvatar);
+        } else {
+            alert('Please select an avatar.');
+            return;
+        }
 
+        try {
             const response = await fetch('../backend/generate-plugin.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
             });
-
             const result = await response.json();
             alert(result.message);
+        } catch (error) {
+            alert('Error submitting form: ' + error.message);
+        }
         }
     </script>
 </body>
