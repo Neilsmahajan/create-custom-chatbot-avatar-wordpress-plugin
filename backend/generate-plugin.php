@@ -4,12 +4,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $qaPairs = $_POST['qaPairs'] ?? '[]';
     $language = $_POST['language'] ?? 'en-US';
     $avatar = $_POST['avatar'] ?? '';
-
-    // Escape special characters for PHP string
+    $avatarUpload = $_FILES['avatarUpload'] ?? null;
     $escapedKnowledgeBase = addslashes($knowledgeBase);
     $escapedQAPairs = json_decode($qaPairs, true);
-
-    // Format Q&A pairs into a valid PHP array syntax
     $formattedQAPairs = var_export($escapedQAPairs, true);
     $formattedQAPairs = str_replace("'", '"', $formattedQAPairs); // Convert single quotes to double quotes
 
@@ -30,22 +27,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'sendButton' => 'Send',
         ];
     }
-    if ($avatar) {
-        $frontendAvatarPath = '../frontend/' . basename($avatar);
-        $generatedPluginsAvatarPath = '../generated-plugins/' . basename($avatar);
+    if ($avatarUpload) {
+        $uploadDir = '../generated-plugins/';
+        $uploadedFileName = basename($avatarUpload['name']);
+        $uploadPath = $uploadDir . $uploadedFileName;
+
+        if (move_uploaded_file($avatarUpload['tmp_name'], $uploadPath)) {
+            $avatarFileName = $uploadedFileName;
+        } else {
+            echo json_encode(['message' => 'Error uploading custom avatar.']);
+            exit;
+        }
+    } elseif ($avatar) {
+        $avatarFileName = basename($avatar);
+        $frontendAvatarPath = '../frontend/' . $avatarFileName;
+        $generatedPluginsAvatarPath = '../generated-plugins/' . $avatarFileName;
 
         if (!copy($frontendAvatarPath, $generatedPluginsAvatarPath)) {
-            echo json_encode(['message' => 'Error copying avatar image.']);
+            echo json_encode(['message' => 'Error copying predefined avatar.']);
             exit;
         }
     } else {
-        echo json_encode(['message' => 'No avatar selected.']);
+        echo json_encode(['message' => 'No avatar selected or uploaded.']);
         exit;
     }
 
     // Load the template and replace placeholders
     $pluginTemplate = file_get_contents('../backend/chatbot_template.php');
-
     // Replace placeholders
     $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $escapedKnowledgeBase, $pluginTemplate);
     $pluginTemplate = str_replace('{{PREDEFINED_QA}}', $formattedQAPairs, $pluginTemplate);
@@ -54,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{WELCOME_MESSAGE}}', $translations['welcomeMessage'], $pluginTemplate);
     $pluginTemplate = str_replace('{{PLACEHOLDER_TEXT}}', $translations['placeholderText'], $pluginTemplate);
     $pluginTemplate = str_replace('{{SEND_BUTTON}}', $translations['sendButton'], $pluginTemplate);
-    $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', basename($avatar), $pluginTemplate);
+    $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';

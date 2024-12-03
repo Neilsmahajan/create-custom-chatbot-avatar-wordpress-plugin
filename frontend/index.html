@@ -137,6 +137,7 @@
 
     <script>
         let selectedAvatar = '';
+        let customAvatarFile = null;
         function addQAPair() {
             const container = document.getElementById('qa-container');
             const pair = document.createElement('div');
@@ -152,9 +153,18 @@
             const avatars = document.querySelectorAll('.avatar-container img');
             avatars.forEach(avatar => avatar.classList.remove('selected'));
             const selectedElement = document.getElementById(avatarId);
-        selectedElement.classList.add('selected');
-        selectedAvatar = selectedElement.getAttribute('src');
+            selectedElement.classList.add('selected');
+            selectedAvatar = selectedElement.getAttribute('src');
+            customAvatarFile = null; // Clear any custom avatar file
+            document.getElementById('uploadAvatar').value = ''; // Clear file input
         }
+
+    document.getElementById('uploadAvatar').addEventListener('change', function () {
+        customAvatarFile = this.files[0];
+        selectedAvatar = ''; // Clear predefined avatar selection
+        const avatars = document.querySelectorAll('.avatar-container img');
+        avatars.forEach(avatar => avatar.classList.remove('selected'));
+    });
 
         async function submitForm() {
             const formData = new FormData();
@@ -174,10 +184,12 @@
             formData.append('qaPairs', JSON.stringify(qaPairs));
             formData.append('language', language);
             
-            if (selectedAvatar) {
+        if (customAvatarFile) {
+            formData.append('avatarUpload', customAvatarFile);
+        } else if (selectedAvatar) {
             formData.append('avatar', selectedAvatar);
         } else {
-            alert('Please select an avatar.');
+            alert('Please select or upload an avatar.');
             return;
         }
 
