@@ -106,17 +106,7 @@
             <div id="qa-container" class="qa-list"></div>
             <button id="add-qa-pair" onclick="addQAPair()">Add Question-Answer Pair / Ajouter une paire de questions-réponses</button>
         </div>
-    <div class="section">
-            <label>Language Preference / Préférence de langue :</label>
-        <div class="checkbox-group">
-                <input type="radio" id="english" name="language" value="en-US" checked />
-            <label for="english">English</label>
-        </div>
-        <div class="checkbox-group">
-                <input type="radio" id="french" name="language" value="fr-CA" />
-                <label for="french">French (Canadian) / Français (Canadien)</label>
-        </div>
-    </div>
+    
     <div class="section">
             <label>Avatar Selection / Sélection de l'avatar :</label>
         <div class="avatar-container">
@@ -178,11 +168,9 @@
                     qaPairs.push({ question, answer });
                 }
             });
-            const language = document.getElementById('french').checked ? 'fr-CA' : 'en-US';
 
             formData.append('knowledgeBase', knowledgeBase);
             formData.append('qaPairs', JSON.stringify(qaPairs));
-            formData.append('language', language);
             
         if (customAvatarFile) {
             formData.append('avatarUpload', customAvatarFile);
