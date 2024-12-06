@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: ChatBot Popup with Avatar and Google TTS
-Description: A chatbot plugin with integrated Google Text-to-Speech and a popup interface with an avatar.
+Plugin Name: Custom Multilingual Chatbot ChatBot Popup with Avatar and Google TTS
+Description: A chatbot plugin with integrated Google Text-to-Speech and a popup interface with an avatar supporting English and French (Canadian) based on shortcode attributes.
 Version: 4.5
 Author: Neil Mahajan
 */
@@ -135,10 +135,29 @@ function chatbot_avatar_ajax_handler()
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 
-// Register shortcode for chatbot popup
-function chatbot_avatar_shortcode()
+
+// Define the chatbot shortcode
+function chatbot_avatar_shortcode($atts)
 {
+    // Extract language attribute (default to English)
+    $attributes = shortcode_atts([
+        'language' => 'en-US', // Default language
+    ], $atts);
+
+    // Set up language-specific settings
+    $languageCode = $attributes['language'];
+    $voiceName = $languageCode === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D';
+    $greetingMessage = $languageCode === 'fr-CA'
+        ? 'Bonjour ! Comment puis-je vous aider aujourd’hui ?'
+        : 'Hello! How can I assist you today?';
+    $placeholderText = $languageCode === 'fr-CA'
+        ? 'Tapez votre message ici...'
+        : 'Type your message here...';
+    $buttonText = $languageCode === 'fr-CA' ? 'Envoyer' : 'Send';
+
+    // Avatar
     $avatar_url = plugin_dir_url(__FILE__) . '{{AVATAR_FILENAME}}';
+
     ob_start();
     ?>
     <div id="chatbot-popup">
@@ -146,15 +165,15 @@ function chatbot_avatar_shortcode()
             <img src="<?php echo esc_url($avatar_url); ?>" alt="ChatBot Avatar">
         </div>
         <div id="chatbot-header">
-            <strong>{{CHATBOT_TITLE}}</strong>
+            <strong>ChatBot</strong>
             <button id="chatbot-minimize">&minus;</button>
         </div>
         <div id="chat-output">
-            <p><strong>{{CHATBOT_TITLE}}:</strong> {{WELCOME_MESSAGE}}</p>
+            <p><strong>ChatBot:</strong> <?php echo esc_html($greetingMessage); ?></p>
         </div>
         <div id="chat-input-container">
-            <input type="text" id="chat-input" placeholder="{{PLACEHOLDER_TEXT}}">
-            <button id="chat-submit">{{SEND_BUTTON}}</button>
+            <input type="text" id="chat-input" placeholder="<?php echo esc_html($placeholderText); ?>">
+            <button id="chat-submit"><?php echo esc_html($buttonText); ?></button>
         </div>
         <audio id="chat-audio" style="display:none;"></audio>
     </div>
@@ -269,7 +288,7 @@ function chatbot_avatar_shortcode()
 add_shortcode('chatbot_avatar', 'chatbot_avatar_shortcode');
 
 // Add chatbot to footer
-add_action('wp_footer', function () {
-    echo do_shortcode('[chatbot_avatar]');
-});
+// add_action('wp_footer', function () {
+//     echo do_shortcode('[chatbot_avatar]');
+// });
 ?>
