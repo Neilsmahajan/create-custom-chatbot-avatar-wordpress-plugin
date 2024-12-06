@@ -20,15 +20,15 @@ class ChatBotWithAvatar
     private $endpoint;
     private $conversationHistory;
     private $predefinedQA;
-    private $language;
+    private $languageCode;
 
-    public function __construct($apiKey, $predefinedQA, $language)
+    public function __construct($apiKey, $predefinedQA, $languageCode)
     {
         $this->authorization = $apiKey;
         $this->endpoint = 'https://api.openai.com/v1/chat/completions';
         $this->conversationHistory = [];
         $this->predefinedQA = $predefinedQA; // Array of predefined Q&A pairs
-        $this->language = $language; // 'en-US' or 'fr-CA'
+        $this->languageCode = $languageCode; // 'en-US' or 'fr-CA'
     }
 
     public function sendMessage($message)
@@ -89,7 +89,7 @@ class ChatBotWithAvatar
     private function generateAudio($text)
     {
         putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
-
+        
         try {
             $client = new TextToSpeechClient();
 
@@ -97,8 +97,8 @@ class ChatBotWithAvatar
             $synthesisInput->setText($text);
 
             $voice = new VoiceSelectionParams();
-            $voice->setLanguageCode($this->language);
-            $voice->setName($this->language === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D');
+            $voice->setLanguageCode($this->languageCode);
+            $voice->setName($this->languageCode === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D');
 
             $audioConfig = new AudioConfig();
             $audioConfig->setAudioEncoding(AudioEncoding::MP3);
@@ -120,7 +120,7 @@ function chatbot_avatar_ajax_handler()
 
     // Load predefined Q&A and language preference
     $predefinedQA = {{PREDEFINED_QA}};
-    $language = '{{LANGUAGE}}';
+    $language = sanitize_text_field($_POST['language']);;
 
     $chatbot = new ChatBotWithAvatar($apiKey, $predefinedQA, $language);
 
@@ -250,34 +250,31 @@ function chatbot_avatar_shortcode($atts)
             chatAvatar.style.display = isVisible ? 'none' : 'block';
         });
 
-        document.getElementById('chat-submit').addEventListener('click', function () {
-            const input = document.getElementById('chat-input');
+        document.getElementById('chat-submit').addEventListener('click', async function () {
+            const input = document.getElementById('chat-input').value;
             const output = document.getElementById('chat-output');
             const audio = document.getElementById('chat-audio');
-            const userMessage = input.value.trim();
-            if (userMessage === '') return;
+            if (input.trim() === '') return;
 
-            output.innerHTML += `<p><strong>You:</strong> ${userMessage}</p>`;
-            input.value = '';
+            output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+            document.getElementById('chat-input').value = '';
 
-            fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+            try {
+                const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'action=chatbot_avatar&message=' + encodeURIComponent(userMessage)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    output.innerHTML += `<p><strong>{{CHATBOT_TITLE}}:</strong> ${data.text}</p>`;
-                    if (data.audio) {
-                        audio.src = 'data:audio/mp3;base64,' + data.audio;
+                    body: 'action=chatbot_avatar&message=' + encodeURIComponent(input) + '&language=<?php echo esc_js($languageCode); ?>'
+                });
+                const result = await response.json();
+                output.innerHTML += `<p><strong>ChatBot:</strong> ${result.text}</p>`;
+                if (result.audio) {
+                    audio.src = 'data:audio/mp3;base64,' + result.audio;
                         audio.style.display = 'block';
                         audio.play();
                     }
-                    output.scrollTop = output.scrollHeight;
-                })
-                .catch(error => {
+            } catch (error) {
                     output.innerHTML += `<p><strong>Error:</strong> Unable to process the request.</p>`;
-                });
+            }
         });
     </script>
     <?php
