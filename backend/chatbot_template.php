@@ -25,7 +25,6 @@ function chatbot_avatar_shortcode($atts)
     $attributes = shortcode_atts([
         'language' => 'en-US', // Default language
     ], $atts);
-
     // Set up language-specific settings
     $languageCode = $attributes['language'];
     $greetingMessage = $languageCode === 'fr-CA'
@@ -35,10 +34,11 @@ function chatbot_avatar_shortcode($atts)
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
     $buttonText = $languageCode === 'fr-CA' ? 'Envoyer' : 'Send';
-
     // Avatar
     $avatar_url = plugin_dir_url(__FILE__) . '{{AVATAR_FILENAME}}';
-
+    $primaryColor = '{{PRIMARY_COLOR}}';
+    $secondaryColor = '{{SECONDARY_COLOR}}';
+    
     ob_start();
     ?>
     <div id="chatbot-popup">
@@ -64,10 +64,10 @@ function chatbot_avatar_shortcode($atts)
             bottom: 20px;
             right: 20px;
             width: 300px;
-            border: 1px solid #ccc;
+            border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: <?php echo $secondaryColor; ?>;
             font-family: Arial, sans-serif;
             z-index: 1000;
         }
@@ -83,7 +83,7 @@ function chatbot_avatar_shortcode($atts)
         }
         #chatbot-header {
             padding: 10px;
-            background: #007bff;
+            background: <?php echo $primaryColor; ?>;
             color: white;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -95,7 +95,7 @@ function chatbot_avatar_shortcode($atts)
             height: 150px;
             overflow-y: auto;
             padding: 10px;
-            border-top: 1px solid #ccc;
+            border-top: 1px solid <?php echo $primaryColor; ?>;
         }
         #chat-input-container {
             display: flex;
@@ -104,20 +104,20 @@ function chatbot_avatar_shortcode($atts)
         #chat-input {
             flex: 1;
             padding: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 5px;
         }
         #chat-submit {
             padding: 5px 10px;
             margin-left: 5px;
             border: none;
-            background: #007bff;
+            background: <?php echo $primaryColor; ?>;
             color: white;
             border-radius: 5px;
             cursor: pointer;
         }
         #chat-submit:hover {
-            background: #0056b3;
+            background: darken(<?php echo $primaryColor; ?>, 10%);
         }
     </style>
     <script>

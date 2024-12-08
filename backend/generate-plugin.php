@@ -8,6 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $escapedQAPairs = json_decode($qaPairs, true);
     $formattedQAPairs = var_export($escapedQAPairs, true);
     $formattedQAPairs = str_replace("'", '"', $formattedQAPairs); // Convert single quotes to double quotes
+    $primaryColor = $_POST['primaryColor'] ?? '#007bff'; // Default primary color
+    $secondaryColor = $_POST['secondaryColor'] ?? '#f4f4f9'; // Default secondary color
+    $avatarFilename = '';
 
     // Determine translations for French (Canadian)
     if ($avatarUpload) {
@@ -41,11 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $escapedKnowledgeBase, $pluginTemplate);
     $pluginTemplate = str_replace('{{PREDEFINED_QA}}', $formattedQAPairs, $pluginTemplate);
     $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
+    $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
+    $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';
     if (file_put_contents($outputFilename, $pluginTemplate)) {
-    echo json_encode(['message' => 'Plugin created successfully!', 'file' => $outputFilename]);
+        echo json_encode(['message' => 'Plugin created successfully!', 'file' => $outputFilename]);
     } else {
         echo json_encode(['message' => 'Error saving plugin file.']);
     }

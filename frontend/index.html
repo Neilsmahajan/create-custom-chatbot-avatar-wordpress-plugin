@@ -1,197 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbot Customization</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 24px;
-            color: #333;
-        }
-        .header p {
-            font-size: 16px;
-            color: #666;
-        }
-        .section {
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 5px;
-        }
-        textarea, input[type="text"], button, input[type="file"] {
-            width: 100%;
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .checkbox-group label {
-            margin-left: 10px;
-            font-weight: normal;
-        }
-        .qa-pair {
-            display: flex;
-            gap: 10px;
-        }
-        .qa-pair input {
-            flex: 1;
-        }
-        .qa-list {
-            margin-top: 10px;
-        }
-        .avatar-container {
-            display: flex;
-            gap: 15px;
-        }
-        .avatar-container img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .avatar-container img.selected {
-            border-color: blue;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .header h1 {
+        font-size: 24px;
+        color: #333;
+      }
+      .header p {
+        font-size: 16px;
+        color: #666;
+      }
+      .section {
+        margin-bottom: 20px;
+      }
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+      }
+      textarea,
+      input[type="text"],
+      button,
+      input[type="file"] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .checkbox-group label {
+        margin-left: 10px;
+        font-weight: normal;
+      }
+      .qa-pair {
+        display: flex;
+        gap: 10px;
+      }
+      .qa-pair input {
+        flex: 1;
+      }
+      .qa-list {
+        margin-top: 10px;
+      }
+      .avatar-container {
+        display: flex;
+        gap: 15px;
+      }
+      .avatar-container img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .avatar-container img.selected {
+        border-color: blue;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="header">
-            <h1>Chatbot Customization / Personnalisation du Chatbot</h1>
-            <p>Create your custom chatbot plugin for WordPress / Créez votre plugin chatbot personnalisé pour WordPress</p>
-        </div>
-        <div class="section">
-            <label for="knowledgeBase">Knowledge Base / Base de connaissances :</label>
-            <textarea id="knowledgeBase" placeholder="Enter knowledge base details here / Entrez les détails de la base de connaissances ici..."></textarea>
-        </div>
-        <div class="section">
-            <label>Predefined Questions and Answers / Questions et réponses prédéfinies :</label>
-            <div id="qa-container" class="qa-list"></div>
-            <button id="add-qa-pair" onclick="addQAPair()">Add Question-Answer Pair / Ajouter une paire de questions-réponses</button>
-        </div>
-    
-    <div class="section">
-            <label>Avatar Selection / Sélection de l'avatar :</label>
+      <div class="header">
+        <h1>Chatbot Customization / Personnalisation du Chatbot</h1>
+        <p>
+          Create your custom chatbot plugin for WordPress / Créez votre plugin
+          chatbot personnalisé pour WordPress
+        </p>
+      </div>
+      <div class="section">
+        <label for="knowledgeBase"
+          >Knowledge Base / Base de connaissances :</label
+        >
+        <textarea
+          id="knowledgeBase"
+          placeholder="Enter knowledge base details here / Entrez les détails de la base de connaissances ici..."
+        ></textarea>
+      </div>
+      <div class="section">
+        <label
+          >Predefined Questions and Answers / Questions et réponses prédéfinies
+          :</label
+        >
+        <div id="qa-container" class="qa-list"></div>
+        <button id="add-qa-pair" onclick="addQAPair()">
+          Add Question-Answer Pair / Ajouter une paire de questions-réponses
+        </button>
+      </div>
+
+      <div class="section">
+        <label>Avatar Selection / Sélection de l'avatar :</label>
         <div class="avatar-container">
-                <img src="female_customer_service_avatar.jpeg" alt="Avatar 1" id="avatar1" onclick="selectAvatar('avatar1')" />
-                <img src="ai_robot_avatar.png" alt="Avatar 2" id="avatar2" onclick="selectAvatar('avatar2')" />
-                <img src="roofing_worker_avatar.jpg" alt="Avatar 3" id="avatar3" onclick="selectAvatar('avatar3')" />
-                <img src="ai_friendly_avatar.png" alt="Avatar 4" id="avatar4" onclick="selectAvatar('avatar4')" />
+          <img
+            src="female_customer_service_avatar.jpeg"
+            alt="Avatar 1"
+            id="avatar1"
+            onclick="selectAvatar('avatar1')"
+          />
+          <img
+            src="ai_robot_avatar.png"
+            alt="Avatar 2"
+            id="avatar2"
+            onclick="selectAvatar('avatar2')"
+          />
+          <img
+            src="roofing_worker_avatar.jpg"
+            alt="Avatar 3"
+            id="avatar3"
+            onclick="selectAvatar('avatar3')"
+          />
+          <img
+            src="ai_friendly_avatar.png"
+            alt="Avatar 4"
+            id="avatar4"
+            onclick="selectAvatar('avatar4')"
+          />
         </div>
-    </div>
-    <div class="section">
-            <label for="uploadAvatar">Upload Custom Avatar / Téléchargez un avatar personnalisé :</label>
+      </div>
+      <div class="section">
+        <label for="uploadAvatar"
+          >Upload Custom Avatar / Téléchargez un avatar personnalisé :</label
+        >
         <input type="file" id="uploadAvatar" accept="image/*" />
+      </div>
+      <div class="section">
+        <label for="primaryColor">Primary Color / Couleur Principale :</label>
+        <input type="color" id="primaryColor" value="#007bff" />
+      </div>
+      <div class="section">
+        <label for="secondaryColor"
+          >Secondary Color / Couleur Secondaire :</label
+        >
+        <input type="color" id="secondaryColor" value="#f4f4f9" />
+      </div>
+      <div class="section">
+        <button id="submit" onclick="submitForm()">Submit / Soumettre</button>
+      </div>
     </div>
-        <div class="section">
-            <button id="submit" onclick="submitForm()">Submit / Soumettre</button>
-    </div>
-</div>
 
     <script>
-        let selectedAvatar = '';
-        let customAvatarFile = null;
-        function addQAPair() {
-            const container = document.getElementById('qa-container');
-            const pair = document.createElement('div');
-            pair.className = 'qa-pair';
-            pair.innerHTML = `
+      let selectedAvatar = "";
+      let customAvatarFile = null;
+      function addQAPair() {
+        const container = document.getElementById("qa-container");
+        const pair = document.createElement("div");
+        pair.className = "qa-pair";
+        pair.innerHTML = `
                 <input type="text" placeholder="Question / Question" class="qa-question" />
                 <input type="text" placeholder="Answer / Réponse" class="qa-answer" />
             `;
-            container.appendChild(pair);
-        }
+        container.appendChild(pair);
+      }
 
-        function selectAvatar(avatarId) {
-            const avatars = document.querySelectorAll('.avatar-container img');
-            avatars.forEach(avatar => avatar.classList.remove('selected'));
-            const selectedElement = document.getElementById(avatarId);
-            selectedElement.classList.add('selected');
-            selectedAvatar = selectedElement.getAttribute('src');
-            customAvatarFile = null; // Clear any custom avatar file
-            document.getElementById('uploadAvatar').value = ''; // Clear file input
-        }
+      function selectAvatar(avatarId) {
+        const avatars = document.querySelectorAll(".avatar-container img");
+        avatars.forEach((avatar) => avatar.classList.remove("selected"));
+        const selectedElement = document.getElementById(avatarId);
+        selectedElement.classList.add("selected");
+        selectedAvatar = selectedElement.getAttribute("src");
+        customAvatarFile = null; // Clear any custom avatar file
+        document.getElementById("uploadAvatar").value = ""; // Clear file input
+      }
 
-    document.getElementById('uploadAvatar').addEventListener('change', function () {
-        customAvatarFile = this.files[0];
-        selectedAvatar = ''; // Clear predefined avatar selection
-        const avatars = document.querySelectorAll('.avatar-container img');
-        avatars.forEach(avatar => avatar.classList.remove('selected'));
-    });
+      document
+        .getElementById("uploadAvatar")
+        .addEventListener("change", function () {
+          customAvatarFile = this.files[0];
+          selectedAvatar = ""; // Clear predefined avatar selection
+          const avatars = document.querySelectorAll(".avatar-container img");
+          avatars.forEach((avatar) => avatar.classList.remove("selected"));
+        });
 
-        async function submitForm() {
-            const formData = new FormData();
+      async function submitForm() {
+        const formData = new FormData();
 
-            const knowledgeBase = document.getElementById('knowledgeBase').value;
-            const qaPairs = [];
-            document.querySelectorAll('.qa-pair').forEach(pair => {
-                const question = pair.querySelector('.qa-question').value;
-                const answer = pair.querySelector('.qa-answer').value;
-                if (question && answer) {
-                    qaPairs.push({ question, answer });
-                }
-            });
+        const knowledgeBase = document.getElementById('knowledgeBase').value;
+        const qaPairs = [];
+        document.querySelectorAll('.qa-pair').forEach(pair => {
+        const question = pair.querySelector('.qa-question').value;
+        const answer = pair.querySelector('.qa-answer').value;
+          if (question && answer) {
+            qaPairs.push({ question, answer });
+          }
+        });
 
-            formData.append('knowledgeBase', knowledgeBase);
-            formData.append('qaPairs', JSON.stringify(qaPairs));
-            
+        const primaryColor = document.getElementById('primaryColor').value;
+        const secondaryColor = document.getElementById('secondaryColor').value;
+
+        formData.append('knowledgeBase', knowledgeBase);
+        formData.append('qaPairs', JSON.stringify(qaPairs));
+        formData.append('primaryColor', primaryColor);
+        formData.append('secondaryColor', secondaryColor);
+
         if (customAvatarFile) {
-            formData.append('avatarUpload', customAvatarFile);
+          formData.append("avatarUpload", customAvatarFile);
         } else if (selectedAvatar) {
-            formData.append('avatar', selectedAvatar);
+          formData.append("avatar", selectedAvatar);
         } else {
-            alert('Please select or upload an avatar.');
-            return;
+          alert("Please select or upload an avatar.");
+          return;
         }
 
         try {
-            const response = await fetch('../backend/generate-plugin.php', {
-                method: 'POST',
-                body: formData,
-            });
-            const result = await response.json();
-            alert(result.message);
+          const response = await fetch("../backend/generate-plugin.php", {
+            method: "POST",
+            body: formData,
+          });
+          const result = await response.json();
+          alert(result.message);
         } catch (error) {
-            alert('Error submitting form: ' + error.message);
+          alert("Error submitting form: " + error.message);
         }
-        }
+      }
     </script>
-</body>
+  </body>
 </html>
