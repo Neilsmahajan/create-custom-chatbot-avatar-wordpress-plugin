@@ -15,9 +15,6 @@ use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;
 
 
-
-
-
 // Define the chatbot shortcode
 function chatbot_avatar_shortcode($atts)
 {
@@ -46,7 +43,20 @@ function chatbot_avatar_shortcode($atts)
             <img src="<?php echo esc_url($avatar_url); ?>" alt="ChatBot Avatar">
         </div>
         <div id="faq-container">
-            {{FAQ_BUTTONS_HTML}}
+            <?php
+            // Predefined QA pairs passed as a JSON-encoded string for FAQs
+            $predefinedFaqs = '{{PREDEFINED_QA_FAQS}}';
+            $qaPairs = json_decode(html_entity_decode($predefinedFaqs), true);
+
+            // Check if decoding was successful
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($qaPairs)) {
+                echo '<p>Failed to load FAQs. Please check the predefined QA data.</p>';
+            } else {
+                $targetLanguage = $languageCode === 'en-US' ? 'en' : 'fr';
+                // Generate the translated FAQ buttons
+                echo translateFaqs($qaPairs, $targetLanguage);
+            }
+            ?>
         </div>
         <div id="chatbot-header">
             <strong>ChatBot</strong>
@@ -221,6 +231,35 @@ function chatbot_avatar_ajax_handler()
     wp_die();
 }
 
+// Translate FAQs
+function translateFaqs($qaPairs, $targetLanguage) {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
+    $translateClient = new Google\Cloud\Translate\V2\TranslateClient();
+
+    $translatedHtml = '';
+
+    // Ensure $qaPairs is a valid array
+    if (is_array($qaPairs)) {
+        foreach ($qaPairs as $qaPair) {
+            $question = $qaPair['question'];
+            $answer = $qaPair['answer'];
+
+            // Only translate if necessary
+            if ($targetLanguage !== 'en') {
+                $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
+                $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
+            }
+
+            // Build the translated FAQ button
+            $translatedHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . htmlspecialchars($question) . '</button>';
+        }
+    } else {
+        $translatedHtml = '<p>No FAQs available.</p>'; // Fallback message
+    }
+
+    return $translatedHtml;
+}
+
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 
@@ -295,7 +334,7 @@ class ChatBotWithAvatar
             'audio' => $this->generateAudio($resultMessage)
         ];
     }
-
+    
     private function generateAudio($text)
     {
         putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
