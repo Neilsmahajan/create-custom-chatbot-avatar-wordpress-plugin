@@ -239,26 +239,51 @@ function translateFaqs($qaPairs, $targetLanguage) {
     $translatedHtml = '';
 
     // Ensure $qaPairs is a valid array
-    if (is_array($qaPairs)) {
-        foreach ($qaPairs as $qaPair) {
-            $question = $qaPair['question'];
-            $answer = $qaPair['answer'];
-
-            $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
-            $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
-
-            // Decode HTML entities in the translated text
-            $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-
-            // Build the translated FAQ button
-            $translatedHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . htmlspecialchars($question) . '</button>';
-        }
-    } else {
+    if (!is_array($qaPairs)) {
         $translatedHtml = '<p>No FAQs available.</p>'; // Fallback message
+    }
+    foreach ($qaPairs as $qaPair) {
+        $question = $qaPair['question'];
+        $answer = $qaPair['answer'];
+
+        $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
+        $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
+
+        // Decode HTML entities in the translated text
+        $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+        // Build the translated FAQ button
+        $translatedHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . htmlspecialchars($question) . '</button>';
     }
 
     return $translatedHtml;
+}
+
+function generateAudio($text, $languageCode = 'en-US')
+{
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
+    
+    try {
+        $client = new TextToSpeechClient();
+
+        $synthesisInput = new SynthesisInput();
+        $synthesisInput->setText($text);
+
+        $voice = new VoiceSelectionParams();
+        $voice->setLanguageCode($languageCode);
+        $voice->setName($languageCode === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D');
+
+        $audioConfig = new AudioConfig();
+        $audioConfig->setAudioEncoding(AudioEncoding::MP3);
+
+        $response = $client->synthesizeSpeech($synthesisInput, $voice, $audioConfig);
+        $client->close();
+
+        return base64_encode($response->getAudioContent());
+    } catch (Exception $e) {
+        return ''; // Return empty audio if TTS fails
+    }
 }
 
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
@@ -332,34 +357,8 @@ class ChatBotWithAvatar
 
         return [
             'text' => $resultMessage,
-            'audio' => $this->generateAudio($resultMessage)
+            'audio' => generateAudio($resultMessage, $this->languageCode)
         ];
-    }
-    
-    private function generateAudio($text)
-    {
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
-        
-        try {
-            $client = new TextToSpeechClient();
-
-            $synthesisInput = new SynthesisInput();
-            $synthesisInput->setText($text);
-
-            $voice = new VoiceSelectionParams();
-            $voice->setLanguageCode($this->languageCode);
-            $voice->setName($this->languageCode === 'fr-CA' ? 'fr-CA-Journey-D' : 'en-US-Wavenet-D');
-
-            $audioConfig = new AudioConfig();
-            $audioConfig->setAudioEncoding(AudioEncoding::MP3);
-
-            $response = $client->synthesizeSpeech($synthesisInput, $voice, $audioConfig);
-            $client->close();
-
-            return base64_encode($response->getAudioContent());
-        } catch (Exception $e) {
-            return ''; // Return empty audio if TTS fails
-        }
     }
 }
 ?>
