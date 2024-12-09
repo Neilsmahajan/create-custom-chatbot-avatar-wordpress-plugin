@@ -248,6 +248,10 @@ function translateFaqs($qaPairs, $targetLanguage) {
             if ($targetLanguage !== 'en') {
                 $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
                 $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
+
+                // Decode HTML entities in the translated text
+                $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
             }
 
             // Build the translated FAQ button
