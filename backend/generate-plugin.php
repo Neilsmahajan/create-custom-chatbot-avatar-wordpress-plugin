@@ -1,7 +1,8 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
-    $qaPairs = $_POST['qaPairs'] ?? '[]';
+    $qaPairs = ($_POST['qaPairs'] ?? '[]');
+    $faqButtonsHtml = '';
     $avatar = $_POST['avatar'] ?? '';
     $avatarUpload = $_FILES['avatarUpload'] ?? null;
     $escapedKnowledgeBase = addslashes($knowledgeBase);
@@ -11,6 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $primaryColor = $_POST['primaryColor'] ?? '#007bff'; // Default primary color
     $secondaryColor = $_POST['secondaryColor'] ?? '#f4f4f9'; // Default secondary color
     $avatarFilename = '';
+    foreach ($escapedQAPairs as $qaPair) {
+        $question = htmlspecialchars($qaPair['question']);
+        $answer = htmlspecialchars($qaPair['answer']);
+        $faqButtonsHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . $question . '</button>';
+    }
 
     // Determine translations for French (Canadian)
     if ($avatarUpload) {
@@ -46,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
     $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
+    $pluginTemplate = str_replace('{{FAQ_BUTTONS_HTML}}', $faqButtonsHtml, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';

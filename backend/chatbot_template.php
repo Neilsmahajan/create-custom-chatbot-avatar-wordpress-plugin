@@ -45,6 +45,9 @@ function chatbot_avatar_shortcode($atts)
         <div id="chat-avatar">
             <img src="<?php echo esc_url($avatar_url); ?>" alt="ChatBot Avatar">
         </div>
+        <div id="faq-container">
+            {{FAQ_BUTTONS_HTML}}
+        </div>
         <div id="chatbot-header">
             <strong>ChatBot</strong>
             <button id="chatbot-minimize">&minus;</button>
@@ -119,8 +122,44 @@ function chatbot_avatar_shortcode($atts)
         #chat-submit:hover {
             background: darken(<?php echo $primaryColor; ?>, 10%);
         }
+        .faq-button {
+            margin: 5px;
+            padding: 5px 10px;
+            border: 1px solid <?php echo $primaryColor; ?>;
+            border-radius: 5px;
+            background: <?php echo $secondaryColor; ?>;
+            color: <?php echo $primaryColor; ?>;
+            cursor: pointer;
+        }
+        .faq-button:hover {
+            background: <?php echo $primaryColor; ?>;
+            color: white;
+        }
+        #faq-container {
+            padding: 10px;
+            border-bottom: 1px solid <?php echo $primaryColor; ?>;
+            background: <?php echo $secondaryColor; ?>;
+            text-align: center;
+        }
     </style>
+
+
     <script>
+        function sendQuickReply(answer) {
+            const output = document.getElementById('chat-output');
+            const inputContainer = document.getElementById('chat-input-container');
+
+            // Display the predefined answer in the chat
+            output.innerHTML += `<p><strong>ChatBot:</strong> ${answer}</p>`;
+            output.scrollTop = output.scrollHeight;
+
+            // Hide FAQ buttons after interaction (optional)
+            const faqContainer = document.getElementById('faq-container');
+            faqContainer.style.display = 'none';
+
+            // Show the input container after the quick reply
+            inputContainer.style.display = 'flex';
+        }
         document.getElementById('chatbot-minimize').addEventListener('click', function () {
             const chatOutput = document.getElementById('chat-output');
             const chatAvatar = document.getElementById('chat-avatar');
