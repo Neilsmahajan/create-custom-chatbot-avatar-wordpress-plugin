@@ -244,15 +244,12 @@ function translateFaqs($qaPairs, $targetLanguage) {
             $question = $qaPair['question'];
             $answer = $qaPair['answer'];
 
-            // Only translate if necessary
-            if ($targetLanguage !== 'en') {
-                $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
-                $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
+            $question = $translateClient->translate($question, ['target' => $targetLanguage])['text'];
+            $answer = $translateClient->translate($answer, ['target' => $targetLanguage])['text'];
 
-                // Decode HTML entities in the translated text
-                $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            }
+            // Decode HTML entities in the translated text
+            $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+            $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
             // Build the translated FAQ button
             $translatedHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . htmlspecialchars($question) . '</button>';
