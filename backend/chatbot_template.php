@@ -14,6 +14,24 @@ use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;
 
+add_action('wp_ajax_generate_audio', 'generate_audio_callback');
+add_action('wp_ajax_nopriv_generate_audio', 'generate_audio_callback');
+
+function generate_audio_callback() {
+    // Load environment variables and helper functions
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-demo-service-account.json');
+    require_once 'vendor/autoload.php';
+
+    $answer = $_POST['answer'] ?? '';
+    $languageCode = $_POST['language'] ?? 'en-US';
+
+    if (!empty($answer)) {
+        $audioBase64 = generateAudio($answer, $languageCode);
+        wp_send_json(['audio' => $audioBase64]);
+    } else {
+        wp_send_json(['error' => 'No answer provided.']);
+    }
+}
 
 // Define the chatbot shortcode
 function chatbot_avatar_shortcode($atts)
@@ -169,6 +187,29 @@ function chatbot_avatar_shortcode($atts)
 
             // Show the input container after the quick reply
             inputContainer.style.display = 'flex';
+
+            // Make an AJAX call to generate the audio
+            fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'generate_audio',
+                    answer: answer,
+                    language: '<?php echo esc_js($languageCode); ?>'
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.audio) {
+                        const audio = document.getElementById('chat-audio');
+                        audio.src = 'data:audio/mp3;base64,' + data.audio;
+                        audio.style.display = 'block';
+                        audio.play();
+                    } else {
+                        console.error('Error generating audio:', data.error);
+                    }
+                })
+                .catch(error => console.error('AJAX error:', error));
         }
         document.getElementById('chatbot-minimize').addEventListener('click', function () {
             const chatOutput = document.getElementById('chat-output');
