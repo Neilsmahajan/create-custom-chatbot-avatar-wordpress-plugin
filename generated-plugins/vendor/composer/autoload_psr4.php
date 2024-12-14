@@ -6,11 +6,14 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Rize\\' => array($vendorDir . '/rize/uri-template/src/Rize'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Ramsey\\Collection\\' => array($vendorDir . '/ramsey/collection/src'),
-    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src', $vendorDir . '/psr/http-factory/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
@@ -21,7 +24,9 @@ return array(
     'Google\\Protobuf\\' => array($vendorDir . '/google/protobuf/src/Google/Protobuf'),
     'Google\\LongRunning\\' => array($vendorDir . '/google/longrunning/src/LongRunning'),
     'Google\\Iam\\' => array($vendorDir . '/google/common-protos/src/Iam'),
+    'Google\\Cloud\\Translate\\' => array($vendorDir . '/google/cloud-translate/src'),
     'Google\\Cloud\\TextToSpeech\\' => array($vendorDir . '/google/cloud-text-to-speech/src'),
+    'Google\\Cloud\\Core\\' => array($vendorDir . '/google/cloud-core/src'),
     'Google\\Cloud\\' => array($vendorDir . '/google/common-protos/src/Cloud'),
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Google\\Api\\' => array($vendorDir . '/google/common-protos/src/Api'),
@@ -33,6 +38,7 @@ return array(
     'GPBMetadata\\Google\\Longrunning\\' => array($vendorDir . '/google/longrunning/metadata/Longrunning'),
     'GPBMetadata\\Google\\Logging\\' => array($vendorDir . '/google/common-protos/metadata/Logging'),
     'GPBMetadata\\Google\\Iam\\' => array($vendorDir . '/google/common-protos/metadata/Iam'),
+    'GPBMetadata\\Google\\Cloud\\Translate\\' => array($vendorDir . '/google/cloud-translate/metadata'),
     'GPBMetadata\\Google\\Cloud\\Texttospeech\\' => array($vendorDir . '/google/cloud-text-to-speech/metadata'),
     'GPBMetadata\\Google\\Cloud\\' => array($vendorDir . '/google/common-protos/metadata/Cloud'),
     'GPBMetadata\\Google\\Api\\' => array($vendorDir . '/google/common-protos/metadata/Api'),

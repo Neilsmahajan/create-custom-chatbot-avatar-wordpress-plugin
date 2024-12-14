@@ -16,14 +16,20 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
     public static $prefixLengthsPsr4 = array (
         'R' => 
         array (
+            'Rize\\' => 5,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+        ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
         ),
         'G' => 
         array (
@@ -37,7 +43,9 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
             'Google\\Protobuf\\' => 16,
             'Google\\LongRunning\\' => 19,
             'Google\\Iam\\' => 11,
+            'Google\\Cloud\\Translate\\' => 23,
             'Google\\Cloud\\TextToSpeech\\' => 26,
+            'Google\\Cloud\\Core\\' => 18,
             'Google\\Cloud\\' => 13,
             'Google\\Auth\\' => 12,
             'Google\\Api\\' => 11,
@@ -49,6 +57,7 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
             'GPBMetadata\\Google\\Longrunning\\' => 31,
             'GPBMetadata\\Google\\Logging\\' => 27,
             'GPBMetadata\\Google\\Iam\\' => 23,
+            'GPBMetadata\\Google\\Cloud\\Translate\\' => 35,
             'GPBMetadata\\Google\\Cloud\\Texttospeech\\' => 38,
             'GPBMetadata\\Google\\Cloud\\' => 25,
             'GPBMetadata\\Google\\Api\\' => 23,
@@ -65,6 +74,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
     );
 
     public static $prefixDirsPsr4 = array (
+        'Rize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/rize/uri-template/src/Rize',
+        ),
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
@@ -73,10 +86,14 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         array (
             0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -85,6 +102,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         'Psr\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -126,9 +147,17 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         array (
             0 => __DIR__ . '/..' . '/google/common-protos/src/Iam',
         ),
+        'Google\\Cloud\\Translate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/cloud-translate/src',
+        ),
         'Google\\Cloud\\TextToSpeech\\' => 
         array (
             0 => __DIR__ . '/..' . '/google/cloud-text-to-speech/src',
+        ),
+        'Google\\Cloud\\Core\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/cloud-core/src',
         ),
         'Google\\Cloud\\' => 
         array (
@@ -173,6 +202,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         'GPBMetadata\\Google\\Iam\\' => 
         array (
             0 => __DIR__ . '/..' . '/google/common-protos/metadata/Iam',
+        ),
+        'GPBMetadata\\Google\\Cloud\\Translate\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/google/cloud-translate/metadata',
         ),
         'GPBMetadata\\Google\\Cloud\\Texttospeech\\' => 
         array (
