@@ -173,7 +173,7 @@ function chatbot_avatar_shortcode($atts)
 
 
     <script>
-        function sendQuickReply(answer) {
+        function sendQuickReply(answer, buttonId) {
             const output = document.getElementById('chat-output');
             const inputContainer = document.getElementById('chat-input-container');
 
@@ -181,9 +181,11 @@ function chatbot_avatar_shortcode($atts)
             output.innerHTML += `<p><strong>ChatBot:</strong> ${answer}</p>`;
             output.scrollTop = output.scrollHeight;
 
-            // Hide FAQ buttons after interaction (optional)
-            const faqContainer = document.getElementById('faq-container');
-            faqContainer.style.display = 'none';
+            // Hide only the clicked button
+            const clickedButton = document.getElementById(buttonId);
+            if (clickedButton) {
+                clickedButton.style.display = 'none';
+            }
 
             // Show the input container after the quick reply
             inputContainer.style.display = 'flex';
@@ -283,6 +285,7 @@ function translateFaqs($qaPairs, $targetLanguage) {
     if (!is_array($qaPairs)) {
         $translatedHtml = '<p>No FAQs available.</p>'; // Fallback message
     }
+    $counter = 0; // To create unique button IDs
     foreach ($qaPairs as $qaPair) {
         $question = $qaPair['question'];
         $answer = $qaPair['answer'];
@@ -294,8 +297,12 @@ function translateFaqs($qaPairs, $targetLanguage) {
         $question = html_entity_decode($question, ENT_QUOTES | ENT_HTML5, 'UTF-8');
         $answer = html_entity_decode($answer, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
+        // Create a unique ID for the button
+        $buttonId = "faq-button-" . $counter;
+        $counter++;
+
         // Build the translated FAQ button
-        $translatedHtml .= '<button class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`)">' . htmlspecialchars($question) . '</button>';
+        $translatedHtml .= '<button id="' . $buttonId . '" class="faq-button" onclick="sendQuickReply(`' . addslashes($answer) . '`, `' . $buttonId . '`)">' . htmlspecialchars($question) . '</button>';
     }
 
     return $translatedHtml;
