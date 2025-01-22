@@ -1,1 +1,11 @@
 .DS_Store
+/generated-plugins/chatbot*
+/generated-plugins/*.jpeg
+/generated-plugins/*.jpg
+/generated-plugins/*.png
+/generated-plugins/*.gif
+/generated-plugins/*.svg
+/generated-plugins/*.ico
+/generated-plugins/*.pdf
+/generated-plugins/*.php
+/generated-plugins/gcp-text-to-speech-demo-service-account.json
