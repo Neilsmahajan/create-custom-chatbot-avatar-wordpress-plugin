@@ -1,6 +1,6 @@
 # Create Custom Chatbot Avatar WordPress Plugin
 
-This project provides a web application that allows Christine's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.php` file tailored to the client's needs, which can be deployed directly into their WordPress site.
+This project provides a web application that allows Christine's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.zip` file tailored to the client's needs, which can be deployed directly into their WordPress site.
 
 ## Features
 
@@ -8,7 +8,7 @@ This project provides a web application that allows Christine's clients to gener
 - **Predefined Questions**: Allows input of frequently asked questions for quick and automated responses.
 - **Avatar Selection**: Clients can choose from a set of predefined avatars or upload their own image for the chatbot.
 - **Language Preference**: Supports English and Canadian French. The chatbot's prompts and text-to-speech features will adapt based on the specified language in the shortcode.
-- **Custom Plugin Generation**: Automatically creates a customized `chatbot.php` plugin for WordPress.
+- **Custom Plugin Generation**: Automatically creates a customized `chatbot.zip` plugin for WordPress.
 - **Shortcode-Based Deployment**: Clients can manually specify the language using a shortcode and add the chatbot to specific pages.
 
 ---
@@ -66,10 +66,18 @@ This project provides a web application that allows Christine's clients to gener
    - **Predefined Questions:** Provide frequently asked questions for the chatbot to address.
    - **Avatar Selection:** Choose a predefined avatar or upload your own image.
 3. Click the Submit button.
-4. Download the generated `chatbot.php` file from the provided link.
-5. Place the `chatbot.php` file in the `/wp-content/plugins/chatbot` folder of your WordPress website.
-6. Place your avatar image, `vendor` folder, and `gcp-text-to-speech-demo-service-account.json` file from the generated-plugins folder into the same folder as your `chatbot.php` file.
-7. Activate the plugin in the WordPress admin dashboard.
+4. Download the generated `chatbot.zip` file from the provided link.
+
+---
+
+## Deploying the Chatbot Plugin to WordPress
+
+1. Go to your WordPress admin dashboard (`wp-admin`).
+2. Navigate to **Plugins** > **Add New**.
+3. Click **Upload Plugin**.
+4. Click **Choose File**, select the `chatbot.zip` file that you downloaded, and click **Open**.
+5. Click **Install Now**.
+6. Once the plugin is installed, click **Activate Plugin**.
 
 ---
 
@@ -77,14 +85,14 @@ This project provides a web application that allows Christine's clients to gener
 
 ### Shortcode Example
 
-- To add the chatbot to a WordPress page in **English**, use:
-  ```
-  [chatbot_avatar language="en-US"]
-  ```
-- To add the chatbot to a WordPress page in **Canadian French**, use:
-  ```
-  [chatbot_avatar language="fr-CA"]
-  ```
+1. Go to **Pages** in the WordPress admin dashboard.
+2. Select **Edit** for the page you want to add the chatbot to.
+3. Click the **plus button** to add a new block.
+4. Scroll down and click **Shortcode**.
+5. Add the shortcode for the chatbot:
+   - For English: `[chatbot_avatar language="en-US"]`
+   - For Canadian French: `[chatbot_avatar language="fr-CA"]`
+6. Click **Save**.
 
 ---
 
@@ -127,7 +135,7 @@ The generated plugin will contain these customizations and provide a tailored ex
 
 - **Frontend:** HTML, CSS, and JavaScript are used for the user interface, with a focus on simplicity and user-friendliness.
 - **Backend:** PHP scripts handle data processing, avatar uploads, and dynamic plugin generation.
-- **WordPress Integration:** The generated chatbot.php file uses the OpenAI ChatGPT API and Google Cloud Text-to-Speech API for chatbot and voice interactions.
+- **WordPress Integration:** The generated `chatbot.php` file uses the OpenAI ChatGPT API and Google Cloud Text-to-Speech API for chatbot and voice interactions.
 
 ### Template Placeholders in chatbot.php
 
