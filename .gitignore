@@ -8,6 +8,6 @@
 /generated-plugins/*.ico
 /generated-plugins/*.pdf
 /generated-plugins/*.php
-/generated-plugins/gcp-text-to-speech-demo-service-account.json
-/generated-plugins/
+/generated-plugins/*.json
 .env
+/backend/vendor/

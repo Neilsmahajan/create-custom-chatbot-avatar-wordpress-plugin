@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($avatar) {
         $avatarFileName = basename($avatar);
-        $frontendAvatarPath = '../frontend/' . $avatarFileName;
+        $frontendAvatarPath = '../frontend/images/' . $avatarFileName;
         $generatedPluginsAvatarPath = '../generated-plugins/' . $avatarFileName;
 
         if (!copy($frontendAvatarPath, $generatedPluginsAvatarPath)) {
