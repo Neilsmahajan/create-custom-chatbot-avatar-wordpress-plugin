@@ -259,7 +259,7 @@ add_shortcode('chatbot_avatar', 'chatbot_avatar_shortcode');
 // AJAX handler for chatbot responses
 function chatbot_avatar_ajax_handler()
 {
-    $apiKey = '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';
+    $apiKey = '{{OPENAI_API_KEY}}'; // Placeholder for the API key
 
     // Load predefined Q&A and language preference
     $predefinedQA = {{PREDEFINED_QA}};

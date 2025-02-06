@@ -9,3 +9,5 @@
 /generated-plugins/*.pdf
 /generated-plugins/*.php
 /generated-plugins/gcp-text-to-speech-demo-service-account.json
+/generated-plugins/
+.env

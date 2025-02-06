@@ -1,4 +1,11 @@
 <?php
+require 'vendor/autoload.php';
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
     $qaPairs = ($_POST['qaPairs'] ?? '[]');
@@ -53,6 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
     $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
+
+    // Retrieve the OpenAI API key from the environment variable
+    $openaiApiKey = getenv('OPENAI_API_KEY');
+    $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiApiKey, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';
