@@ -209,23 +209,23 @@
       async function submitForm() {
         const formData = new FormData();
 
-        const knowledgeBase = document.getElementById('knowledgeBase').value;
+        const knowledgeBase = document.getElementById("knowledgeBase").value;
         const qaPairs = [];
-        document.querySelectorAll('.qa-pair').forEach(pair => {
-        const question = pair.querySelector('.qa-question').value;
-        const answer = pair.querySelector('.qa-answer').value;
+        document.querySelectorAll(".qa-pair").forEach((pair) => {
+          const question = pair.querySelector(".qa-question").value;
+          const answer = pair.querySelector(".qa-answer").value;
           if (question && answer) {
             qaPairs.push({ question, answer });
           }
         });
 
-        const primaryColor = document.getElementById('primaryColor').value;
-        const secondaryColor = document.getElementById('secondaryColor').value;
+        const primaryColor = document.getElementById("primaryColor").value;
+        const secondaryColor = document.getElementById("secondaryColor").value;
 
-        formData.append('knowledgeBase', knowledgeBase);
-        formData.append('qaPairs', JSON.stringify(qaPairs));
-        formData.append('primaryColor', primaryColor);
-        formData.append('secondaryColor', secondaryColor);
+        formData.append("knowledgeBase", knowledgeBase);
+        formData.append("qaPairs", JSON.stringify(qaPairs));
+        formData.append("primaryColor", primaryColor);
+        formData.append("secondaryColor", secondaryColor);
 
         if (customAvatarFile) {
           formData.append("avatarUpload", customAvatarFile);
@@ -242,7 +242,17 @@
             body: formData,
           });
           const result = await response.json();
-          alert(result.message);
+          if (result.file) {
+            // Trigger download of the zip file
+            const link = document.createElement("a");
+            link.href = result.file;
+            link.download = "chatbot.zip";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            alert(result.message);
+          }
         } catch (error) {
           alert("Error submitting form: " + error.message);
         }
