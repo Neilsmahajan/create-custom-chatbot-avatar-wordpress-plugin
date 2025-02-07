@@ -348,8 +348,6 @@ class ChatBotWithAvatar
     public function __construct($apiKey, $predefinedQA, $languageCode)
     {
         $this->authorization = $apiKey;
-        // Debugging: Print the API key used in the constructor
-        error_log('ChatBotWithAvatar API Key: ' . $apiKey);
         $this->endpoint = 'https://api.openai.com/v1/chat/completions';
         $this->conversationHistory = [];
         $this->predefinedQA = $predefinedQA; // Array of predefined Q&A pairs
