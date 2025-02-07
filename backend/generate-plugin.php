@@ -6,6 +6,9 @@ use Dotenv\Dotenv;
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+// Debugging: Print the loaded environment variables
+error_log('Loaded environment variables: ' . print_r($_ENV, true));
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
     $qaPairs = ($_POST['qaPairs'] ?? '[]');
@@ -62,7 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
 
     // Retrieve the OpenAI API key from the environment variable
-    $openaiApiKey = getenv('OPENAI_API_KEY');
+    $openaiApiKey = $_ENV['OPENAI_API_KEY'] ?? '';
+    // Debugging: Print the retrieved API key
+    error_log('Retrieved OpenAI API Key: ' . $openaiApiKey);
     $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiApiKey, $pluginTemplate);
 
     // Save the generated plugin file

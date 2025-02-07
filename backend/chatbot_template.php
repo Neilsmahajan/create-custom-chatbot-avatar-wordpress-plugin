@@ -259,7 +259,7 @@ add_shortcode('chatbot_avatar', 'chatbot_avatar_shortcode');
 // AJAX handler for chatbot responses
 function chatbot_avatar_ajax_handler()
 {
-    $apiKey = '{{OPENAI_API_KEY}}'; // Placeholder for the API key
+    $apiKey = '{{OPENAI_API_KEY}}';
 
     // Load predefined Q&A and language preference
     $predefinedQA = {{PREDEFINED_QA}};
@@ -348,6 +348,8 @@ class ChatBotWithAvatar
     public function __construct($apiKey, $predefinedQA, $languageCode)
     {
         $this->authorization = $apiKey;
+        // Debugging: Print the API key used in the constructor
+        error_log('ChatBotWithAvatar API Key: ' . $apiKey);
         $this->endpoint = 'https://api.openai.com/v1/chat/completions';
         $this->conversationHistory = [];
         $this->predefinedQA = $predefinedQA; // Array of predefined Q&A pairs

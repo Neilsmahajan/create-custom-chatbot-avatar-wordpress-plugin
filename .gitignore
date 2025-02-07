@@ -9,5 +9,9 @@
 /generated-plugins/*.pdf
 /generated-plugins/*.php
 /generated-plugins/*.json
+/generated-plugins/*.zip
 .env
 /backend/vendor/
+
+#vscode
+.vscode/
