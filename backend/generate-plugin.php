@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $primaryColor = $_POST['primaryColor'] ?? '#007bff'; // Default primary color
     $secondaryColor = $_POST['secondaryColor'] ?? '#f4f4f9'; // Default secondary color
-    $avatarFilename = '';
+    $avatarFileName = '';
 
     // Handle avatar selection or upload
     if ($avatarUpload) {
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $zip->addFile($outputFilename, basename($outputFilename));
 
             // Add the avatar image to the zip
-            $zip->addFile($generatedPluginsAvatarPath, basename($generatedPluginsAvatarPath));
+            $zip->addFile($uploadPath, basename($uploadPath));
 
             // Add the vendor folder to the zip
             $vendorDir = realpath('../generated-plugins/vendor/');
