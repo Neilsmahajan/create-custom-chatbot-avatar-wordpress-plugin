@@ -77,7 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $zip->addFile($outputFilename, basename($outputFilename));
 
             // Add the avatar image to the zip
-            $zip->addFile($uploadPath, basename($uploadPath));
+            if (isset($uploadPath)) {
+                $zip->addFile($uploadPath, basename($uploadPath));
+            } else {
+                $zip->addFile($generatedPluginsAvatarPath, basename($generatedPluginsAvatarPath));
+            }
 
             // Add the vendor folder to the zip
             $vendorDir = realpath('../generated-plugins/vendor/');
