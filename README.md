@@ -58,6 +58,29 @@ This project provides a web application that allows Christine's clients to gener
 
 ---
 
+## Project Structure
+
+```
+create-custom-chatbot-avatar-wordpress-plugin/
+├── backend/
+│   ├── chatbot_template.php
+│   ├── generate-plugin.php
+│   ├── .env
+│   ├── composer.json
+│   ├── composer.lock
+│   ├── vendor/
+├── frontend/
+│   ├── index.html
+│   ├── images/
+├── generated-plugins/
+│   ├── gcp-text-to-speech-service-account-key.json
+│   ├── vendor/
+├── .gitignore
+├── README.md
+```
+
+---
+
 ## Usage
 
 1. Open the application in your browser.
