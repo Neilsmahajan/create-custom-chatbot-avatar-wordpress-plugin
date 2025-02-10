@@ -182,9 +182,7 @@
   "ownerDomain": "google.com",
   "name": "translate",
   "batchPath": "batch/translate",
-  "features": [
-    "dataWrapper"
-  ],
+  "features": ["dataWrapper"],
   "title": "Google Cloud Translation API",
   "ownerName": "Google",
   "resources": {
@@ -198,9 +196,7 @@
           "response": {
             "$ref": "DetectionsListResponse"
           },
-          "parameterOrder": [
-            "q"
-          ],
+          "parameterOrder": ["q"],
           "parameters": {
             "q": {
               "description": "The input text upon which to perform language detection. Repeat this\nparameter to perform language detection on multiple text inputs.",
@@ -291,10 +287,7 @@
           "response": {
             "$ref": "TranslationsListResponse"
           },
-          "parameterOrder": [
-            "q",
-            "target"
-          ],
+          "parameterOrder": ["q", "target"],
           "httpMethod": "GET",
           "parameters": {
             "target": {
@@ -305,10 +298,7 @@
             },
             "format": {
               "location": "query",
-              "enum": [
-                "html",
-                "text"
-              ],
+              "enum": ["html", "text"],
               "description": "The format of the source text, in either HTML (default) or plain-text. A\nvalue of \"html\" indicates HTML and a value of \"text\" indicates plain-text.",
               "type": "string",
               "enumDescriptions": [
@@ -408,23 +398,13 @@
     },
     "$.xgafv": {
       "type": "string",
-      "enumDescriptions": [
-        "v1 error format",
-        "v2 error format"
-      ],
+      "enumDescriptions": ["v1 error format", "v2 error format"],
       "location": "query",
-      "enum": [
-        "1",
-        "2"
-      ],
+      "enum": ["1", "2"],
       "description": "V1 error format."
     },
     "alt": {
-      "enum": [
-        "json",
-        "media",
-        "proto"
-      ],
+      "enum": ["json", "media", "proto"],
       "type": "string",
       "enumDescriptions": [
         "Responses with Content-Type of application/json",

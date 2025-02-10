@@ -58,7 +58,7 @@ call. For the example below, you must enable the `Drive API`.
 
 ### Call the APIs
 
-As long as you update the environment variable below to point to *your* JSON
+As long as you update the environment variable below to point to _your_ JSON
 credentials file, the following code should output a list of your Drive files.
 
 ```php
@@ -109,6 +109,7 @@ $client->getEmitter()->attach($subscriber);
 ```
 
 #### Call using an ID Token
+
 If your application is running behind Cloud Run, or using Cloud Identity-Aware
 Proxy (IAP), you will need to fetch an ID token to access your application. For
 this, use the static method `getIdTokenMiddleware` on
@@ -157,8 +158,9 @@ used when you set up your protected resource as the target audience. See how to
 [secure your IAP app with signed headers](https://cloud.google.com/iap/docs/signed-headers-howto).
 
 #### Call using a specific JSON key
+
 If you want to use a specific JSON key instead of using `GOOGLE_APPLICATION_CREDENTIALS` environment variable, you can
- do this:
+do this:
 
 ```php
 use Google\Auth\CredentialsLoader;
@@ -199,6 +201,7 @@ print_r((string) $response->getBody());
 ```
 
 #### Call using Proxy-Authorization Header
+
 If your application is behind a proxy such as [Google Cloud IAP][iap-proxy-header],
 and your application occupies the `Authorization` request header,
 you can include the ID token in a `Proxy-Authorization: Bearer`
@@ -283,6 +286,7 @@ $auth->verify($idToken, [
 [iap-id-tokens]: https://cloud.google.com/iap/docs/signed-headers-howto
 
 ## Caching
+
 Caching is enabled by passing a PSR-6 `CacheItemPoolInterface`
 instance to the constructor when instantiating the credentials.
 
@@ -301,8 +305,9 @@ $middleware = ApplicationDefaultCredentials::getCredentials($scope, cache: $memo
 ```
 
 ### FileSystemCacheItemPool Cache
+
 The `FileSystemCacheItemPool` class is a `PSR-6` compliant cache that stores its
-serialized objects on disk, caching data between processes and making it possible 
+serialized objects on disk, caching data between processes and making it possible
 to use data between different requests.
 
 ```php
@@ -320,6 +325,7 @@ $token = $credentials->fetchAuthToken();
 ```
 
 ### Integrating with a third party cache
+
 You can use a third party that follows the `PSR-6` interface of your choice.
 
 ```php

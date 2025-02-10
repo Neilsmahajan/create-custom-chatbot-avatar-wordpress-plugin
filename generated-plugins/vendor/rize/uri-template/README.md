@@ -215,12 +215,12 @@ Using `composer`
 
 ### Changelogs
 
-* **0.2.0** Add a new modifier `%` which allows user to use `list[]=a&list[]=b` query pattern.
-* **0.2.1** Add nested array support for `%` modifier
-* **0.2.5** Add strict mode support for `extract` method
-* **0.3.0** Improve code quality + RFC3986 support for `extract` method by @Maks3w
-* **0.3.1** Improve `extract` method to parse two or more adjacent variables separated by dot by @corleonis
-* **0.4.0** Fixes the deprecation of implicitly nullable parameter types introduced in PHP 8.4. This version requires PHP 8.1 or later.
+- **0.2.0** Add a new modifier `%` which allows user to use `list[]=a&list[]=b` query pattern.
+- **0.2.1** Add nested array support for `%` modifier
+- **0.2.5** Add strict mode support for `extract` method
+- **0.3.0** Improve code quality + RFC3986 support for `extract` method by @Maks3w
+- **0.3.1** Improve `extract` method to parse two or more adjacent variables separated by dot by @corleonis
+- **0.4.0** Fixes the deprecation of implicitly nullable parameter types introduced in PHP 8.4. This version requires PHP 8.1 or later.
 
 ## Contributors
 
