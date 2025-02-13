@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -182,6 +182,14 @@
         <input type="color" id="secondaryColor" value="#f4f4f9" />
       </div>
       <div class="section">
+        <label for="ownerEmail">Owner Email / Email du propriétaire :</label>
+        <input
+          type="email"
+          id="ownerEmail"
+          placeholder="Enter your email / Entrez votre email"
+        />
+      </div>
+      <div class="section">
         <button id="submit" onclick="submitForm()">Submit / Soumettre</button>
       </div>
     </div>
@@ -239,6 +247,9 @@
         formData.append("qaPairs", JSON.stringify(qaPairs));
         formData.append("primaryColor", primaryColor);
         formData.append("secondaryColor", secondaryColor);
+
+        const ownerEmail = document.getElementById("ownerEmail").value;
+        formData.append("ownerEmail", ownerEmail);
 
         if (customAvatarFile) {
           formData.append("avatarUpload", customAvatarFile);
