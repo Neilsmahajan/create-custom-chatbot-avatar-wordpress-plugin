@@ -60,6 +60,9 @@ function chatbot_avatar_shortcode($atts)
     $inactivityMessage = $languageCode === 'fr-CA'
         ? 'Êtes-vous toujours là ? Y a-t-il autre chose avec laquelle je peux vous aider ?'
         : 'Are you still there? Is there anything else I can help you with?';
+    $followUpMessage = $languageCode === 'fr-CA'
+        ? 'J\'espère que cela vous a été utile. Si vous avez fourni votre email, vous recevrez une transcription du chat pour référence future.'
+        : 'I hope this was helpful. If you provided your email, you will receive a chat transcript for future reference.';
     $placeholderText = $languageCode === 'fr-CA'
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
@@ -277,6 +280,7 @@ function chatbot_avatar_shortcode($atts)
         let userEmail = '';
         let emailConsent = false;
         let inactivityTimeout;
+        let followUpTimeout;
 
         document.getElementById('submit-email').addEventListener('click', function () {
             userEmail = document.getElementById('user-email').value;
@@ -322,6 +326,7 @@ function chatbot_avatar_shortcode($atts)
             document.getElementById('chat-input').value = '';
 
             clearTimeout(inactivityTimeout);
+            clearTimeout(followUpTimeout);
             inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
 
             try {
@@ -369,6 +374,39 @@ function chatbot_avatar_shortcode($atts)
                 }
             })
             .catch(error => console.error('AJAX error:', error));
+
+            followUpTimeout = setTimeout(showFollowUpMessage, 60000); // 1 minute
+        }
+
+        function showFollowUpMessage() {
+            if (emailConsent) {
+                const output = document.getElementById('chat-output');
+                const followUpMessage = '<?php echo esc_js($followUpMessage); ?>';
+                output.innerHTML += `<p><strong>ChatBot:</strong> ${followUpMessage}</p>`;
+
+                // Optionally play the follow-up message
+                fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'generate_audio',
+                        answer: followUpMessage,
+                        language: '<?php echo esc_js($languageCode); ?>'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.audio) {
+                        const audio = document.getElementById('chat-audio');
+                        audio.src = 'data:audio/mp3;base64,' + data.audio;
+                        audio.style.display = 'block';
+                        audio.play();
+                    } else {
+                        console.error('Error generating audio:', data.error);
+                    }
+                })
+                .catch(error => console.error('AJAX error:', error));
+            }
         }
 
         inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
