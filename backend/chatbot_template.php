@@ -58,6 +58,7 @@ function chatbot_avatar_shortcode($atts)
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
     $buttonText = $languageCode === 'fr-CA' ? 'Envoyer' : 'Send';
+    $submitEmailText = $languageCode === 'fr-CA' ? 'Soumettre' : 'Submit';
     // Avatar
     $avatar_url = plugin_dir_url(__FILE__) . '{{AVATAR_FILENAME}}';
     $primaryColor = '{{PRIMARY_COLOR}}';
@@ -98,6 +99,7 @@ function chatbot_avatar_shortcode($atts)
                     <input type="checkbox" id="email-consent">
                     <label for="email-consent"><?php echo esc_html($consentText); ?></label>
                 </div>
+                <button id="submit-email"><?php echo esc_html($submitEmailText); ?></button>
             </div>
         </div>
         <div id="chat-input-container">
@@ -203,6 +205,17 @@ function chatbot_avatar_shortcode($atts)
         .checkbox-group input {
             margin-right: 5px;
         }
+        #submit-email {
+            padding: 5px 10px;
+            background: <?php echo $primaryColor; ?>;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #submit-email:hover {
+            background: darken(<?php echo $primaryColor; ?>, 10%);
+        }
     </style>
 
 
@@ -257,12 +270,19 @@ function chatbot_avatar_shortcode($atts)
             chatAvatar.style.display = isVisible ? 'none' : 'block';
         });
 
+        let userEmail = '';
+        let emailConsent = false;
+
+        document.getElementById('submit-email').addEventListener('click', function () {
+            userEmail = document.getElementById('user-email').value;
+            emailConsent = document.getElementById('email-consent').checked;
+            document.getElementById('email-consent-container').style.display = 'none';
+        });
+
         document.getElementById('chat-submit').addEventListener('click', async function () {
             const input = document.getElementById('chat-input').value;
             const output = document.getElementById('chat-output');
             const audio = document.getElementById('chat-audio');
-            const userEmail = document.getElementById('user-email').value;
-            const emailConsent = document.getElementById('email-consent').checked;
 
             if (input.trim() === '') return;
 
