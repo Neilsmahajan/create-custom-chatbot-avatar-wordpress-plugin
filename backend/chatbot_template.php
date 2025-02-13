@@ -54,6 +54,9 @@ function chatbot_avatar_shortcode($atts)
     $consentText = $languageCode === 'fr-CA'
         ? 'Je consens à recevoir une transcription du chat par email.'
         : 'I consent to receive a chat transcript via email.';
+    $confirmationMessage = $languageCode === 'fr-CA'
+        ? 'Merci ! Vous recevrez une transcription du chat par email à la fin de la conversation.'
+        : 'Thank you! You will receive a chat transcript via email at the end of the conversation.';
     $placeholderText = $languageCode === 'fr-CA'
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
@@ -277,6 +280,33 @@ function chatbot_avatar_shortcode($atts)
             userEmail = document.getElementById('user-email').value;
             emailConsent = document.getElementById('email-consent').checked;
             document.getElementById('email-consent-container').style.display = 'none';
+
+            const output = document.getElementById('chat-output');
+            const confirmationMessage = '<?php echo esc_js($confirmationMessage); ?>';
+            output.innerHTML += `<p><strong>ChatBot:</strong> ${confirmationMessage}</p>`;
+
+            // Optionally play the confirmation message
+            fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'generate_audio',
+                    answer: confirmationMessage,
+                    language: '<?php echo esc_js($languageCode); ?>'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.audio) {
+                    const audio = document.getElementById('chat-audio');
+                    audio.src = 'data:audio/mp3;base64,' + data.audio;
+                    audio.style.display = 'block';
+                    audio.play();
+                } else {
+                    console.error('Error generating audio:', data.error);
+                }
+            })
+            .catch(error => console.error('AJAX error:', error));
         });
 
         document.getElementById('chat-submit').addEventListener('click', async function () {
