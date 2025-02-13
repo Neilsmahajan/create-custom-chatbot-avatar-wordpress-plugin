@@ -14,6 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $escapedKnowledgeBase = addslashes($knowledgeBase);
     $escapedQAPairs = json_decode($qaPairs, true);
 
+    $ownerEmail = $_POST['ownerEmail'] ?? '';
+    $escapedOwnerEmail = addslashes($ownerEmail);
+
     // Format QA pairs for chatbot
     $formattedQAPairsChatbot = var_export($escapedQAPairs, true);
     $formattedQAPairsChatbot = str_replace("'", '"', $formattedQAPairsChatbot);
@@ -60,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
     $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
+    $pluginTemplate = str_replace('{{OWNER_EMAIL}}', $escapedOwnerEmail, $pluginTemplate);
 
     // Retrieve the OpenAI API key from the environment variable
     $openaiApiKey = $_ENV['OPENAI_API_KEY'] ?? '';

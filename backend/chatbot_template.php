@@ -45,6 +45,15 @@ function chatbot_avatar_shortcode($atts)
     $greetingMessage = $languageCode === 'fr-CA'
         ? 'Bonjour ! Comment puis-je vous aider aujourd’hui ?'
         : 'Hello! How can I assist you today?';
+    $emailRequestMessage = $languageCode === 'fr-CA'
+        ? 'Veuillez entrer votre email pour recevoir une copie de la transcription du chat à la fin. Vous pouvez également poser votre question sans fournir votre email.'
+        : 'Please enter your email to receive a copy of the chat transcript at the end. You can also ask your question without providing your email.';
+    $emailPlaceholder = $languageCode === 'fr-CA'
+        ? 'Entrez votre email ici...'
+        : 'Enter your email here...';
+    $consentText = $languageCode === 'fr-CA'
+        ? 'Je consens à recevoir une transcription du chat par email.'
+        : 'I consent to receive a chat transcript via email.';
     $placeholderText = $languageCode === 'fr-CA'
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
@@ -82,6 +91,14 @@ function chatbot_avatar_shortcode($atts)
         </div>
         <div id="chat-output">
             <p><strong>ChatBot:</strong> <?php echo esc_html($greetingMessage); ?></p>
+            <p><strong>ChatBot:</strong> <?php echo esc_html($emailRequestMessage); ?></p>
+            <div id="email-consent-container">
+                <input type="email" id="user-email" placeholder="<?php echo esc_html($emailPlaceholder); ?>">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="email-consent">
+                    <label for="email-consent"><?php echo esc_html($consentText); ?></label>
+                </div>
+            </div>
         </div>
         <div id="chat-input-container">
             <input type="text" id="chat-input" placeholder="<?php echo esc_html($placeholderText); ?>">
@@ -169,6 +186,23 @@ function chatbot_avatar_shortcode($atts)
             background: <?php echo $secondaryColor; ?>;
             text-align: center;
         }
+        #email-consent-container {
+            margin-bottom: 10px;
+        }
+        #user-email {
+            width: calc(100% - 20px);
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid <?php echo $primaryColor; ?>;
+            border-radius: 5px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-group input {
+            margin-right: 5px;
+        }
     </style>
 
 
@@ -227,6 +261,9 @@ function chatbot_avatar_shortcode($atts)
             const input = document.getElementById('chat-input').value;
             const output = document.getElementById('chat-output');
             const audio = document.getElementById('chat-audio');
+            const userEmail = document.getElementById('user-email').value;
+            const emailConsent = document.getElementById('email-consent').checked;
+
             if (input.trim() === '') return;
 
             output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
@@ -236,7 +273,7 @@ function chatbot_avatar_shortcode($atts)
                 const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'action=chatbot_avatar&message=' + encodeURIComponent(input) + '&language=<?php echo esc_js($languageCode); ?>'
+                    body: 'action=chatbot_avatar&message=' + encodeURIComponent(input) + '&language=<?php echo esc_js($languageCode); ?>' + '&userEmail=' + encodeURIComponent(userEmail) + '&emailConsent=' + emailConsent
                 });
                 const result = await response.json();
                 output.innerHTML += `<p><strong>ChatBot:</strong> ${result.text}</p>`;
