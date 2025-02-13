@@ -57,6 +57,9 @@ function chatbot_avatar_shortcode($atts)
     $confirmationMessage = $languageCode === 'fr-CA'
         ? 'Merci ! Vous recevrez une transcription du chat par email à la fin de la conversation.'
         : 'Thank you! You will receive a chat transcript via email at the end of the conversation.';
+    $inactivityMessage = $languageCode === 'fr-CA'
+        ? 'Êtes-vous toujours là ? Y a-t-il autre chose avec laquelle je peux vous aider ?'
+        : 'Are you still there? Is there anything else I can help you with?';
     $placeholderText = $languageCode === 'fr-CA'
         ? 'Tapez votre message ici...'
         : 'Type your message here...';
@@ -220,8 +223,6 @@ function chatbot_avatar_shortcode($atts)
             background: darken(<?php echo $primaryColor; ?>, 10%);
         }
     </style>
-
-
     <script>
         function sendQuickReply(answer, buttonId) {
             const output = document.getElementById('chat-output');
@@ -275,6 +276,7 @@ function chatbot_avatar_shortcode($atts)
 
         let userEmail = '';
         let emailConsent = false;
+        let inactivityTimeout;
 
         document.getElementById('submit-email').addEventListener('click', function () {
             userEmail = document.getElementById('user-email').value;
@@ -319,6 +321,9 @@ function chatbot_avatar_shortcode($atts)
             output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
             document.getElementById('chat-input').value = '';
 
+            clearTimeout(inactivityTimeout);
+            inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
+
             try {
                 const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
@@ -336,6 +341,37 @@ function chatbot_avatar_shortcode($atts)
                     output.innerHTML += `<p><strong>Error:</strong> Unable to process the request.</p>`;
             }
         });
+
+        function showInactivityMessage() {
+            const output = document.getElementById('chat-output');
+            const inactivityMessage = '<?php echo esc_js($inactivityMessage); ?>';
+            output.innerHTML += `<p><strong>ChatBot:</strong> ${inactivityMessage}</p>`;
+
+            // Optionally play the inactivity message
+            fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams({
+                    action: 'generate_audio',
+                    answer: inactivityMessage,
+                    language: '<?php echo esc_js($languageCode); ?>'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.audio) {
+                    const audio = document.getElementById('chat-audio');
+                    audio.src = 'data:audio/mp3;base64,' + data.audio;
+                    audio.style.display = 'block';
+                    audio.play();
+                } else {
+                    console.error('Error generating audio:', data.error);
+                }
+            })
+            .catch(error => console.error('AJAX error:', error));
+        }
+
+        inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
     </script>
     <?php
     return ob_get_clean();
