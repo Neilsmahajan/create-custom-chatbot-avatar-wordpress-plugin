@@ -3,11 +3,12 @@
 [![Total Downloads](https://poser.pugx.org/firebase/php-jwt/downloads)](https://packagist.org/packages/firebase/php-jwt)
 [![License](https://poser.pugx.org/firebase/php-jwt/license)](https://packagist.org/packages/firebase/php-jwt)
 
-# PHP-JWT
-
+PHP-JWT
+=======
 A simple library to encode and decode JSON Web Tokens (JWT) in PHP, conforming to [RFC 7519](https://tools.ietf.org/html/rfc7519).
 
-## Installation
+Installation
+------------
 
 Use composer to manage your dependencies and download PHP-JWT:
 
@@ -22,8 +23,8 @@ php env does not have libsodium installed:
 composer require paragonie/sodium_compat
 ```
 
-## Example
-
+Example
+-------
 ```php
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -47,7 +48,8 @@ $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
 print_r($decoded);
 
 // Pass a stdClass in as the third parameter to get the decoded header values
-$decoded = JWT::decode($jwt, new Key($key, 'HS256'), $headers = new stdClass());
+$headers = new stdClass();
+$decoded = JWT::decode($jwt, new Key($key, 'HS256'), $headers);
 print_r($headers);
 
 /*
@@ -67,16 +69,14 @@ $decoded_array = (array) $decoded;
 JWT::$leeway = 60; // $leeway in seconds
 $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
 ```
-
-## Example encode/decode headers
-
+Example encode/decode headers
+-------
 Decoding the JWT headers without verifying the JWT first is NOT recommended, and is not supported by
 this library. This is because without verifying the JWT, the header values could have been tampered with.
 Any value pulled from an unverified header should be treated as if it could be any string sent in from an
-attacker. If this is something you still want to do in your application for whatever reason, it's possible to
+attacker.  If this is something you still want to do in your application for whatever reason, it's possible to
 decode the header values manually simply by calling `json_decode` and `base64_decode` on the JWT
 header part:
-
 ```php
 use Firebase\JWT\JWT;
 
@@ -103,9 +103,8 @@ $decoded = json_decode(base64_decode($headersB64), true);
 
 print_r($decoded);
 ```
-
-## Example with RS256 (openssl)
-
+Example with RS256 (openssl)
+----------------------------
 ```php
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -173,7 +172,8 @@ $decoded_array = (array) $decoded;
 echo "Decode:\n" . print_r($decoded_array, true) . "\n";
 ```
 
-## Example with a passphrase
+Example with a passphrase
+-------------------------
 
 ```php
 use Firebase\JWT\JWT;
@@ -209,8 +209,8 @@ $decoded = JWT::decode($jwt, new Key($publicKey, 'RS256'));
 echo "Decode:\n" . print_r((array) $decoded, true) . "\n";
 ```
 
-## Example with EdDSA (libsodium and Ed25519 signature)
-
+Example with EdDSA (libsodium and Ed25519 signature)
+----------------------------
 ```php
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -238,10 +238,10 @@ echo "Encode:\n" . print_r($jwt, true) . "\n";
 
 $decoded = JWT::decode($jwt, new Key($publicKey, 'EdDSA'));
 echo "Decode:\n" . print_r((array) $decoded, true) . "\n";
-```
+````
 
-## Example with multiple keys
-
+Example with multiple keys
+--------------------------
 ```php
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -278,7 +278,8 @@ echo "Decode 1:\n" . print_r((array) $decoded1, true) . "\n";
 echo "Decode 2:\n" . print_r((array) $decoded2, true) . "\n";
 ```
 
-## Using JWKs
+Using JWKs
+----------
 
 ```php
 use Firebase\JWT\JWK;
@@ -293,7 +294,8 @@ $jwks = ['keys' => []];
 JWT::decode($payload, JWK::parseKeySet($jwks));
 ```
 
-## Using Cached Key Sets
+Using Cached Key Sets
+---------------------
 
 The `CachedKeySet` class can be used to fetch and cache JWKS (JSON Web Key Sets) from a public URI.
 This has the following advantages:
@@ -331,7 +333,8 @@ $jwt = 'eyJhbGci...'; // Some JWT signed by a key from the $jwkUri above
 $decoded = JWT::decode($jwt, $keySet);
 ```
 
-## Miscellaneous
+Miscellaneous
+-------------
 
 #### Exception Handling
 
@@ -398,8 +401,8 @@ $decoded = JWT::decode($payload, $keys);
 $decoded = json_decode(json_encode($decoded), true);
 ```
 
-## Tests
-
+Tests
+-----
 Run the tests using phpunit:
 
 ```bash
@@ -411,11 +414,12 @@ Time: 0 seconds, Memory: 2.50Mb
 OK (5 tests, 5 assertions)
 ```
 
-## New Lines in private keys
+New Lines in private keys
+-----
 
 If your private key contains `\n` characters, be sure to wrap it in double quotes `""`
 and not single quotes `''` in order to properly interpret the escaped characters.
 
-## License
-
+License
+-------
 [3-Clause BSD](http://opensource.org/licenses/BSD-3-Clause).

@@ -4,16 +4,25 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
+class ComposerStaticInit108be68e4e2b97fed51d36a10eed0849
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Php80\\' => 23,
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
+        ),
         'R' => 
         array (
             'Rize\\' => 5,
@@ -26,6 +35,8 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Cache\\' => 10,
+            'PhpOption\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -38,6 +49,7 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
             'GuzzleHttp\\' => 11,
             'Grpc\\Gcp\\' => 9,
             'Grpc\\' => 5,
+            'GrahamCampbell\\ResultType\\' => 26,
             'Google\\Type\\' => 12,
             'Google\\Rpc\\' => 11,
             'Google\\Protobuf\\' => 16,
@@ -67,6 +79,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         array (
             'Firebase\\JWT\\' => 13,
         ),
+        'D' => 
+        array (
+            'Dotenv\\' => 7,
+        ),
         'B' => 
         array (
             'Brick\\Math\\' => 11,
@@ -74,6 +90,18 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
+        ),
         'Rize\\' => 
         array (
             0 => __DIR__ . '/..' . '/rize/uri-template/src/Rize',
@@ -103,6 +131,14 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
+        'PhpOption\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -126,6 +162,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         'Grpc\\' => 
         array (
             0 => __DIR__ . '/..' . '/grpc/grpc/src/lib',
+        ),
+        'GrahamCampbell\\ResultType\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
         ),
         'Google\\Type\\' => 
         array (
@@ -227,6 +267,10 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
@@ -234,6 +278,7 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
     );
 
     public static $classMap = array (
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'GPBMetadata\\GrpcGcp' => __DIR__ . '/..' . '/google/grpc-gcp/src/generated/GPBMetadata/GrpcGcp.php',
         'Grpc\\Gcp\\AffinityConfig' => __DIR__ . '/..' . '/google/grpc-gcp/src/generated/Grpc/Gcp/AffinityConfig.php',
@@ -241,14 +286,18 @@ class ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2
         'Grpc\\Gcp\\ApiConfig' => __DIR__ . '/..' . '/google/grpc-gcp/src/generated/Grpc/Gcp/ApiConfig.php',
         'Grpc\\Gcp\\ChannelPoolConfig' => __DIR__ . '/..' . '/google/grpc-gcp/src/generated/Grpc/Gcp/ChannelPoolConfig.php',
         'Grpc\\Gcp\\MethodConfig' => __DIR__ . '/..' . '/google/grpc-gcp/src/generated/Grpc/Gcp/MethodConfig.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit03509b9e48857506e3f5bffedd1c70f2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit108be68e4e2b97fed51d36a10eed0849::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit108be68e4e2b97fed51d36a10eed0849::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit108be68e4e2b97fed51d36a10eed0849::$classMap;
 
         }, null, ClassLoader::class);
     }

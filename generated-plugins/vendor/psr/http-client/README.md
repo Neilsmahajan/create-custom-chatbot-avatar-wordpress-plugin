@@ -1,4 +1,5 @@
-# HTTP Client
+HTTP Client
+===========
 
 This repository holds all the common code related to [PSR-18 (HTTP Client)][psr-url].
 

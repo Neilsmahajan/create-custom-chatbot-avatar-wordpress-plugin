@@ -2,7 +2,7 @@
 
 [![Latest Stable Version](https://poser.pugx.org/google/common-protos/v/stable)](https://packagist.org/packages/google/common-protos) [![Packagist](https://img.shields.io/packagist/dm/google/common-protos.svg)](https://packagist.org/packages/google/common-protos)
 
-- [API documentation](https://cloud.google.com/php/docs/reference/common-protos/latest)
+* [API documentation](https://cloud.google.com/php/docs/reference/common-protos/latest)
 
 This repository is a home for the [protocol buffer][protobuf] types which are
 common dependencies throughout the Google API ecosystem, generated for PHP.

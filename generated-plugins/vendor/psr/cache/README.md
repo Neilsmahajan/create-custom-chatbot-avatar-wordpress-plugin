@@ -1,4 +1,5 @@
-# Caching Interface
+Caching Interface
+==============
 
 This repository holds all interfaces related to [PSR-6 (Caching Interface)][psr-url].
 

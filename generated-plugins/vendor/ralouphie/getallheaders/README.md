@@ -1,4 +1,5 @@
-# getallheaders
+getallheaders
+=============
 
 PHP `getallheaders()` polyfill. Compatible with PHP >= 5.3.
 
@@ -7,6 +8,7 @@ PHP `getallheaders()` polyfill. Compatible with PHP >= 5.3.
 [![Latest Stable Version](https://poser.pugx.org/ralouphie/getallheaders/v/stable.png)](https://packagist.org/packages/ralouphie/getallheaders)
 [![Latest Unstable Version](https://poser.pugx.org/ralouphie/getallheaders/v/unstable.png)](https://packagist.org/packages/ralouphie/getallheaders)
 [![License](https://poser.pugx.org/ralouphie/getallheaders/license.png)](https://packagist.org/packages/ralouphie/getallheaders)
+
 
 This is a simple polyfill for [`getallheaders()`](http://www.php.net/manual/en/function.getallheaders.php).
 

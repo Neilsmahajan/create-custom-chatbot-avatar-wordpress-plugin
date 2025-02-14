@@ -1,4 +1,5 @@
-# HTTP Factories
+HTTP Factories
+==============
 
 This repository holds all interfaces related to [PSR-17 (HTTP Factories)][psr-url].
 
