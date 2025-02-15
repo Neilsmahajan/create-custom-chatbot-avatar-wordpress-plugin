@@ -30,7 +30,7 @@ This project provides a web application that allows Christine's clients to gener
    git clone https://github.com/Neilsmahajan/create-custom-chatbot-avatar-wordpress-plugin.git
    cd create-custom-chatbot-avatar-wordpress-plugin
    ```
-2. Download a Google Cloud Console Project service account credentials JSON key from a Google Cloud Project with the Cloud Translation API and Cloud Text-to-Speech API enabled. Rename the JSON credentials key file to `gcp-text-to-speech-service-account-key.json` and put it in the `generated-plugins/` folder.
+2. Download a Google Cloud Console Project service account credentials JSON key from a Google Cloud Project with the Cloud Translation API and Cloud Text-to-Speech API enabled. Rename the JSON credentials key file to `gcp-text-to-speech-service-account-key.json` and put it in the `backend/` folder.
 3. Create a `.env` file in the `backend/` folder and add your OpenAI API key:
    ```properties
    OPENAI_API_KEY="your-openai-api-key"
@@ -53,28 +53,61 @@ This project provides a web application that allows Christine's clients to gener
 
 - **frontend/**: Contains the HTML and JavaScript for the user interface of the web app.
 - **backend/**: Contains the PHP scripts to handle form submissions and generate the custom WordPress plugin.
-- **generated-plugins/**: Stores the generated chatbot.php files for each client.
+- **generated-plugins/**: This folder is generated when you create a custom chatbot plugin and stores the generated `chatbot.zip` file.
 - **uploads/**: Stores the avatar images uploaded by clients.
 
 ---
 
 ## Project Structure
 
+### GitHub Remote Repository
+
 ```
 create-custom-chatbot-avatar-wordpress-plugin/
 ├── backend/
 │   ├── chatbot_template.php
-│   ├── generate-plugin.php
-│   ├── .env
 │   ├── composer.json
 │   ├── composer.lock
-│   ├── vendor/
+│   ├── generate-plugin.php
 ├── frontend/
-│   ├── index.html
 │   ├── images/
-├── generated-plugins/
-│   ├── gcp-text-to-speech-service-account-key.json
+│   │   ├── ai_friendly_avatar.png
+│   │   ├── ai_robot_avatar.png
+│   │   ├── chatting_robot.gif
+│   │   ├── female_customer_service_avatar.jpeg
+│   │   ├── idle_robot.gif
+│   │   ├── roofing_worker_avatar.jpg
+│   ├── favicon.ico
+│   ├── index.html
+├── .gitignore
+├── README.md
+```
+
+### Local Project Structure After Creating a Custom Chatbot Plugin
+
+```
+create-custom-chatbot-avatar-wordpress-plugin/
+├── backend/
 │   ├── vendor/
+│   │   └── ...
+│   ├── .env
+│   ├── chatbot_template.php
+│   ├── composer.json
+│   ├── composer.lock
+│   ├── gcp-text-to-speech-service-account-key.json
+│   ├── generate-plugin.php
+├── frontend/
+│   ├── images/
+│   │   ├── ai_friendly_avatar.png
+│   │   ├── ai_robot_avatar.png
+│   │   ├── chatting_robot.gif
+│   │   ├── female_customer_service_avatar.jpeg
+│   │   ├── idle_robot.gif
+│   │   ├── roofing_worker_avatar.jpg
+│   ├── favicon.ico
+│   ├── index.html
+├── generated-plugins/
+│   ├── chatbot.zip
 ├── .gitignore
 ├── README.md
 ```
@@ -218,3 +251,7 @@ Other team members:
 ---
 
 Thank you for using the **Create Custom Chatbot Avatar WordPress Plugin!** 🎉
+
+```
+
+```
