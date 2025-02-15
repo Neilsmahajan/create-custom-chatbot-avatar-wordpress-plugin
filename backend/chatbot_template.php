@@ -13,6 +13,8 @@ use Google\Cloud\TextToSpeech\V1\SynthesisInput;
 use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 add_action('wp_ajax_generate_audio', 'generate_audio_callback');
 add_action('wp_ajax_nopriv_generate_audio', 'generate_audio_callback');
@@ -281,6 +283,7 @@ function chatbot_avatar_shortcode($atts)
         let emailConsent = false;
         let inactivityTimeout;
         let followUpTimeout;
+        let chatTranscript = '';
 
         document.getElementById('submit-email').addEventListener('click', function () {
             userEmail = document.getElementById('user-email').value;
@@ -290,6 +293,7 @@ function chatbot_avatar_shortcode($atts)
             const output = document.getElementById('chat-output');
             const confirmationMessage = '<?php echo esc_js($confirmationMessage); ?>';
             output.innerHTML += `<p><strong>ChatBot:</strong> ${confirmationMessage}</p>`;
+            chatTranscript += `ChatBot: ${confirmationMessage}\n`;
 
             // Optionally play the confirmation message
             fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
@@ -323,6 +327,7 @@ function chatbot_avatar_shortcode($atts)
             if (input.trim() === '') return;
 
             output.innerHTML += `<p><strong>You:</strong> ${input}</p>`;
+            chatTranscript += `You: ${input}\n`;
             document.getElementById('chat-input').value = '';
 
             clearTimeout(inactivityTimeout);
@@ -337,6 +342,7 @@ function chatbot_avatar_shortcode($atts)
                 });
                 const result = await response.json();
                 output.innerHTML += `<p><strong>ChatBot:</strong> ${result.text}</p>`;
+                chatTranscript += `ChatBot: ${result.text}\n`;
                 if (result.audio) {
                     audio.src = 'data:audio/mp3;base64,' + result.audio;
                         audio.style.display = 'block';
@@ -351,6 +357,7 @@ function chatbot_avatar_shortcode($atts)
             const output = document.getElementById('chat-output');
             const inactivityMessage = '<?php echo esc_js($inactivityMessage); ?>';
             output.innerHTML += `<p><strong>ChatBot:</strong> ${inactivityMessage}</p>`;
+            chatTranscript += `ChatBot: ${inactivityMessage}\n`;
 
             // Optionally play the inactivity message
             fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
@@ -383,26 +390,24 @@ function chatbot_avatar_shortcode($atts)
                 const output = document.getElementById('chat-output');
                 const followUpMessage = '<?php echo esc_js($followUpMessage); ?>';
                 output.innerHTML += `<p><strong>ChatBot:</strong> ${followUpMessage}</p>`;
+                chatTranscript += `ChatBot: ${followUpMessage}\n`;
 
-                // Optionally play the follow-up message
+                // Send the chat transcript via email
                 fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({
-                        action: 'generate_audio',
-                        answer: followUpMessage,
-                        language: '<?php echo esc_js($languageCode); ?>'
+                        action: 'send_transcript_email',
+                        email: userEmail,
+                        transcript: chatTranscript
                     })
                 })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.audio) {
-                        const audio = document.getElementById('chat-audio');
-                        audio.src = 'data:audio/mp3;base64,' + data.audio;
-                        audio.style.display = 'block';
-                        audio.play();
+                    if (data.success) {
+                        console.log('Transcript email sent successfully.');
                     } else {
-                        console.error('Error generating audio:', data.error);
+                        console.error('Error sending transcript email:', data.error);
                     }
                 })
                 .catch(error => console.error('AJAX error:', error));
@@ -497,6 +502,50 @@ function generateAudio($text, $languageCode = 'en-US')
 
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
+
+function sendTranscriptEmail($email, $transcript) {
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'neilsmahajan@gmail.com';
+        $mail->Password = 'obihktdvplmjgywn';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
+
+        // Recipients
+        $mail->setFrom('neilsmahajan@gmail.com', 'Chatbot');
+        $mail->addAddress($email);
+
+        // Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Chat Transcript';
+        $mail->Body    = '<h1>Chat Transcript</h1><p>' . nl2br($transcript) . '</p>';
+
+        $mail->send();
+    } catch (Exception $e) {
+        error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+    }
+}
+
+// AJAX handler for sending transcript email
+function send_transcript_email_handler() {
+    $email = sanitize_email($_POST['email']);
+    $transcript = sanitize_textarea_field($_POST['transcript']);
+
+    if (!empty($email) && !empty($transcript)) {
+        sendTranscriptEmail($email, $transcript);
+        wp_send_json(['success' => true]);
+    } else {
+        wp_send_json(['success' => false, 'error' => 'Invalid email or transcript.']);
+    }
+}
+
+add_action('wp_ajax_send_transcript_email', 'send_transcript_email_handler');
+add_action('wp_ajax_nopriv_send_transcript_email', 'send_transcript_email_handler');
 
 class ChatBotWithAvatar
 {
