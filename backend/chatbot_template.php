@@ -392,6 +392,29 @@ function chatbot_avatar_shortcode($atts)
                 output.innerHTML += `<p><strong>ChatBot:</strong> ${followUpMessage}</p>`;
                 chatTranscript += `ChatBot: ${followUpMessage}\n`;
 
+                // Optionally play the follow-up message
+                fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        action: 'generate_audio',
+                        answer: followUpMessage,
+                        language: '<?php echo esc_js($languageCode); ?>'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.audio) {
+                        const audio = document.getElementById('chat-audio');
+                        audio.src = 'data:audio/mp3;base64,' + data.audio;
+                        audio.style.display = 'block';
+                        audio.play();
+                    } else {
+                        console.error('Error generating audio:', data.error);
+                    }
+                })
+                .catch(error => console.error('AJAX error:', error));
+
                 // Send the chat transcript via email
                 fetch('<?php echo esc_url(admin_url('admin-ajax.php')); ?>', {
                     method: 'POST',
@@ -399,7 +422,8 @@ function chatbot_avatar_shortcode($atts)
                     body: new URLSearchParams({
                         action: 'send_transcript_email',
                         email: userEmail,
-                        transcript: chatTranscript
+                        transcript: chatTranscript,
+                        language: '<?php echo esc_js($languageCode); ?>'
                     })
                 })
                 .then(response => response.json())
@@ -503,7 +527,7 @@ function generateAudio($text, $languageCode = 'en-US')
 add_action('wp_ajax_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 add_action('wp_ajax_nopriv_chatbot_avatar', 'chatbot_avatar_ajax_handler');
 
-function sendTranscriptEmail($email, $transcript) {
+function sendTranscriptEmail($email, $transcript, $languageCode) {
     $mail = new PHPMailer(true);
 
     try {
@@ -522,8 +546,10 @@ function sendTranscriptEmail($email, $transcript) {
 
         // Content
         $mail->isHTML(true);
-        $mail->Subject = 'Chat Transcript';
-        $mail->Body    = '<h1>Chat Transcript</h1><p>' . nl2br($transcript) . '</p>';
+        $mail->CharSet = 'UTF-8';
+        $subject = $languageCode === 'fr-CA' ? 'Transcription du Chat' : 'Chat Transcript';
+        $mail->Subject = $subject;
+        $mail->Body    = '<h1>' . $subject . '</h1><p>' . nl2br($transcript) . '</p>';
 
         $mail->send();
     } catch (Exception $e) {
@@ -535,9 +561,10 @@ function sendTranscriptEmail($email, $transcript) {
 function send_transcript_email_handler() {
     $email = sanitize_email($_POST['email']);
     $transcript = sanitize_textarea_field($_POST['transcript']);
+    $languageCode = sanitize_text_field($_POST['language']);
 
     if (!empty($email) && !empty($transcript)) {
-        sendTranscriptEmail($email, $transcript);
+        sendTranscriptEmail($email, $transcript, $languageCode);
         wp_send_json(['success' => true]);
     } else {
         wp_send_json(['success' => false, 'error' => 'Invalid email or transcript.']);
