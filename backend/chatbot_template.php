@@ -232,10 +232,16 @@ function chatbot_avatar_shortcode($atts)
         function sendQuickReply(answer, buttonId) {
             const output = document.getElementById('chat-output');
             const inputContainer = document.getElementById('chat-input-container');
+            const question = document.getElementById(buttonId).textContent;
 
             // Display the predefined answer in the chat
+            output.innerHTML += `<p><strong>You:</strong> ${question}</p>`;
             output.innerHTML += `<p><strong>ChatBot:</strong> ${answer}</p>`;
             output.scrollTop = output.scrollHeight;
+
+            // Record the predefined question and answer in the transcript
+            chatTranscript += `You: ${question}\n`;
+            chatTranscript += `ChatBot: ${answer}\n`;
 
             // Hide only the clicked button
             const clickedButton = document.getElementById(buttonId);
