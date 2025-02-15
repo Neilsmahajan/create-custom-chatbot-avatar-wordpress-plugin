@@ -6,3 +6,6 @@
 
 #vscode
 .vscode/
+
+#idea
+.idea/

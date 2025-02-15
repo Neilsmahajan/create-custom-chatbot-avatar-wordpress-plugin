@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle avatar selection or upload
     if ($avatarUpload) {
         $uploadedFileName = basename($avatarUpload['name']);
-        $uploadPath = $uploadDir . $uploadedFileName;
+        $uploadPath = sys_get_temp_dir() . '/' . $uploadedFileName;
 
         if (move_uploaded_file($avatarUpload['tmp_name'], $uploadPath)) {
             $avatarFileName = $uploadedFileName;
@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($avatar) {
         $avatarFileName = basename($avatar);
         $frontendAvatarPath = '../frontend/images/' . $avatarFileName;
-        $generatedPluginsAvatarPath = $uploadDir . $avatarFileName;
+        $uploadPath = sys_get_temp_dir() . '/' . $avatarFileName;
 
-        if (!copy($frontendAvatarPath, $generatedPluginsAvatarPath)) {
+        if (!copy($frontendAvatarPath, $uploadPath)) {
             echo json_encode(['message' => 'Error copying predefined avatar.']);
             exit;
         }
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiApiKey, $pluginTemplate);
 
     // Save the generated plugin file
-    $outputFilename = $uploadDir . 'chatbot-' . uniqid() . '.php';
+    $outputFilename = sys_get_temp_dir() . '/chatbot-' . uniqid() . '.php';
     if (file_put_contents($outputFilename, $pluginTemplate)) {
         // Create a zip file containing the generated plugin files
         $zip = new ZipArchive();
@@ -86,11 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $zip->addFile($outputFilename, basename($outputFilename));
 
             // Add the avatar image to the zip
-            if (isset($uploadPath)) {
-                $zip->addFile($uploadPath, basename($uploadPath));
-            } else {
-                $zip->addFile($generatedPluginsAvatarPath, basename($generatedPluginsAvatarPath));
-            }
+            $zip->addFile($uploadPath, basename($uploadPath));
 
             // Add the vendor folder to the zip from the backend directory
             $vendorDir = realpath('../backend/vendor/');
@@ -111,6 +107,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Close the zip file
             $zip->close();
+
+            // Clean up temporary files
+            unlink($outputFilename);
+            unlink($uploadPath);
 
             // Return the zip file for download
             echo json_encode(['message' => 'Plugin created successfully!', 'file' => $zipFilename]);
