@@ -549,7 +549,8 @@ function sendTranscriptEmail($email, $transcript, $languageCode) {
         $mail->CharSet = 'UTF-8';
         $subject = $languageCode === 'fr-CA' ? 'Transcription du Chat' : 'Chat Transcript';
         $mail->Subject = $subject;
-        $mail->Body    = '<h1>' . $subject . '</h1><p>' . nl2br($transcript) . '</p>';
+        $transcript = str_replace("\\'", "'", $transcript); // Fix backslashes before single quotes
+        $mail->Body    = '<h1>' . $subject . '</h1><p>' . nl2br(htmlspecialchars_decode($transcript)) . '</p>';
 
         $mail->send();
     } catch (Exception $e) {
