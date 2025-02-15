@@ -13,7 +13,6 @@ use Google\Cloud\TextToSpeech\V1\SynthesisInput;
 use Google\Cloud\TextToSpeech\V1\VoiceSelectionParams;
 use Google\Cloud\TextToSpeech\V1\AudioConfig;
 use Google\Cloud\TextToSpeech\V1\AudioEncoding;
-use Google\Cloud\Translate\V2\TranslateClient;
 
 add_action('wp_ajax_generate_audio', 'generate_audio_callback');
 add_action('wp_ajax_nopriv_generate_audio', 'generate_audio_callback');

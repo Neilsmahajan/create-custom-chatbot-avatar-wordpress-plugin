@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $zip->addFile($generatedPluginsAvatarPath, basename($generatedPluginsAvatarPath));
             }
 
-            // Add the vendor folder to the zip
-            $vendorDir = realpath('../generated-plugins/vendor/');
+            // Add the vendor folder to the zip from the backend directory
+            $vendorDir = realpath('../backend/vendor/');
             $files = new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($vendorDir),
                 RecursiveIteratorIterator::LEAVES_ONLY
