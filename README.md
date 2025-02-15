@@ -251,7 +251,3 @@ Other team members:
 ---
 
 Thank you for using the **Create Custom Chatbot Avatar WordPress Plugin!** 🎉
-
-```
-
-```
