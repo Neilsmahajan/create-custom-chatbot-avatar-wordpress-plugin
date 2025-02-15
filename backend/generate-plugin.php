@@ -28,9 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $secondaryColor = $_POST['secondaryColor'] ?? '#f4f4f9'; // Default secondary color
     $avatarFileName = '';
 
+    // Ensure the generated-plugins directory exists
+    $uploadDir = '../generated-plugins/';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+
     // Handle avatar selection or upload
     if ($avatarUpload) {
-        $uploadDir = '../generated-plugins/';
         $uploadedFileName = basename($avatarUpload['name']);
         $uploadPath = $uploadDir . $uploadedFileName;
 
@@ -43,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($avatar) {
         $avatarFileName = basename($avatar);
         $frontendAvatarPath = '../frontend/images/' . $avatarFileName;
-        $generatedPluginsAvatarPath = '../generated-plugins/' . $avatarFileName;
+        $generatedPluginsAvatarPath = $uploadDir . $avatarFileName;
 
         if (!copy($frontendAvatarPath, $generatedPluginsAvatarPath)) {
             echo json_encode(['message' => 'Error copying predefined avatar.']);
@@ -70,11 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiApiKey, $pluginTemplate);
 
     // Save the generated plugin file
-    $outputFilename = '../generated-plugins/chatbot-' . uniqid() . '.php';
+    $outputFilename = $uploadDir . 'chatbot-' . uniqid() . '.php';
     if (file_put_contents($outputFilename, $pluginTemplate)) {
         // Create a zip file containing the generated plugin files
         $zip = new ZipArchive();
-        $zipFilename = '../generated-plugins/chatbot.zip';
+        $zipFilename = $uploadDir . 'chatbot.zip';
 
         if ($zip->open($zipFilename, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
             // Add the generated plugin file to the zip
@@ -101,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Add the service account key file to the zip
-            $zip->addFile('../generated-plugins/gcp-text-to-speech-service-account-key.json', 'gcp-text-to-speech-service-account-key.json');
+            // Add the service account key file to the zip from the backend directory
+            $zip->addFile('../backend/gcp-text-to-speech-service-account-key.json', 'gcp-text-to-speech-service-account-key.json');
 
             // Close the zip file
             $zip->close();
