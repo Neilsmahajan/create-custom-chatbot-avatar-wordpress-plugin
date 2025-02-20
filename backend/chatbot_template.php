@@ -125,12 +125,12 @@ function chatbot_avatar_shortcode($atts)
             position: fixed;
             bottom: 20px;
             right: 20px;
-            width: 300px;
+            width: 350px;
             border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             background: <?php echo $secondaryColor; ?>;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             z-index: 1000;
         }
         #chat-avatar {
@@ -139,9 +139,10 @@ function chatbot_avatar_shortcode($atts)
             display: block;
         }
         #chat-avatar img {
-            width: 80px;
+            width: 100px;
             height: auto;
             border-radius: 50%;
+            border: 3px solid <?php echo $primaryColor; ?>;
         }
         #chatbot-header {
             padding: 10px;
@@ -154,23 +155,26 @@ function chatbot_avatar_shortcode($atts)
             align-items: center;
         }
         #chat-output {
-            height: 150px;
+            height: 200px;
             overflow-y: auto;
             padding: 10px;
             border-top: 1px solid <?php echo $primaryColor; ?>;
+            background: #fff;
         }
         #chat-input-container {
             display: flex;
             padding: 10px;
+            border-top: 1px solid <?php echo $primaryColor; ?>;
+            background: #f9f9f9;
         }
         #chat-input {
             flex: 1;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 5px;
         }
         #chat-submit {
-            padding: 5px 10px;
+            padding: 10px 15px;
             margin-left: 5px;
             border: none;
             background: <?php echo $primaryColor; ?>;
@@ -183,7 +187,7 @@ function chatbot_avatar_shortcode($atts)
         }
         .faq-button {
             margin: 5px;
-            padding: 5px 10px;
+            padding: 10px 15px;
             border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 5px;
             background: <?php echo $secondaryColor; ?>;
@@ -206,7 +210,7 @@ function chatbot_avatar_shortcode($atts)
         #user-email {
             width: calc(100% - 20px);
             margin-bottom: 10px;
-            padding: 5px;
+            padding: 10px;
             border: 1px solid <?php echo $primaryColor; ?>;
             border-radius: 5px;
         }
@@ -218,7 +222,7 @@ function chatbot_avatar_shortcode($atts)
             margin-right: 5px;
         }
         #submit-email {
-            padding: 5px 10px;
+            padding: 10px 15px;
             background: <?php echo $primaryColor; ?>;
             color: white;
             border: none;
