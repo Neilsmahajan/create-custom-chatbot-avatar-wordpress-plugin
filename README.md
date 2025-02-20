@@ -1,12 +1,12 @@
 # Create Custom Chatbot Avatar WordPress Plugin
 
-This project provides a web application that allows Christine's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.zip` file tailored to the client's needs, which can be deployed directly into their WordPress site.
+This project provides a web application that allows Christine's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Speaking and Idle Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.zip` file tailored to the client's needs, which can be deployed directly into their WordPress site.
 
 ## Features
 
 - **Knowledge Base Customization**: Clients can input specific knowledge related to their business or company for chatbot responses.
 - **Predefined Questions**: Allows input of frequently asked questions for quick and automated responses.
-- **Avatar Selection**: Clients can choose from a set of predefined avatars or upload their own image for the chatbot.
+- **Speaking and Idle Avatar Selection**: Clients can choose from a set of predefined avatars or upload their own images for the chatbot's speaking and idle states.
 - **Language Preference**: Supports English and Canadian French. The chatbot's prompts and text-to-speech features will adapt based on the specified language in the shortcode.
 - **Custom Plugin Generation**: Automatically creates a customized `chatbot.zip` plugin for WordPress.
 - **Shortcode-Based Deployment**: Clients can manually specify the language using a shortcode and add the chatbot to specific pages.
@@ -92,7 +92,7 @@ create-custom-chatbot-avatar-wordpress-plugin/
 2. Fill in the fields for:
    - **Knowledge Base:** Enter the specific details of your business or organization.
    - **Predefined Questions:** Provide frequently asked questions for the chatbot to address.
-   - **Avatar Selection:** Choose a predefined avatar or upload your own image.
+   - **Speaking and Idle Avatar Selection:** Choose predefined avatars or upload your own images for the chatbot's speaking and idle states.
 3. Click the Submit button.
 4. Download the generated `chatbot.zip` file from the provided link.
 
@@ -139,31 +139,36 @@ create-custom-chatbot-avatar-wordpress-plugin/
      Vous êtes un assistant de confiance pour une entreprise immobilière appelée Neil's Test Real Estate. Actuellement, Neil's Test Real Estate opère à Scottsdale et a quatre maisons, dont deux sont à vendre.
      ```
 2. **Predefined Questions:**
+
    - **English:**
-      ```
-      Question: What are my Hours of Operation? 
-      Answer: 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
-      
-      Question: What are the current real estate trends in the city? 
-      Answer: The market is hot, with prices increasing by 10% over the past year.
 
-      Question: How can I find the perfect home for my family? 
-      Answer: You can search for homes in your price range, and you can also search for homes by location.
-      ```
+     ```
+     Question: What are my Hours of Operation?
+     Answer: 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
+
+     Question: What are the current real estate trends in the city?
+     Answer: The market is hot, with prices increasing by 10% over the past year.
+
+     Question: How can I find the perfect home for my family?
+     Answer: You can search for homes in your price range, and you can also search for homes by location.
+     ```
+
    - **Canadian French:**
-      ```
-      Question : Quelles sont mes heures d'ouverture ?
-      Réponse : De 9 h à 17 h du lundi au jeudi, de 9 h à 15 h le vendredi.
 
-      Question : Quelles sont les tendances immobilières actuelles dans la ville ?
-      Réponse : Le marché est en pleine effervescence, les prix ayant augmenté de 10 % au cours de l'année écoulée.
+     ```
+     Question : Quelles sont mes heures d'ouverture ?
+     Réponse : De 9 h à 17 h du lundi au jeudi, de 9 h à 15 h le vendredi.
 
-      Question : Comment puis-je trouver la maison idéale pour ma famille ?
-      Réponse : Vous pouvez rechercher des maisons dans votre gamme de prix, et vous pouvez également rechercher des maisons par emplacement.
-      ```
-3. **Avatar Selection:** Upload a custom image of a professional real estate agent.
+     Question : Quelles sont les tendances immobilières actuelles dans la ville ?
+     Réponse : Le marché est en pleine effervescence, les prix ayant augmenté de 10 % au cours de l'année écoulée.
+
+     Question : Comment puis-je trouver la maison idéale pour ma famille ?
+     Réponse : Vous pouvez rechercher des maisons dans votre gamme de prix, et vous pouvez également rechercher des maisons par emplacement.
+     ```
+
+3. **Speaking and Idle Avatar Selection:** Upload custom images of a professional real estate agent for both speaking and idle states.
 4. **Language Preference:** Use the appropriate shortcode (`[chatbot_avatar language="en-US"]` for English or `[chatbot_avatar language="fr-CA"]` for French).
-5. **Owner Email:** Provide your email address to recieve the emails of users who interact with the chatbot.
+5. **Owner Email:** Provide your email address to receive the emails of users who interact with the chatbot.
 
 The generated plugin will contain these customizations and provide a tailored experience on their WordPress site.
 
@@ -181,7 +186,8 @@ The backend replaces these placeholders in the template with the client's input:
 
 - {{KNOWLEDGE_BASE}}: The knowledge base provided by the client.
 - {{PREDEFINED_QUESTIONS}}: The predefined questions provided by the client.
-- {{AVATAR}}: The avatar image provided by the client.
+- {{SPEAKING_AVATAR_FILENAME}}: The speaking avatar image provided by the client.
+- {{IDLE_AVATAR_FILENAME}}: The idle avatar image provided by the client.
 
 ---
 
