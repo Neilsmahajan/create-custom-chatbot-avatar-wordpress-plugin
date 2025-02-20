@@ -70,8 +70,9 @@ function chatbot_avatar_shortcode($atts)
         : 'Type your message here...';
     $buttonText = $languageCode === 'fr-CA' ? 'Envoyer' : 'Send';
     $submitEmailText = $languageCode === 'fr-CA' ? 'Soumettre' : 'Submit';
-    // Avatar
-    $avatar_url = plugin_dir_url(__FILE__) . '{{AVATAR_FILENAME}}';
+    // Avatars
+    $speakingAvatarUrl = plugin_dir_url(__FILE__) . '{{SPEAKING_AVATAR_FILENAME}}';
+    $idleAvatarUrl = plugin_dir_url(__FILE__) . '{{IDLE_AVATAR_FILENAME}}';
     $primaryColor = '{{PRIMARY_COLOR}}';
     $secondaryColor = '{{SECONDARY_COLOR}}';
     
@@ -79,7 +80,7 @@ function chatbot_avatar_shortcode($atts)
     ?>
     <div id="chatbot-popup">
         <div id="chat-avatar">
-            <img src="<?php echo esc_url($avatar_url); ?>" alt="ChatBot Avatar">
+            <img id="avatar-img" src="<?php echo esc_url($idleAvatarUrl); ?>" alt="ChatBot Avatar">
         </div>
         <div id="faq-container">
             <?php
@@ -452,6 +453,18 @@ function chatbot_avatar_shortcode($atts)
         }
 
         inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
+
+        // Change avatar based on audio playback state
+        const audioElement = document.getElementById('chat-audio');
+        const avatarImg = document.getElementById('avatar-img');
+
+        audioElement.addEventListener('play', function () {
+            avatarImg.src = '<?php echo esc_url($speakingAvatarUrl); ?>';
+        });
+
+        audioElement.addEventListener('ended', function () {
+            avatarImg.src = '<?php echo esc_url($idleAvatarUrl); ?>';
+        });
     </script>
     <?php
     return ob_get_clean();

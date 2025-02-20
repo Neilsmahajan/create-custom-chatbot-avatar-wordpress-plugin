@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -90,8 +90,11 @@
         cursor: pointer;
         border: 2px solid transparent;
       }
-      .avatar-container img.selected {
+      .avatar-container img.selected-speaking {
         border-color: blue;
+      }
+      .avatar-container img.selected-idle {
+        border-color: green;
       }
     </style>
   </head>
@@ -125,7 +128,7 @@
       </div>
 
       <div class="section">
-        <label>Avatar Selection / Sélection de l'avatar :</label>
+        <label>Speaking Avatar Selection / Sélection d'avatar parlant :</label>
         <div class="avatar-container">
           <img
             src="images/female_customer_service_avatar.jpeg"
@@ -166,10 +169,59 @@
         </div>
       </div>
       <div class="section">
+        <label>Idle Avatar Selection / Sélection d'avatar inactif :</label>
+        <div class="avatar-container">
+          <img
+            src="images/female_customer_service_avatar.jpeg"
+            alt="Idle Avatar 1"
+            id="idle-avatar1"
+            onclick="selectIdleAvatar('idle-avatar1')"
+          />
+          <img
+            src="images/ai_robot_avatar.png"
+            alt="Idle Avatar 2"
+            id="idle-avatar2"
+            onclick="selectIdleAvatar('idle-avatar2')"
+          />
+          <img
+            src="images/roofing_worker_avatar.jpg"
+            alt="Idle Avatar 3"
+            id="idle-avatar3"
+            onclick="selectIdleAvatar('idle-avatar3')"
+          />
+          <img
+            src="images/ai_friendly_avatar.png"
+            alt="Idle Avatar 4"
+            id="idle-avatar4"
+            onclick="selectIdleAvatar('idle-avatar4')"
+          />
+          <img
+            src="images/chatting_robot.gif"
+            alt="Idle Avatar 5"
+            id="idle-avatar5"
+            onclick="selectIdleAvatar('idle-avatar5')"
+          />
+          <img
+            src="images/idle_robot.gif"
+            alt="Idle Avatar 6"
+            id="idle-avatar6"
+            onclick="selectIdleAvatar('idle-avatar6')"
+          />
+        </div>
+      </div>
+      <div class="section">
         <label for="uploadAvatar"
-          >Upload Custom Avatar / Téléchargez un avatar personnalisé :</label
+          >Upload Speaking Custom Avatar / Télécharger un avatar personnalisé
+          parlant :</label
         >
         <input type="file" id="uploadAvatar" accept="image/*" />
+      </div>
+      <div class="section">
+        <label for="uploadIdleAvatar"
+          >Upload Custom Idle Avatar / Télécharger un avatar inactif
+          personnalisé :</label
+        >
+        <input type="file" id="uploadIdleAvatar" accept="image/*" />
       </div>
       <div class="section">
         <label for="primaryColor">Primary Color / Couleur Principale :</label>
@@ -195,8 +247,11 @@
     </div>
 
     <script>
-      let selectedAvatar = "";
-      let customAvatarFile = null;
+      let selectedSpeakingAvatar = "";
+      let selectedIdleAvatar = "";
+      let customSpeakingAvatarFile = null;
+      let customIdleAvatarFile = null;
+
       function addQAPair() {
         const container = document.getElementById("qa-container");
         const pair = document.createElement("div");
@@ -210,21 +265,44 @@
 
       function selectAvatar(avatarId) {
         const avatars = document.querySelectorAll(".avatar-container img");
-        avatars.forEach((avatar) => avatar.classList.remove("selected"));
+        avatars.forEach((avatar) =>
+          avatar.classList.remove("selected-speaking")
+        );
         const selectedElement = document.getElementById(avatarId);
-        selectedElement.classList.add("selected");
-        selectedAvatar = selectedElement.getAttribute("src");
-        customAvatarFile = null; // Clear any custom avatar file
-        document.getElementById("uploadAvatar").value = ""; // Clear file input
+        selectedElement.classList.add("selected-speaking");
+        selectedSpeakingAvatar = selectedElement.getAttribute("src");
+        customSpeakingAvatarFile = null;
+        document.getElementById("uploadAvatar").value = "";
+      }
+
+      function selectIdleAvatar(avatarId) {
+        const avatars = document.querySelectorAll(".avatar-container img");
+        avatars.forEach((avatar) => avatar.classList.remove("selected-idle"));
+        const selectedElement = document.getElementById(avatarId);
+        selectedElement.classList.add("selected-idle");
+        selectedIdleAvatar = selectedElement.getAttribute("src");
+        customIdleAvatarFile = null;
+        document.getElementById("uploadIdleAvatar").value = "";
       }
 
       document
         .getElementById("uploadAvatar")
         .addEventListener("change", function () {
-          customAvatarFile = this.files[0];
-          selectedAvatar = ""; // Clear predefined avatar selection
+          customSpeakingAvatarFile = this.files[0];
+          selectedSpeakingAvatar = "";
           const avatars = document.querySelectorAll(".avatar-container img");
-          avatars.forEach((avatar) => avatar.classList.remove("selected"));
+          avatars.forEach((avatar) =>
+            avatar.classList.remove("selected-speaking")
+          );
+        });
+
+      document
+        .getElementById("uploadIdleAvatar")
+        .addEventListener("change", function () {
+          customIdleAvatarFile = this.files[0];
+          selectedIdleAvatar = "";
+          const avatars = document.querySelectorAll(".avatar-container img");
+          avatars.forEach((avatar) => avatar.classList.remove("selected-idle"));
         });
 
       async function submitForm() {
@@ -251,12 +329,21 @@
         const ownerEmail = document.getElementById("ownerEmail").value;
         formData.append("ownerEmail", ownerEmail);
 
-        if (customAvatarFile) {
-          formData.append("avatarUpload", customAvatarFile);
-        } else if (selectedAvatar) {
-          formData.append("avatar", selectedAvatar);
+        if (customSpeakingAvatarFile) {
+          formData.append("speakingAvatarUpload", customSpeakingAvatarFile);
+        } else if (selectedSpeakingAvatar) {
+          formData.append("speakingAvatar", selectedSpeakingAvatar);
         } else {
-          alert("Please select or upload an avatar.");
+          alert("Please select or upload a speaking avatar.");
+          return;
+        }
+
+        if (customIdleAvatarFile) {
+          formData.append("idleAvatarUpload", customIdleAvatarFile);
+        } else if (selectedIdleAvatar) {
+          formData.append("idleAvatar", selectedIdleAvatar);
+        } else {
+          alert("Please select or upload an idle avatar.");
           return;
         }
 

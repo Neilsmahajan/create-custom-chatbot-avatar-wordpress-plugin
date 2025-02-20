@@ -9,8 +9,10 @@ $dotenv->load();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
     $qaPairs = ($_POST['qaPairs'] ?? '[]');
-    $avatar = $_POST['avatar'] ?? '';
-    $avatarUpload = $_FILES['avatarUpload'] ?? null;
+    $speakingAvatar = $_POST['speakingAvatar'] ?? '';
+    $speakingAvatarUpload = $_FILES['speakingAvatarUpload'] ?? null;
+    $idleAvatar = $_POST['idleAvatar'] ?? '';
+    $idleAvatarUpload = $_FILES['idleAvatarUpload'] ?? null;
     $escapedKnowledgeBase = addslashes($knowledgeBase);
     $escapedQAPairs = json_decode($qaPairs, true);
 
@@ -26,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $primaryColor = $_POST['primaryColor'] ?? '#007bff'; // Default primary color
     $secondaryColor = $_POST['secondaryColor'] ?? '#f4f4f9'; // Default secondary color
-    $avatarFileName = '';
+    $speakingAvatarFileName = '';
+    $idleAvatarFileName = '';
 
     // Ensure the generated-plugins directory exists
     $uploadDir = '../generated-plugins/';
@@ -34,28 +37,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mkdir($uploadDir, 0777, true);
     }
 
-    // Handle avatar selection or upload
-    if ($avatarUpload) {
-        $uploadedFileName = basename($avatarUpload['name']);
+    // Handle speaking avatar selection or upload
+    if ($speakingAvatarUpload) {
+        $uploadedFileName = basename($speakingAvatarUpload['name']);
         $uploadPath = sys_get_temp_dir() . '/' . $uploadedFileName;
 
-        if (move_uploaded_file($avatarUpload['tmp_name'], $uploadPath)) {
-            $avatarFileName = $uploadedFileName;
+        if (move_uploaded_file($speakingAvatarUpload['tmp_name'], $uploadPath)) {
+            $speakingAvatarFileName = $uploadedFileName;
         } else {
-            echo json_encode(['message' => 'Error uploading custom avatar.']);
+            echo json_encode(['message' => 'Error uploading custom speaking avatar.']);
             exit;
         }
-    } elseif ($avatar) {
-        $avatarFileName = basename($avatar);
-        $frontendAvatarPath = '../frontend/images/' . $avatarFileName;
-        $uploadPath = sys_get_temp_dir() . '/' . $avatarFileName;
+    } elseif ($speakingAvatar) {
+        $speakingAvatarFileName = basename($speakingAvatar);
+        $frontendAvatarPath = '../frontend/images/' . $speakingAvatarFileName;
+        $uploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
 
         if (!copy($frontendAvatarPath, $uploadPath)) {
-            echo json_encode(['message' => 'Error copying predefined avatar.']);
+            echo json_encode(['message' => 'Error copying predefined speaking avatar.']);
             exit;
         }
     } else {
-        echo json_encode(['message' => 'No avatar selected or uploaded.']);
+        echo json_encode(['message' => 'No speaking avatar selected or uploaded.']);
+        exit;
+    }
+
+    // Handle idle avatar selection or upload
+    if ($idleAvatarUpload) {
+        $uploadedFileName = basename($idleAvatarUpload['name']);
+        $uploadPath = sys_get_temp_dir() . '/' . $uploadedFileName;
+
+        if (move_uploaded_file($idleAvatarUpload['tmp_name'], $uploadPath)) {
+            $idleAvatarFileName = $uploadedFileName;
+        } else {
+            echo json_encode(['message' => 'Error uploading custom idle avatar.']);
+            exit;
+        }
+    } elseif ($idleAvatar) {
+        $idleAvatarFileName = basename($idleAvatar);
+        $frontendAvatarPath = '../frontend/images/' . $idleAvatarFileName;
+        $uploadPath = sys_get_temp_dir() . '/' . $idleAvatarFileName;
+
+        if (!copy($frontendAvatarPath, $uploadPath)) {
+            echo json_encode(['message' => 'Error copying predefined idle avatar.']);
+            exit;
+        }
+    } else {
+        echo json_encode(['message' => 'No idle avatar selected or uploaded.']);
         exit;
     }
 
@@ -65,7 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{KNOWLEDGE_BASE}}', $escapedKnowledgeBase, $pluginTemplate);
     $pluginTemplate = str_replace('{{PREDEFINED_QA}}', $formattedQAPairsChatbot, $pluginTemplate);
     $pluginTemplate = str_replace('{{PREDEFINED_QA_FAQS}}', $formattedQAPairsFaqs, $pluginTemplate);
-    $pluginTemplate = str_replace('{{AVATAR_FILENAME}}', $avatarFileName, $pluginTemplate);
+    $pluginTemplate = str_replace('{{SPEAKING_AVATAR_FILENAME}}', $speakingAvatarFileName, $pluginTemplate);
+    $pluginTemplate = str_replace('{{IDLE_AVATAR_FILENAME}}', $idleAvatarFileName, $pluginTemplate);
     $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{OWNER_EMAIL}}', $escapedOwnerEmail, $pluginTemplate);
@@ -85,7 +114,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Add the generated plugin file to the zip
             $zip->addFile($outputFilename, basename($outputFilename));
 
-            // Add the avatar image to the zip
+            // Add the speaking avatar image to the zip
+            $zip->addFile($uploadPath, basename($uploadPath));
+
+            // Add the idle avatar image to the zip
             $zip->addFile($uploadPath, basename($uploadPath));
 
             // Add the vendor folder to the zip from the backend directory
