@@ -289,7 +289,7 @@ function chatbot_avatar_shortcode($atts)
         let emailConsent = false;
         let inactivityTimeout;
         let followUpTimeout;
-        let chatTranscript = '';
+        let chatTranscript = 'ChatBot: <?php echo esc_js($emailRequestMessage); ?>\n';
 
         document.getElementById('submit-email').addEventListener('click', function () {
             userEmail = document.getElementById('user-email').value;
@@ -338,7 +338,7 @@ function chatbot_avatar_shortcode($atts)
 
             clearTimeout(inactivityTimeout);
             clearTimeout(followUpTimeout);
-            inactivityTimeout = setTimeout(showInactivityMessage, 120000); // 1 minute
+            inactivityTimeout = setTimeout(showInactivityMessage, 120000); // 2 minute
 
             try {
                 const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
@@ -550,13 +550,17 @@ function sendTranscriptEmail($email, $transcript, $languageCode) {
         $mail->setFrom('neilsmahajan@gmail.com', 'Chatbot');
         $mail->addAddress($email);
 
+        // Format the transcript for better readability
+        $formattedTranscript = nl2br(htmlspecialchars_decode($transcript));
+        $formattedTranscript = str_replace("\n", "<br><br>", $formattedTranscript);
+
         // Content
         $mail->isHTML(true);
         $mail->CharSet = 'UTF-8';
         $subject = $languageCode === 'fr-CA' ? 'Transcription du Chat' : 'Chat Transcript';
         $mail->Subject = $subject;
         $transcript = str_replace("\\'", "'", $transcript); // Fix backslashes before single quotes
-        $mail->Body    = '<h1>' . $subject . '</h1><p>' . nl2br(htmlspecialchars_decode($transcript)) . '</p>';
+        $mail->Body    = '<h1>' . $subject . '</h1><p>' . $formattedTranscript . '</p>';
 
         $mail->send();
     } catch (Exception $e) {
