@@ -359,6 +359,13 @@ function chatbot_avatar_shortcode($atts)
             }
         });
 
+        // Add event listener for 'Enter' key to send message
+        document.getElementById('chat-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('chat-submit').click();
+            }
+        });
+
         function showInactivityMessage() {
             const output = document.getElementById('chat-output');
             const inactivityMessage = '<?php echo esc_js($inactivityMessage); ?>';
