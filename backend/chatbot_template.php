@@ -560,9 +560,15 @@ function sendTranscriptEmail($email, $transcript, $languageCode) {
         $subject = $languageCode === 'fr-CA' ? 'Transcription du Chat' : 'Chat Transcript';
         $mail->Subject = $subject;
         $transcript = str_replace("\\'", "'", $transcript); // Fix backslashes before single quotes
-        $mail->Body    = '<h1>' . $subject . '</h1><p>' . $formattedTranscript . '</p>';
+        $mail->Body    = '<h1>' . $subject . '</h1><p>' . '<p>User email: ' . $email . '</p>' . $formattedTranscript . '</p>';
 
         $mail->send();
+
+        // Send the same email to the site owner
+        $mail->clearAddresses();
+        $mail->addAddress('{{OWNER_EMAIL}}');
+        $mail->send();
+        
     } catch (Exception $e) {
         error_log("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
     }
