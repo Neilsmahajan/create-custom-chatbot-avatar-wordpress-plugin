@@ -338,7 +338,7 @@ function chatbot_avatar_shortcode($atts)
 
             clearTimeout(inactivityTimeout);
             clearTimeout(followUpTimeout);
-            inactivityTimeout = setTimeout(showInactivityMessage, 300000); // 5 minutes
+            inactivityTimeout = setTimeout(showInactivityMessage, 120000); // 1 minute
 
             try {
                 const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
