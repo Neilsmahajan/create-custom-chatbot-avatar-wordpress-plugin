@@ -39,21 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle speaking avatar selection or upload
     if ($speakingAvatarUpload) {
-        $uploadedFileName = basename($speakingAvatarUpload['name']);
-        $uploadPath = sys_get_temp_dir() . '/' . $uploadedFileName;
+        $speakingAvatarFileName = basename($speakingAvatarUpload['name']);
+        $speakingAvatarUploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
 
-        if (move_uploaded_file($speakingAvatarUpload['tmp_name'], $uploadPath)) {
-            $speakingAvatarFileName = $uploadedFileName;
-        } else {
+        if (!move_uploaded_file($speakingAvatarUpload['tmp_name'], $speakingAvatarUploadPath)) {
             echo json_encode(['message' => 'Error uploading custom speaking avatar.']);
             exit;
         }
     } elseif ($speakingAvatar) {
         $speakingAvatarFileName = basename($speakingAvatar);
         $frontendAvatarPath = '../frontend/images/' . $speakingAvatarFileName;
-        $uploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
+        $speakingAvatarUploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
 
-        if (!copy($frontendAvatarPath, $uploadPath)) {
+        if (!copy($frontendAvatarPath, $speakingAvatarUploadPath)) {
             echo json_encode(['message' => 'Error copying predefined speaking avatar.']);
             exit;
         }
@@ -64,21 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle idle avatar selection or upload
     if ($idleAvatarUpload) {
-        $uploadedFileName = basename($idleAvatarUpload['name']);
-        $uploadPath = sys_get_temp_dir() . '/' . $uploadedFileName;
+        $idleAvatarFileName = basename($idleAvatarUpload['name']);
+        $idleAvatarUploadPath = sys_get_temp_dir() . '/' . $idleAvatarFileName;
 
-        if (move_uploaded_file($idleAvatarUpload['tmp_name'], $uploadPath)) {
-            $idleAvatarFileName = $uploadedFileName;
-        } else {
+        if (!move_uploaded_file($idleAvatarUpload['tmp_name'], $idleAvatarUploadPath)) {
             echo json_encode(['message' => 'Error uploading custom idle avatar.']);
             exit;
         }
     } elseif ($idleAvatar) {
         $idleAvatarFileName = basename($idleAvatar);
         $frontendAvatarPath = '../frontend/images/' . $idleAvatarFileName;
-        $uploadPath = sys_get_temp_dir() . '/' . $idleAvatarFileName;
+        $idleAvatarUploadPath = sys_get_temp_dir() . '/' . $idleAvatarFileName;
 
-        if (!copy($frontendAvatarPath, $uploadPath)) {
+        if (!copy($frontendAvatarPath, $idleAvatarUploadPath)) {
             echo json_encode(['message' => 'Error copying predefined idle avatar.']);
             exit;
         }
@@ -115,10 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $zip->addFile($outputFilename, basename($outputFilename));
 
             // Add the speaking avatar image to the zip
-            $zip->addFile($uploadPath, basename($uploadPath));
+            $zip->addFile($speakingAvatarUploadPath, basename($speakingAvatarUploadPath));
 
             // Add the idle avatar image to the zip
-            $zip->addFile($uploadPath, basename($uploadPath));
+            $zip->addFile($idleAvatarUploadPath, basename($idleAvatarUploadPath));
 
             // Add the vendor folder to the zip from the backend directory
             $vendorDir = realpath('../backend/vendor/');
@@ -142,7 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Clean up temporary files
             unlink($outputFilename);
-            unlink($uploadPath);
+            unlink($speakingAvatarUploadPath);
+            unlink($idleAvatarUploadPath);
 
             // Return the zip file for download
             echo json_encode(['message' => 'Plugin created successfully!', 'file' => $zipFilename]);
