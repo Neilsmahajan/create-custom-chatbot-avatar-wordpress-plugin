@@ -49,41 +49,7 @@ This project provides a web application that allows Christine's clients to gener
 
 ---
 
-## Folder Structure
-
-- **frontend/**: Contains the HTML and JavaScript for the user interface of the web app.
-- **backend/**: Contains the PHP scripts to handle form submissions and generate the custom WordPress plugin.
-- **generated-plugins/**: This folder is generated when you create a custom chatbot plugin and stores the generated `chatbot.zip` file.
-- **uploads/**: Stores the avatar images uploaded by clients.
-
----
-
 ## Project Structure
-
-### GitHub Remote Repository
-
-```
-create-custom-chatbot-avatar-wordpress-plugin/
-├── backend/
-│   ├── chatbot_template.php
-│   ├── composer.json
-│   ├── composer.lock
-│   ├── generate-plugin.php
-├── frontend/
-│   ├── images/
-│   │   ├── ai_friendly_avatar.png
-│   │   ├── ai_robot_avatar.png
-│   │   ├── chatting_robot.gif
-│   │   ├── female_customer_service_avatar.jpeg
-│   │   ├── idle_robot.gif
-│   │   ├── roofing_worker_avatar.jpg
-│   ├── favicon.ico
-│   ├── index.html
-├── .gitignore
-├── README.md
-```
-
-### Local Project Structure After Creating a Custom Chatbot Plugin
 
 ```
 create-custom-chatbot-avatar-wordpress-plugin/
@@ -111,6 +77,12 @@ create-custom-chatbot-avatar-wordpress-plugin/
 ├── .gitignore
 ├── README.md
 ```
+
+### Folders
+
+- **frontend**: Contains the HTML and JavaScript for the user interface of the web app.
+- **backend**: Contains the PHP scripts to handle form submissions and generate the custom WordPress plugin.
+- **generated-plugins**: This folder is generated when you create a custom chatbot plugin and stores the generated `chatbot.zip` file.
 
 ---
 
@@ -144,11 +116,12 @@ create-custom-chatbot-avatar-wordpress-plugin/
 1. Go to **Pages** in the WordPress admin dashboard.
 2. Select **Edit** for the page you want to add the chatbot to.
 3. Click the **plus button** to add a new block.
-4. Scroll down and click **Shortcode**.
-5. Add the shortcode for the chatbot:
+4. Scroll down or search for and click **Shortcode**.
+5. Add the shortcode for the chatbot (include the brackets):
    - For English: `[chatbot_avatar language="en-US"]`
    - For Canadian French: `[chatbot_avatar language="fr-CA"]`
 6. Click **Save**.
+7. Click **View site** to see the chatbot on your page.
 
 ---
 
@@ -167,21 +140,30 @@ create-custom-chatbot-avatar-wordpress-plugin/
      ```
 2. **Predefined Questions:**
    - **English:**
-     ```
-     - What are my Hours of Operation? 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
-     - What are the current real estate trends in the city? The market is hot, with prices increasing by 10% over the past year.
-     - How can I find the perfect home for my family? I can search for homes in my price range, and I can also search for homes by location.
-     - What is the process for selling my property? First, I need to find a real estate agent, then we will discuss the price of the home, and then we will list the home on the market.
-     ```
+      ```
+      Question: What are my Hours of Operation? 
+      Answer: 9 AM to 5 PM Monday through Thursday, 9 AM to 3 PM Friday.
+      
+      Question: What are the current real estate trends in the city? 
+      Answer: The market is hot, with prices increasing by 10% over the past year.
+
+      Question: How can I find the perfect home for my family? 
+      Answer: You can search for homes in your price range, and you can also search for homes by location.
+      ```
    - **Canadian French:**
-     ```
-     - Quels sont mes horaires d'ouverture? 9h à 17h du lundi au jeudi, 9h à 15h le vendredi.
-     - Quels sont les tendances actuelles de l'immobilier dans la ville? Le marché est chaud, avec des prix en hausse de 10% au cours de l'année dernière.
-     - Comment puis-je trouver la maison idéale pour ma famille? Je peux rechercher des maisons dans ma gamme de prix, et je peux également rechercher des maisons par emplacement.
-     - Quel est le processus pour vendre ma propriété? Tout d'abord, je dois trouver un agent immobilier, puis nous discuterons du prix de la maison, et ensuite nous listerons la maison sur le marché.
-     ```
+      ```
+      Question : Quelles sont mes heures d'ouverture ?
+      Réponse : De 9 h à 17 h du lundi au jeudi, de 9 h à 15 h le vendredi.
+
+      Question : Quelles sont les tendances immobilières actuelles dans la ville ?
+      Réponse : Le marché est en pleine effervescence, les prix ayant augmenté de 10 % au cours de l'année écoulée.
+
+      Question : Comment puis-je trouver la maison idéale pour ma famille ?
+      Réponse : Vous pouvez rechercher des maisons dans votre gamme de prix, et vous pouvez également rechercher des maisons par emplacement.
+      ```
 3. **Avatar Selection:** Upload a custom image of a professional real estate agent.
-4. **Language Preference:** Use the appropriate shortcode (`en-US` for English or `fr-CA` for French).
+4. **Language Preference:** Use the appropriate shortcode (`[chatbot_avatar language="en-US"]` for English or `[chatbot_avatar language="fr-CA"]` for French).
+5. **Owner Email:** Provide your email address to recieve the emails of users who interact with the chatbot.
 
 The generated plugin will contain these customizations and provide a tailored experience on their WordPress site.
 
