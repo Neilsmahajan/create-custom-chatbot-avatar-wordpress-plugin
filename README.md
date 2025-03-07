@@ -64,12 +64,7 @@ create-custom-chatbot-avatar-wordpress-plugin/
 │   ├── generate-plugin.php
 ├── frontend/
 │   ├── images/
-│   │   ├── ai_friendly_avatar.png
-│   │   ├── ai_robot_avatar.png
-│   │   ├── chatting_robot.gif
-│   │   ├── female_customer_service_avatar.jpeg
-│   │   ├── idle_robot.gif
-│   │   ├── roofing_worker_avatar.jpg
+│   │   └── ...
 │   ├── favicon.ico
 │   ├── index.html
 ├── generated-plugins/
