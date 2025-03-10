@@ -67,6 +67,7 @@ create-custom-chatbot-avatar-wordpress-plugin/
 │   │   └── ...
 │   ├── favicon.ico
 │   ├── index.html
+│   ├── instructions_fr.html
 │   ├── instructions.html
 ├── generated-plugins/
 │   ├── chatbot.zip
