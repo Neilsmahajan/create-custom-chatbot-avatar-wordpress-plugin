@@ -71,7 +71,10 @@ create-custom-chatbot-avatar-wordpress-plugin/
 │   ├── instructions.html
 ├── generated-plugins/
 │   ├── chatbot.zip
+├── .dockerignore
 ├── .gitignore
+├── custom-php.ini
+├── Dockerfile
 ├── README.md
 ```
 
