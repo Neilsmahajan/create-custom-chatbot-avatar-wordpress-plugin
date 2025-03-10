@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructions - Comment utiliser le service de Chatbot</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+      }
+      .content {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+      a.button {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      a.button:hover {
+        background-color: #0056b3;
+      }
+      pre {
+        background: #eee;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Comment utiliser le service de Chatbot</h1>
+      <p>
+        Ce service vous permet de générer un plugin WordPress pour un chatbot IA
+        personnalisé. Vous pouvez personnaliser le plugin en configurant votre
+        base de connaissances, en définissant des questions/réponses prédéfinies
+        et en sélectionnant des avatars personnalisés.
+      </p>
+
+      <h2>Étapes pour commencer</h2>
+      <ol>
+        <li>
+          <strong>Renseignez votre contenu :</strong>
+          <ul>
+            <li>
+              Remplissez le champ « Base de connaissances » avec les détails de
+              votre entreprise ou organisation.
+            </li>
+            <li>
+              Ajoutez une ou plusieurs paires Question-Réponse dans la zone
+              prévue à cet effet.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Sélectionnez ou téléchargez des avatars :</strong>
+          <ul>
+            <li>
+              Choisissez un avatar parlant et un avatar inactif parmi les
+              options prédéfinies ou téléchargez vos propres images
+              personnalisées.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Personnalisez l'apparence :</strong>
+          <ul>
+            <li>
+              Définissez vos couleurs principale et secondaire pour le style du
+              plugin.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Email du propriétaire :</strong>
+          <ul>
+            <li>
+              Saisissez votre adresse email pour recevoir des notifications des
+              interactions du chatbot.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Génération du plugin :</strong>
+          <ul>
+            <li>
+              Cliquez sur « Soumettre » pour générer votre plugin personnalisé.
+              Un fichier <code>chatbot.zip</code> sera créé et mis à disposition
+              pour téléchargement.
+            </li>
+          </ul>
+        </li>
+      </ol>
+
+      <h2>Ajouter le plugin à votre site WordPress</h2>
+      <ol>
+        <li>Connectez-vous à votre tableau de bord WordPress.</li>
+        <li>
+          Allez dans <strong>Extensions &gt; Ajouter</strong> et cliquez sur le
+          bouton <strong>Téléverser une extension</strong>.
+        </li>
+        <li>
+          Sélectionnez le fichier <code>chatbot.zip</code> que vous avez
+          téléchargé et cliquez sur <strong>Installer maintenant</strong>.
+        </li>
+        <li>
+          Une fois l’extension installée, cliquez sur
+          <strong>Activer l’extension</strong>.
+        </li>
+        <li>
+          Pour afficher le chatbot, ajoutez le shortcode
+          <code>[chatbot_avatar language="fr-CA"]</code> (ou
+          <code>[chatbot_avatar language="en-US"]</code> pour l’anglais) dans
+          n’importe quelle page ou article.
+        </li>
+      </ol>
+
+      <h2>Exemple de flux de travail</h2>
+      <p>
+        Par exemple, si vous êtes dans l’immobilier, vous pourriez entrer dans
+        votre base de connaissances :
+      </p>
+      <pre>
+Vous êtes un assistant utile pour une entreprise immobilière appelée Mon Immobilier. 
+Actuellement, nous opérons dans le centre-ville et disposons de plusieurs propriétés.
+      </pre>
+      <p>Et définir une paire FAQ telle que :</p>
+      <pre>
+Question : Quelles sont vos heures d'ouverture ?
+Réponse : Nous sommes ouverts de 9h à 17h, du lundi au vendredi.
+      </pre>
+      <p>
+        Suivez les étapes ci-dessus pour générer votre plugin personnalisé et
+        l’intégrer à votre site WordPress.
+      </p>
+
+      <a class="button" href="index.html">Retour à l'accueil</a>
+    </div>
+  </body>
+</html>
