@@ -10,7 +10,8 @@ WORKDIR /app
 COPY backend/composer.json backend/composer.lock ./backend/
 
 # Install system dependencies, download Composer, and install backend dependencies
-RUN apt-get update && apt-get install -y unzip git && \
+RUN apt-get update && apt-get install -y unzip git libzip-dev && \
+    docker-php-ext-install zip && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     cd backend && composer install --no-dev --prefer-dist
 
@@ -18,4 +19,4 @@ RUN apt-get update && apt-get install -y unzip git && \
 COPY . .
 
 EXPOSE 8000
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "frontend"]
+CMD ["php", "-S", "0.0.0.0:8000"]
