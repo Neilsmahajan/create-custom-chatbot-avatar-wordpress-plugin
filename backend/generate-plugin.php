@@ -19,6 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ownerEmail = $_POST['ownerEmail'] ?? '';
     $escapedOwnerEmail = addslashes($ownerEmail);
 
+    // NEW: Retrieve the OpenAI API key from the user input
+    $openaiKey = $_POST['openaiKey'] ?? '';
+    if (!$openaiKey) {
+        echo json_encode(['message' => 'No OpenAI API key provided.']);
+        exit;
+    }
+
     // Format QA pairs for chatbot
     $formattedQAPairsChatbot = var_export($escapedQAPairs, true);
     $formattedQAPairsChatbot = str_replace("'", '"', $formattedQAPairsChatbot);
@@ -83,6 +90,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
+    // NEW: Handle GCP Service Account Credentials upload from user input
+    $gcpKeyUpload = $_FILES['uploadGCPKey'] ?? null;
+    if ($gcpKeyUpload) {
+        $gcpKeyFileName = basename($gcpKeyUpload['name']);
+        $gcpKeyUploadPath = sys_get_temp_dir() . '/' . $gcpKeyFileName;
+        if (!move_uploaded_file($gcpKeyUpload['tmp_name'], $gcpKeyUploadPath)) {
+            echo json_encode(['message' => 'Error uploading GCP credentials file.']);
+            exit;
+        }
+    } else {
+        echo json_encode(['message' => 'No GCP credentials file uploaded.']);
+        exit;
+    }
+
     // Load the template and replace placeholders
     $pluginTemplate = file_get_contents('../backend/chatbot_template.php');
 
@@ -94,10 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pluginTemplate = str_replace('{{PRIMARY_COLOR}}', $primaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{SECONDARY_COLOR}}', $secondaryColor, $pluginTemplate);
     $pluginTemplate = str_replace('{{OWNER_EMAIL}}', $escapedOwnerEmail, $pluginTemplate);
-
-    // Retrieve the OpenAI API key from the environment variable
-    $openaiApiKey = $_ENV['OPENAI_API_KEY'] ?? '';
-    $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiApiKey, $pluginTemplate);
+    // Use the value from the user input for OpenAI API key
+    $pluginTemplate = str_replace('{{OPENAI_API_KEY}}', $openaiKey, $pluginTemplate);
+    // Replace placeholder for GCP credentials filename with the uploaded file's name
+    $pluginTemplate = str_replace('{{GCP_CREDENTIALS_FILENAME}}', $gcpKeyFileName, $pluginTemplate);
 
     // Save the generated plugin file
     $outputFilename = sys_get_temp_dir() . '/chatbot-' . uniqid() . '.php';
@@ -130,8 +151,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            // Add the service account key file to the zip from the backend directory
-            $zip->addFile('../backend/gcp-text-to-speech-service-account-key.json', 'gcp-text-to-speech-service-account-key.json');
+            // NEW: Add the uploaded GCP credentials file to the zip
+            $zip->addFile($gcpKeyUploadPath, $gcpKeyFileName);
 
             // Close the zip file
             $zip->close();
@@ -140,6 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             unlink($outputFilename);
             unlink($speakingAvatarUploadPath);
             unlink($idleAvatarUploadPath);
+            unlink($gcpKeyUploadPath);
 
             // Return the zip file for download
             echo json_encode(['message' => 'Plugin created successfully!', 'file' => $zipFilename]);

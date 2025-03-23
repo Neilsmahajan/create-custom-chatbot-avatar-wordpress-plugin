@@ -20,8 +20,8 @@ add_action('wp_ajax_generate_audio', 'generate_audio_callback');
 add_action('wp_ajax_nopriv_generate_audio', 'generate_audio_callback');
 
 function generate_audio_callback() {
-    // Load environment variables and helper functions
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-service-account-key.json');
+    // Use the user-provided GCP credentials filename placeholder
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . '{{GCP_CREDENTIALS_FILENAME}}');
     require_once 'vendor/autoload.php';
 
     $answer = $_POST['answer'] ?? '';
@@ -496,7 +496,7 @@ function chatbot_avatar_ajax_handler()
 
 // Translate FAQs
 function translateFaqs($qaPairs, $targetLanguage) {
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-service-account-key.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . '{{GCP_CREDENTIALS_FILENAME}}');
     $translateClient = new Google\Cloud\Translate\V2\TranslateClient();
 
     $translatedHtml = '';
@@ -530,7 +530,7 @@ function translateFaqs($qaPairs, $targetLanguage) {
 
 function generateAudio($text, $languageCode = 'en-US')
 {
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . 'gcp-text-to-speech-service-account-key.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=' . plugin_dir_path(__FILE__) . '{{GCP_CREDENTIALS_FILENAME}}');
     
     try {
         $client = new TextToSpeechClient();

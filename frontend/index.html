@@ -246,6 +246,20 @@
         />
       </div>
       <div class="section">
+        <label for="openaiKey">OpenAI API Key:</label>
+        <input
+          type="text"
+          id="openaiKey"
+          placeholder="Enter your OpenAI API key"
+        />
+      </div>
+      <div class="section">
+        <label for="uploadGCPKey"
+          >Upload GCP Service Account Credentials:</label
+        >
+        <input type="file" id="uploadGCPKey" accept="application/json" />
+      </div>
+      <div class="section">
         <button id="submit" onclick="submitForm()">Submit / Soumettre</button>
       </div>
     </div>
@@ -255,6 +269,8 @@
       let selectedIdleAvatar = "";
       let customSpeakingAvatarFile = null;
       let customIdleAvatarFile = null;
+      // NEW: Variable for GCP credentials file
+      let customGCPKeyFile = null;
 
       function addQAPair() {
         const container = document.getElementById("qa-container");
@@ -309,6 +325,13 @@
           avatars.forEach((avatar) => avatar.classList.remove("selected-idle"));
         });
 
+      // NEW: Listen for GCP credentials file upload
+      document
+        .getElementById("uploadGCPKey")
+        .addEventListener("change", function () {
+          customGCPKeyFile = this.files[0];
+        });
+
       async function submitForm() {
         const formData = new FormData();
 
@@ -333,6 +356,14 @@
         const ownerEmail = document.getElementById("ownerEmail").value;
         formData.append("ownerEmail", ownerEmail);
 
+        // NEW: Append the OpenAI API Key from the user input
+        const openaiKey = document.getElementById("openaiKey").value;
+        if (!openaiKey) {
+          alert("Please enter your OpenAI API key.");
+          return;
+        }
+        formData.append("openaiKey", openaiKey);
+
         if (customSpeakingAvatarFile) {
           formData.append("speakingAvatarUpload", customSpeakingAvatarFile);
         } else if (selectedSpeakingAvatar) {
@@ -348,6 +379,14 @@
           formData.append("idleAvatar", selectedIdleAvatar);
         } else {
           alert("Please select or upload an idle avatar.");
+          return;
+        }
+
+        // NEW: Append the GCP credentials file
+        if (customGCPKeyFile) {
+          formData.append("uploadGCPKey", customGCPKeyFile);
+        } else {
+          alert("Please upload your GCP Service Account Credentials file.");
           return;
         }
 
