@@ -17,34 +17,32 @@ This project provides a web application that allows Christine's clients to gener
 
 ### Prerequisites
 
-- PHP installed on your system (version 7.4 or higher recommended).
+- PHP 7.4 or higher.
+- A web server (e.g., Apache, Nginx, or PHP’s built-in server).
 - Basic knowledge of WordPress plugins and PHP.
-- A local or hosted web server (e.g., Apache, Nginx, or PHP's built-in server).
-- Google Cloud Console Project with the Cloud Translation API and Cloud Text-to-Speech API enabled.
-- OpenAI API key.
+- An OpenAI API key. Retrieve it at the [OpenAI API Keys page](https://platform.openai.com/account/api-keys).
+- A Google Cloud Console project with:
+  - **Cloud Text-to-Speech API** enabled.
+  - **Cloud Translation API** enabled.
+  - A created service account with the required permissions and a downloaded JSON key file.
 
 ### Installation
 
-1. Clone this repository to your local system:
+1. Clone the repository:
    ```bash
    git clone https://github.com/Neilsmahajan/create-custom-chatbot-avatar-wordpress-plugin.git
    cd create-custom-chatbot-avatar-wordpress-plugin
    ```
-2. Download a Google Cloud Console Project service account credentials JSON key from a Google Cloud Project with the Cloud Translation API and Cloud Text-to-Speech API enabled. Rename the JSON credentials key file to `gcp-text-to-speech-service-account-key.json` and put it in the `backend/` folder.
-3. Create a `.env` file in the `backend/` folder and add your OpenAI API key:
-   ```properties
-   OPENAI_API_KEY="your-openai-api-key"
-   ```
-4. Create the `backend/vendor/` folder by running Composer in the `backend/` folder:
+2. Install Composer dependencies:
    ```bash
    cd backend
    composer install
    ```
-5. Start the built-in PHP server:
+3. Start the PHP server:
    ```bash
    php -S localhost:8000
    ```
-6. Open the application in your browser:
+4. Open your browser at:
    http://localhost:8000/frontend/index.html
 
 ---

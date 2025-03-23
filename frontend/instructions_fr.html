@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-CA">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Instructions - Comment utiliser le service de Chatbot</title>
+    <title>Instructions - Comment utiliser le service de chatbot</title>
     <style>
+      /* ...existing style code... */
       body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f9;
@@ -46,44 +47,102 @@
   </head>
   <body>
     <div class="content">
-      <h1>Comment utiliser le service de Chatbot</h1>
+      <h1>Comment utiliser le service de plugin d'avatar de chatbot</h1>
       <p>
-        Ce service vous permet de générer un plugin WordPress pour un chatbot IA
-        personnalisé. Vous pouvez personnaliser le plugin en configurant votre
-        base de connaissances, en définissant des questions/réponses prédéfinies
-        et en sélectionnant des avatars personnalisés.
+        Ce service vous permet de générer un plugin WordPress d'avatar de
+        chatbot AI personnalisé selon vos besoins. Vous pouvez personnaliser le
+        plugin en configurant votre Base de Connaissances, vos
+        Questions-Pré-définies et en sélectionnant des avatars personnalisés.
       </p>
 
-      <h2>Étapes pour commencer</h2>
+      <h2>Prérequis : Récupération de vos clés API</h2>
       <ol>
         <li>
-          <strong>Renseignez votre contenu :</strong>
+          <strong>Clé API OpenAI :</strong>
+          <p>
+            Rendez-vous sur la page
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+              >des clés API OpenAI</a
+            >. Connectez-vous ou créez un compte, générez une nouvelle clé API
+            et copiez la chaîne de caractères.
+          </p>
+        </li>
+        <li>
+          <strong
+            >Identifiants du compte de service Google Cloud Platform :</strong
+          >
+          <p>
+            Accédez à la
+            <a href="https://console.cloud.google.com/" target="_blank"
+              >Console Google Cloud</a
+            >
+            et créez (ou sélectionnez) un projet.
+          </p>
           <ul>
             <li>
-              Remplissez le champ « Base de connaissances » avec les détails de
+              Activez l’<strong>API Cloud Text-to-Speech</strong> et l’<strong
+                >API Cloud Translation</strong
+              >
+              dans la bibliothèque d’API.
+            </li>
+            <li>
+              Allez dans
+              <strong>IAM & Admin &rarr; Comptes de service</strong> et créez un
+              nouveau compte de service en lui attribuant les autorisations
+              requises.
+            </li>
+            <li>
+              Créez et téléchargez un fichier JSON pour ce compte de service.
+            </li>
+          </ul>
+          <p>
+            Vous téléchargerez ce fichier JSON lors de la génération de votre
+            plugin.
+          </p>
+        </li>
+      </ol>
+
+      <h2>Étapes pour démarrer</h2>
+      <ol>
+        <li>
+          <strong>Entrez votre contenu :</strong>
+          <ul>
+            <li>
+              Remplissez le champ « Base de Connaissances » avec les détails de
               votre entreprise ou organisation.
             </li>
             <li>
-              Ajoutez une ou plusieurs paires Question-Réponse dans la zone
-              prévue à cet effet.
+              Ajoutez une ou plusieurs paires Question-Réponse pré-définies dans
+              l’espace prévu.
             </li>
           </ul>
         </li>
         <li>
-          <strong>Sélectionnez ou téléchargez des avatars :</strong>
+          <strong>Sélection ou téléchargement d’avatars :</strong>
           <ul>
             <li>
-              Choisissez un avatar parlant et un avatar inactif parmi les
-              options prédéfinies ou téléchargez vos propres images
-              personnalisées.
+              Sélectionnez un avatar parlant et un avatar inactif parmi les
+              options prédéfinies ou téléchargez vos propres images.
             </li>
           </ul>
         </li>
         <li>
-          <strong>Personnalisez l'apparence :</strong>
+          <strong>Entrez vos clés API :</strong>
+          <ul>
+            <li>Entrez votre clé API OpenAI dans le champ prévu.</li>
+            <li>
+              Téléchargez votre fichier JSON d’identifiants du compte de service
+              GCP.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Personnalisez l’apparence :</strong>
           <ul>
             <li>
-              Définissez vos couleurs principale et secondaire pour le style du
+              Choisissez vos couleurs Principale et Secondaire pour le style du
               plugin.
             </li>
           </ul>
@@ -92,8 +151,8 @@
           <strong>Email du propriétaire :</strong>
           <ul>
             <li>
-              Saisissez votre adresse email pour recevoir des notifications des
-              interactions du chatbot.
+              Fournissez votre adresse email pour recevoir les interactions du
+              chatbot.
             </li>
           </ul>
         </li>
@@ -102,8 +161,8 @@
           <ul>
             <li>
               Cliquez sur « Soumettre » pour générer votre plugin personnalisé.
-              Un fichier <code>chatbot.zip</code> sera créé et mis à disposition
-              pour téléchargement.
+              Un fichier <code>chatbot.zip</code> sera créé et disponible en
+              téléchargement.
             </li>
           </ul>
         </li>
@@ -111,40 +170,41 @@
 
       <h2>Ajouter le plugin à votre site WordPress</h2>
       <ol>
-        <li>Connectez-vous à votre tableau de bord WordPress.</li>
+        <li>Connectez-vous à votre tableau de bord WordPress (wp-admin).</li>
         <li>
-          Allez dans <strong>Extensions &gt; Ajouter</strong> et cliquez sur le
-          bouton <strong>Téléverser une extension</strong>.
+          Naviguez vers <strong>Plugins &gt; Ajouter</strong> puis cliquez sur
+          le bouton <strong>Téléverser un plugin</strong>.
         </li>
         <li>
-          Sélectionnez le fichier <code>chatbot.zip</code> que vous avez
-          téléchargé et cliquez sur <strong>Installer maintenant</strong>.
+          Cliquez sur <strong>Choisir un fichier</strong>, sélectionnez le
+          fichier <code>chatbot.zip</code> téléchargé, puis cliquez sur
+          <strong>Ouvrir</strong>.
         </li>
+        <li>Cliquez sur <strong>Installer maintenant</strong>.</li>
         <li>
-          Une fois l’extension installée, cliquez sur
-          <strong>Activer l’extension</strong>.
+          Une fois le plugin installé, cliquez sur
+          <strong>Activer le plugin</strong>.
         </li>
         <li>
           Pour afficher le chatbot, ajoutez le shortcode
           <code>[chatbot_avatar language="fr-CA"]</code> (ou
-          <code>[chatbot_avatar language="en-US"]</code> pour l’anglais) dans
-          n’importe quelle page ou article.
+          <code>[chatbot_avatar language="en-US"]</code> pour l’anglais) à une
+          page ou un article.
         </li>
       </ol>
 
-      <h2>Exemple de flux de travail</h2>
+      <h2>Exemple de procédé</h2>
       <p>
-        Par exemple, si vous êtes dans l’immobilier, vous pourriez entrer dans
-        votre base de connaissances :
+        Par exemple, si vous exploitez une entreprise immobilière, vous pourriez
+        entrer dans votre Base de Connaissances :
       </p>
       <pre>
-Vous êtes un assistant utile pour une entreprise immobilière appelée Mon Immobilier. 
-Actuellement, nous opérons dans le centre-ville et disposons de plusieurs propriétés.
+Vous êtes un assistant fiable pour une entreprise immobilière nommée Mon Immobilier. Actuellement, nous opérons dans le centre-ville et disposons de plusieurs propriétés disponibles.
       </pre>
-      <p>Et définir une paire FAQ telle que :</p>
+      <p>Et définir une paire FAQ comme :</p>
       <pre>
 Question : Quelles sont vos heures d'ouverture ?
-Réponse : Nous sommes ouverts de 9h à 17h, du lundi au vendredi.
+Réponse : Nous sommes ouverts de 9 h à 17 h, du lundi au vendredi.
       </pre>
       <p>
         Suivez les étapes ci-dessus pour générer votre plugin personnalisé et

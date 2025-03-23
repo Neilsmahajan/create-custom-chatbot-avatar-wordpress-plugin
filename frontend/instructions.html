@@ -54,6 +54,45 @@
         avatars.
       </p>
 
+      <h2>Prerequisites: Retrieving Your API Keys</h2>
+      <ol>
+        <li>
+          <strong>OpenAI API Key:</strong>
+          <p>
+            Visit the
+            <a
+              href="https://platform.openai.com/account/api-keys"
+              target="_blank"
+              >OpenAI API Keys page</a
+            >. Sign in or create an account and generate a new API key. Copy the
+            API key string.
+          </p>
+        </li>
+        <li>
+          <strong>Google Cloud Platform Service Account Credentials:</strong>
+          <p>
+            Go to the
+            <a href="https://console.cloud.google.com/" target="_blank"
+              >Google Cloud Console</a
+            >
+            and create (or select) a project.
+          </p>
+          <ul>
+            <li>
+              Enable the <strong>Cloud Text-to-Speech API</strong> and the
+              <strong>Cloud Translation API</strong> in the API Library.
+            </li>
+            <li>
+              Navigate to
+              <strong>IAM & Admin &rarr; Service Accounts</strong> and create a
+              new service account, granting it the required permissions.
+            </li>
+            <li>Create and download a JSON key for the service account.</li>
+          </ul>
+          <p>You will upload this JSON file when generating your plugin.</p>
+        </li>
+      </ol>
+
       <h2>Steps to Get Started</h2>
       <ol>
         <li>
@@ -76,6 +115,13 @@
               Select a Speaking Avatar and an Idle Avatar from the predefined
               options or upload your own custom images.
             </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Input Your API Keys:</strong>
+          <ul>
+            <li>Enter your OpenAI API key in the provided field.</li>
+            <li>Upload your GCP Service Account Credentials JSON key file.</li>
           </ul>
         </li>
         <li>
