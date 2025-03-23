@@ -15,18 +15,7 @@ This project provides a web application that allows Christine's clients to gener
 
 ## Getting Started
 
-### Prerequisites
-
-- PHP 7.4 or higher.
-- A web server (e.g., Apache, Nginx, or PHP’s built-in server).
-- Basic knowledge of WordPress plugins and PHP.
-- An OpenAI API key. Retrieve it at the [OpenAI API Keys page](https://platform.openai.com/account/api-keys).
-- A Google Cloud Console project with:
-  - **Cloud Text-to-Speech API** enabled.
-  - **Cloud Translation API** enabled.
-  - A created service account with the required permissions and a downloaded JSON key file.
-
-### Installation
+### Without Docker
 
 1. Clone the repository:
    ```bash
@@ -42,6 +31,19 @@ This project provides a web application that allows Christine's clients to gener
    php -S localhost:8000
    ```
 4. Open your browser at:
+   http://localhost:8000/frontend/index.html
+
+### Using Docker
+
+1. Build the Docker image:
+   ```bash
+   docker build . -t neilsmahajan/cccawp:1.0
+   ```
+2. Run the container mapping local port 8000 to the container:
+   ```bash
+   docker run -p 8000:8000 neilsmahajan/cccawp:1.0
+   ```
+3. Open your browser at:
    http://localhost:8000/frontend/index.html
 
 ---
