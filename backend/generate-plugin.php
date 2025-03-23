@@ -1,11 +1,6 @@
 <?php
 require 'vendor/autoload.php';
 
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $knowledgeBase = $_POST['knowledgeBase'] ?? '';
     $qaPairs = ($_POST['qaPairs'] ?? '[]');

@@ -56,11 +56,9 @@ create-custom-chatbot-avatar-wordpress-plugin/
 ├── backend/
 │   ├── vendor/
 │   │   └── ...
-│   ├── .env
 │   ├── chatbot_template.php
 │   ├── composer.json
 │   ├── composer.lock
-│   ├── gcp-text-to-speech-service-account-key.json
 │   ├── generate-plugin.php
 ├── frontend/
 │   ├── images/
