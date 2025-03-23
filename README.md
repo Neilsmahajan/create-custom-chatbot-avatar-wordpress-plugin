@@ -35,8 +35,7 @@ This project provides a web application that allows Christine's clients to gener
    ```
 2. Install Composer dependencies:
    ```bash
-   cd backend
-   composer install
+   (cd backend && composer install)
    ```
 3. Start the PHP server:
    ```bash
