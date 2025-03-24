@@ -28,10 +28,10 @@ This project provides a web application that allows Christine's clients to gener
    ```
 3. Start the PHP server:
    ```bash
-   php -S localhost:8000
+   php -S localhost:8080
    ```
 4. Open your browser at:
-   http://localhost:8000/frontend/index.html
+   http://localhost:8080/frontend/index.html
 
 ### Using Docker
 
@@ -41,10 +41,10 @@ This project provides a web application that allows Christine's clients to gener
    ```
 2. Run the container mapping local port 8000 to the container:
    ```bash
-   docker run -p 8000:8000 neilsmahajan/cccawp:1.0
+   docker run -p 8080:8080 neilsmahajan/cccawp:1.0
    ```
 3. Open your browser at:
-   http://localhost:8000/frontend/index.html
+   http://localhost:8080/frontend/index.html
 
 ---
 

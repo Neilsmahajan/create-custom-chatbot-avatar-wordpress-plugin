@@ -18,5 +18,5 @@ RUN apt-get update && apt-get install -y unzip git libzip-dev && \
 # Copy the rest of the application
 COPY . .
 
-EXPOSE 8000
-CMD ["php", "-S", "0.0.0.0:8000"]
+EXPOSE 8080
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080}"]
