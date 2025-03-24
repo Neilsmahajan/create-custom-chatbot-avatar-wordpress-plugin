@@ -6,6 +6,10 @@ COPY custom-php.ini /usr/local/etc/php/conf.d/custom-php.ini
 # Set working directory
 WORKDIR /app
 
+# Set environment variables
+ENV PORT=8080
+ENV HOST=0.0.0.0
+
 # Copy backend composer files only to improve build caching
 COPY backend/composer.json backend/composer.lock ./backend/
 
