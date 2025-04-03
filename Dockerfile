@@ -23,4 +23,7 @@ RUN apt-get update && apt-get install -y unzip git libzip-dev && \
 COPY . .
 
 EXPOSE 8080
+
+ENTRYPOINT []
+
 CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080}"]
