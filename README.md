@@ -31,7 +31,7 @@ This project provides a web application that allows Christine's clients to gener
    php -S localhost:8080
    ```
 4. Open your browser at:
-   http://localhost:8080/frontend/index.html
+   [http://localhost:8080](http://localhost:8080)
 
 ### Using Docker
 
@@ -39,12 +39,12 @@ This project provides a web application that allows Christine's clients to gener
    ```bash
    docker build . -t neilsmahajan/cccawp:1.0
    ```
-2. Run the container mapping local port 8000 to the container:
+2. Run the container mapping local port 8080 to the container:
    ```bash
    docker run -p 8080:8080 neilsmahajan/cccawp:1.0
    ```
 3. Open your browser at:
-   http://localhost:8080/frontend/index.html
+   [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -58,34 +58,27 @@ create-custom-chatbot-avatar-wordpress-plugin/
 │   ├── chatbot_template.php
 │   ├── composer.json
 │   ├── composer.lock
-│   ├── generate-plugin.php
-├── frontend/
-│   ├── images/
-│   │   └── ...
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── instructions_fr.html
-│   ├── instructions.html
+│   └── generate-plugin.php
+├── images/
+│   └── ... (avatar images and other images)
+├── favicon.ico
+├── index.html
+├── instructions_fr.html
+├── instructions.html
 ├── generated-plugins/
-│   ├── chatbot.zip
+│   └── chatbot.zip
 ├── .dockerignore
 ├── .gitignore
 ├── custom-php.ini
 ├── Dockerfile
-├── README.md
+└── README.md
 ```
-
-### Folders
-
-- **frontend**: Contains the HTML and JavaScript for the user interface of the web app.
-- **backend**: Contains the PHP scripts to handle form submissions and generate the custom WordPress plugin.
-- **generated-plugins**: This folder is generated when you create a custom chatbot plugin and stores the generated `chatbot.zip` file.
 
 ---
 
 ## Usage
 
-1. Open the application in your browser.
+1. Open the application in your browser by going to [http://localhost:8080](http://localhost:8080).
 2. Fill in the fields for:
    - **Knowledge Base:** Enter the specific details of your business or organization.
    - **Predefined Questions:** Provide frequently asked questions for the chatbot to address.

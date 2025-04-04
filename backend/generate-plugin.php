@@ -50,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($speakingAvatar) {
         $speakingAvatarFileName = basename($speakingAvatar);
-        $frontendAvatarPath = '../frontend/images/' . $speakingAvatarFileName;
+        // Updated reference: moved images folder from frontend/ to root.
+        $frontendAvatarPath = '../images/' . $speakingAvatarFileName;
         $speakingAvatarUploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
 
         if (!copy($frontendAvatarPath, $speakingAvatarUploadPath)) {
@@ -73,7 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif ($idleAvatar) {
         $idleAvatarFileName = basename($idleAvatar);
-        $frontendAvatarPath = '../frontend/images/' . $idleAvatarFileName;
+        // Updated reference: moved images folder from frontend/ to root.
+        $frontendAvatarPath = '../images/' . $idleAvatarFileName;
         $idleAvatarUploadPath = sys_get_temp_dir() . '/' . $idleAvatarFileName;
 
         if (!copy($frontendAvatarPath, $idleAvatarUploadPath)) {
