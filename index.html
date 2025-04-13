@@ -83,14 +83,17 @@
         display: flex;
         gap: 15px;
       }
-      .avatar-container img {
+      .avatar-container img,
+      .avatar-container video {
         width: 100px;
         height: 100px;
         border-radius: 50%;
         cursor: pointer;
         border: 2px solid transparent;
+        object-fit: cover;
       }
-      .avatar-container img.selected-speaking {
+      .avatar-container img.selected-speaking,
+      .avatar-container video.selected-speaking {
         border-color: blue;
       }
       .avatar-container img.selected-idle {
@@ -170,6 +173,15 @@
             id="avatar6"
             onclick="selectAvatar('avatar6')"
           />
+          <video
+            src="images/speaking_animated_roofing_avatar_speaking.mov"
+            alt="Avatar 7"
+            id="avatar7"
+            onclick="selectAvatar('avatar7')"
+            muted
+            loop
+            autoplay
+          ></video>
         </div>
       </div>
       <div class="section">
@@ -211,6 +223,12 @@
             id="idle-avatar6"
             onclick="selectIdleAvatar('idle-avatar6')"
           />
+          <img
+            src="images/idle_roofing_painter_avatar.png"
+            alt="Idle Avatar 7"
+            id="idle-avatar7"
+            onclick="selectIdleAvatar('idle-avatar7')"
+          />
         </div>
       </div>
       <div class="section">
@@ -218,7 +236,14 @@
           >Upload Speaking Custom Avatar / Télécharger un avatar personnalisé
           parlant :</label
         >
-        <input type="file" id="uploadAvatar" accept="image/*" />
+        <input
+          type="file"
+          id="uploadAvatar"
+          accept="image/*, video/mp4, video/quicktime, video/webm"
+        />
+        <small
+          >Supports images (jpg, png, gif) and videos (mp4, mov, webm)</small
+        >
       </div>
       <div class="section">
         <label for="uploadIdleAvatar"
@@ -269,7 +294,6 @@
       let selectedIdleAvatar = "";
       let customSpeakingAvatarFile = null;
       let customIdleAvatarFile = null;
-      // NEW: Variable for GCP credentials file
       let customGCPKeyFile = null;
 
       function addQAPair() {
@@ -284,7 +308,9 @@
       }
 
       function selectAvatar(avatarId) {
-        const avatars = document.querySelectorAll(".avatar-container img");
+        const avatars = document.querySelectorAll(
+          ".avatar-container img, .avatar-container video"
+        );
         avatars.forEach((avatar) =>
           avatar.classList.remove("selected-speaking")
         );
@@ -308,12 +334,23 @@
       document
         .getElementById("uploadAvatar")
         .addEventListener("change", function () {
-          customSpeakingAvatarFile = this.files[0];
-          selectedSpeakingAvatar = "";
-          const avatars = document.querySelectorAll(".avatar-container img");
-          avatars.forEach((avatar) =>
-            avatar.classList.remove("selected-speaking")
-          );
+          const file = this.files[0];
+          if (file) {
+            // Check if the file is an image or video
+            if (file.type.match("image/*") || file.type.match("video/*")) {
+              customSpeakingAvatarFile = file;
+              selectedSpeakingAvatar = "";
+              const avatars = document.querySelectorAll(
+                ".avatar-container img, .avatar-container video"
+              );
+              avatars.forEach((avatar) =>
+                avatar.classList.remove("selected-speaking")
+              );
+            } else {
+              alert("Please upload a valid image or video file.");
+              this.value = "";
+            }
+          }
         });
 
       document
@@ -325,7 +362,6 @@
           avatars.forEach((avatar) => avatar.classList.remove("selected-idle"));
         });
 
-      // NEW: Listen for GCP credentials file upload
       document
         .getElementById("uploadGCPKey")
         .addEventListener("change", function () {
@@ -356,7 +392,6 @@
         const ownerEmail = document.getElementById("ownerEmail").value;
         formData.append("ownerEmail", ownerEmail);
 
-        // NEW: Append the OpenAI API Key from the user input
         const openaiKey = document.getElementById("openaiKey").value;
         if (!openaiKey) {
           alert("Please enter your OpenAI API key.");
@@ -382,7 +417,6 @@
           return;
         }
 
-        // NEW: Append the GCP credentials file
         if (customGCPKeyFile) {
           formData.append("uploadGCPKey", customGCPKeyFile);
         } else {
@@ -397,7 +431,6 @@
           });
           const result = await response.json();
           if (result.file) {
-            // Trigger download of the zip file
             const link = document.createElement("a");
             link.href = result.file;
             link.download = "chatbot.zip";

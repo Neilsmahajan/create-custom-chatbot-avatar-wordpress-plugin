@@ -44,6 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $speakingAvatarFileName = basename($speakingAvatarUpload['name']);
         $speakingAvatarUploadPath = sys_get_temp_dir() . '/' . $speakingAvatarFileName;
 
+        // Expand mime types to include video files
+        $allowedMimeTypes = [
+            'image/jpeg', 'image/png', 'image/gif', 'image/webp', 
+            'video/mp4', 'video/quicktime', 'video/webm'  // Add video mime types
+        ];
+
+        if (!in_array($speakingAvatarUpload['type'], $allowedMimeTypes)) {
+            echo json_encode(['message' => 'Error: Speaking avatar must be an image or video file.']);
+            exit;
+        }
+
         if (!move_uploaded_file($speakingAvatarUpload['tmp_name'], $speakingAvatarUploadPath)) {
             echo json_encode(['message' => 'Error uploading custom speaking avatar.']);
             exit;

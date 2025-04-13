@@ -75,12 +75,22 @@ function chatbot_avatar_shortcode($atts)
     $idleAvatarUrl = plugin_dir_url(__FILE__) . '{{IDLE_AVATAR_FILENAME}}';
     $primaryColor = '{{PRIMARY_COLOR}}';
     $secondaryColor = '{{SECONDARY_COLOR}}';
-    
+
+    // Determine if speaking avatar is a video file
+    $speakingAvatarIsVideo = preg_match('/\.(mp4|mov|webm)$/i', '{{SPEAKING_AVATAR_FILENAME}}');
+
     ob_start();
     ?>
     <div id="chatbot-popup">
         <div id="chat-avatar">
-            <img id="avatar-img" src="<?php echo esc_url($idleAvatarUrl); ?>" alt="ChatBot Avatar">
+            <?php if ($speakingAvatarIsVideo): ?>
+                <!-- Use video element if speaking avatar is a video -->
+                <video id="avatar-video" src="<?php echo esc_url($speakingAvatarUrl); ?>" style="display:none;" muted loop></video>
+                <img id="avatar-img" src="<?php echo esc_url($idleAvatarUrl); ?>" alt="ChatBot Avatar">
+            <?php else: ?>
+                <!-- Use image element for non-video avatars -->
+                <img id="avatar-img" src="<?php echo esc_url($idleAvatarUrl); ?>" alt="ChatBot Avatar">
+            <?php endif; ?>
         </div>
         <div id="faq-container">
             <?php
@@ -138,11 +148,12 @@ function chatbot_avatar_shortcode($atts)
             margin-top: 10px;
             display: block;
         }
-        #chat-avatar img {
+        #chat-avatar img, #chat-avatar video {
             width: 100px;
-            height: auto;
+            height: 100px;
             border-radius: 50%;
             border: 3px solid <?php echo $primaryColor; ?>;
+            object-fit: cover;
         }
         #chatbot-header {
             padding: 10px;
@@ -461,7 +472,22 @@ function chatbot_avatar_shortcode($atts)
         // Change avatar based on audio playback state
         const audioElement = document.getElementById('chat-audio');
         const avatarImg = document.getElementById('avatar-img');
+        <?php if ($speakingAvatarIsVideo): ?>
+        const avatarVideo = document.getElementById('avatar-video');
+        
+        audioElement.addEventListener('play', function () {
+            avatarImg.style.display = 'none';
+            avatarVideo.style.display = 'inline-block';
+            avatarVideo.play();
+        });
 
+        audioElement.addEventListener('ended', function () {
+            avatarVideo.style.display = 'none';
+            avatarImg.style.display = 'inline-block';
+            avatarVideo.pause();
+            avatarVideo.currentTime = 0;
+        });
+        <?php else: ?>
         audioElement.addEventListener('play', function () {
             avatarImg.src = '<?php echo esc_url($speakingAvatarUrl); ?>';
         });
@@ -469,6 +495,14 @@ function chatbot_avatar_shortcode($atts)
         audioElement.addEventListener('ended', function () {
             avatarImg.src = '<?php echo esc_url($idleAvatarUrl); ?>';
         });
+        <?php endif; ?>
+        
+        // Initialize - ensure video is loaded
+        <?php if ($speakingAvatarIsVideo): ?>
+        document.addEventListener('DOMContentLoaded', function() {
+            avatarVideo.load();
+        });
+        <?php endif; ?>
     </script>
     <?php
     return ob_get_clean();
