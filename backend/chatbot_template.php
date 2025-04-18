@@ -147,13 +147,50 @@ function chatbot_avatar_shortcode($atts)
             text-align: center;
             margin-top: 10px;
             display: block;
+            position: relative;
+        }
+        @keyframes hologramFlicker {
+            0% { opacity: 0.9; filter: brightness(1.05) hue-rotate(0deg); }
+            25% { opacity: 0.8; filter: brightness(1) hue-rotate(1deg); }
+            50% { opacity: 0.85; filter: brightness(1.1) hue-rotate(-1deg); }
+            75% { opacity: 0.75; filter: brightness(0.95) hue-rotate(0deg); }
+            100% { opacity: 0.9; filter: brightness(1.05) hue-rotate(0deg); }
         }
         #chat-avatar img, #chat-avatar video {
             width: 100px;
             height: 100px;
-            border-radius: 50%;
-            border: 3px solid <?php echo $primaryColor; ?>;
             object-fit: cover;
+            background: transparent;
+            opacity: 0.85;
+            box-shadow: 
+                0 0 10px rgba(77, 213, 255, 0.5),
+                0 0 20px rgba(77, 213, 255, 0.3),
+                0 0 30px rgba(77, 213, 255, 0.1);
+            filter: drop-shadow(0 0 5px rgba(77, 213, 255, 0.7)) saturate(1.2) brightness(1.1);
+            animation: hologramFlicker 4s infinite;
+            transform: perspective(500px) rotateX(5deg);
+            clip-path: polygon(
+                0% 5%,
+                5% 0%,
+                95% 0%,
+                100% 5%,
+                100% 95%,
+                95% 100%,
+                5% 100%,
+                0% 95%
+            );
+        }
+        #chat-avatar:before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, rgba(77, 213, 255, 0.3) 0%, rgba(77, 213, 255, 0) 70%);
+            border-radius: 50%;
+            filter: blur(5px);
         }
         #chatbot-header {
             padding: 10px;
