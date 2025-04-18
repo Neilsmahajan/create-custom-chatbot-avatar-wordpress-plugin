@@ -137,37 +137,34 @@ function chatbot_avatar_shortcode($atts)
             right: 20px;
             width: 350px;
             border: 1px solid <?php echo $primaryColor; ?>;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1), 0 2px 10px rgba(0, 0, 0, 0.08);
             background: <?php echo $secondaryColor; ?>;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+            line-height: 1.4;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
         #chat-avatar {
             text-align: center;
-            margin-top: 10px;
+            margin: 15px auto 5px;
             display: block;
             position: relative;
         }
-        @keyframes hologramFlicker {
-            0% { opacity: 0.9; filter: brightness(1.05) hue-rotate(0deg); }
-            25% { opacity: 0.8; filter: brightness(1) hue-rotate(1deg); }
-            50% { opacity: 0.85; filter: brightness(1.1) hue-rotate(-1deg); }
-            75% { opacity: 0.75; filter: brightness(0.95) hue-rotate(0deg); }
-            100% { opacity: 0.9; filter: brightness(1.05) hue-rotate(0deg); }
+        @keyframes hologramGlow {
+            0% { box-shadow: 0 0 10px rgba(77, 213, 255, 0.5), 0 0 20px rgba(77, 213, 255, 0.2); }
+            50% { box-shadow: 0 0 15px rgba(77, 213, 255, 0.6), 0 0 30px rgba(77, 213, 255, 0.3); }
+            100% { box-shadow: 0 0 10px rgba(77, 213, 255, 0.5), 0 0 20px rgba(77, 213, 255, 0.2); }
         }
         #chat-avatar img, #chat-avatar video {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             object-fit: cover;
             background: transparent;
-            opacity: 0.85;
-            box-shadow: 
-                0 0 10px rgba(77, 213, 255, 0.5),
-                0 0 20px rgba(77, 213, 255, 0.3),
-                0 0 30px rgba(77, 213, 255, 0.1);
-            filter: drop-shadow(0 0 5px rgba(77, 213, 255, 0.7)) saturate(1.2) brightness(1.1);
-            animation: hologramFlicker 4s infinite;
+            box-shadow: 0 0 15px rgba(77, 213, 255, 0.5), 0 0 25px rgba(77, 213, 255, 0.3);
+            filter: drop-shadow(0 0 5px rgba(77, 213, 255, 0.7));
+            animation: hologramGlow 3s infinite;
             transform: perspective(500px) rotateX(5deg);
             clip-path: polygon(
                 0% 5%,
@@ -186,99 +183,179 @@ function chatbot_avatar_shortcode($atts)
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 80px;
-            height: 20px;
+            width: 60px;
+            height: 15px;
             background: radial-gradient(ellipse at center, rgba(77, 213, 255, 0.3) 0%, rgba(77, 213, 255, 0) 70%);
             border-radius: 50%;
             filter: blur(5px);
         }
         #chatbot-header {
-            padding: 10px;
+            padding: 12px 15px;
             background: <?php echo $primaryColor; ?>;
             color: white;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
+            border-top-left-radius: 11px;
+            border-top-right-radius: 11px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        #chatbot-minimize {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0 5px;
+            margin: 0;
+            width: auto;
+            transition: transform 0.2s ease;
+        }
+        #chatbot-minimize:hover {
+            transform: scale(1.2);
         }
         #chat-output {
-            height: 200px;
+            height: 220px;
             overflow-y: auto;
-            padding: 10px;
-            border-top: 1px solid <?php echo $primaryColor; ?>;
+            padding: 12px 15px;
+            border-top: 1px solid rgba(0,0,0,0.05);
             background: #fff;
+            font-size: 13px;
+        }
+        #chat-output p {
+            margin: 0 0 10px;
+            line-height: 1.5;
+        }
+        #chat-output strong {
+            color: <?php echo $primaryColor; ?>;
+            font-weight: 600;
         }
         #chat-input-container {
             display: flex;
-            padding: 10px;
-            border-top: 1px solid <?php echo $primaryColor; ?>;
+            padding: 10px 12px;
+            border-top: 1px solid rgba(0,0,0,0.05);
             background: #f9f9f9;
+            border-bottom-left-radius: 11px;
+            border-bottom-right-radius: 11px;
         }
         #chat-input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid <?php echo $primaryColor; ?>;
-            border-radius: 5px;
+            padding: 10px 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            font-size: 13px;
+            transition: border 0.2s;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        #chat-input:focus {
+            outline: none;
+            border-color: <?php echo $primaryColor; ?>;
         }
         #chat-submit {
-            padding: 10px 15px;
-            margin-left: 5px;
+            padding: 8px 15px;
+            margin-left: 8px;
             border: none;
             background: <?php echo $primaryColor; ?>;
             color: white;
-            border-radius: 5px;
+            border-radius: 18px;
             cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.2s, transform 0.1s;
+            width: auto;
         }
         #chat-submit:hover {
-            background: darken(<?php echo $primaryColor; ?>, 10%);
+            background: <?php echo $primaryColor; ?>ee;
+            transform: translateY(-1px);
+        }
+        #chat-submit:active {
+            transform: translateY(1px);
         }
         .faq-button {
-            margin: 5px;
-            padding: 10px 15px;
+            margin: 4px;
+            padding: 8px 12px;
             border: 1px solid <?php echo $primaryColor; ?>;
-            border-radius: 5px;
+            border-radius: 15px;
             background: <?php echo $secondaryColor; ?>;
             color: <?php echo $primaryColor; ?>;
             cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
         }
         .faq-button:hover {
             background: <?php echo $primaryColor; ?>;
             color: white;
+            transform: translateY(-1px);
         }
         #faq-container {
-            padding: 10px;
-            border-bottom: 1px solid <?php echo $primaryColor; ?>;
+            padding: 8px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
             background: <?php echo $secondaryColor; ?>;
             text-align: center;
+            max-height: 120px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         #email-consent-container {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
         }
         #user-email {
-            width: calc(100% - 20px);
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid <?php echo $primaryColor; ?>;
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 8px 10px;
+            border: 1px solid #e0e0e0;
             border-radius: 5px;
+            font-size: 13px;
+        }
+        #user-email:focus {
+            outline: none;
+            border-color: <?php echo $primaryColor; ?>;
         }
         .checkbox-group {
             display: flex;
             align-items: center;
+            margin-bottom: 8px;
         }
         .checkbox-group input {
             margin-right: 5px;
         }
+        .checkbox-group label {
+            font-size: 12px;
+            color: #555;
+        }
         #submit-email {
-            padding: 10px 15px;
+            padding: 7px 14px;
             background: <?php echo $primaryColor; ?>;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.2s;
         }
         #submit-email:hover {
-            background: darken(<?php echo $primaryColor; ?>, 10%);
+            background: <?php echo $primaryColor; ?>ee;
+        }
+        
+        /* Responsive styles for mobile devices */
+        @media (max-width: 480px) {
+            #chatbot-popup {
+                width: 100%;
+                right: 0;
+                bottom: 0;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+            #chat-avatar img, #chat-avatar video {
+                width: 70px;
+                height: 70px;
+            }
         }
     </style>
     <script>
