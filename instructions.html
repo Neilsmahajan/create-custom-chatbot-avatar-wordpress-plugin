@@ -42,6 +42,23 @@
         border-radius: 5px;
         overflow-x: auto;
       }
+      .video-button {
+        display: inline-block;
+        margin: 10px 0;
+        padding: 8px 12px;
+        background-color: #cc0000; /* YouTube red */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+      .video-button:hover {
+        background-color: #990000;
+      }
+      .video-icon {
+        margin-right: 5px;
+      }
     </style>
   </head>
   <body>
@@ -53,6 +70,15 @@
         up your Knowledge Base, Predefined Questions, and selecting custom
         avatars.
       </p>
+
+      <a
+        href="https://www.youtube.com/watch?v=Lg07fpMY8_Y"
+        target="_blank"
+        class="video-button"
+      >
+        <span class="video-icon">▶</span> Watch Tutorial: Full Workflow
+        Demonstration
+      </a>
 
       <h2>Prerequisites: Retrieving Your API Keys</h2>
       <ol>
@@ -67,6 +93,14 @@
             >. Sign in or create an account and generate a new API key. Copy the
             API key string.
           </p>
+          <a
+            href="https://www.youtube.com/watch?v=ZmthgvlBnoI"
+            target="_blank"
+            class="video-button"
+          >
+            <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
+            OpenAI API Key
+          </a>
         </li>
         <li>
           <strong>Google Cloud Platform Service Account Credentials:</strong>
@@ -89,6 +123,14 @@
             </li>
             <li>Create and download a JSON key for the service account.</li>
           </ul>
+          <a
+            href="https://www.youtube.com/watch?v=DSNGTBc3FOE"
+            target="_blank"
+            class="video-button"
+          >
+            <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
+            GCP Service Account Credentials
+          </a>
           <p>You will upload this JSON file when generating your plugin.</p>
         </li>
       </ol>

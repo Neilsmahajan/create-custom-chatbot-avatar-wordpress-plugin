@@ -43,6 +43,23 @@
         border-radius: 5px;
         overflow-x: auto;
       }
+      .video-button {
+        display: inline-block;
+        margin: 10px 0;
+        padding: 8px 12px;
+        background-color: #cc0000; /* YouTube red */
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: background-color 0.3s;
+      }
+      .video-button:hover {
+        background-color: #990000;
+      }
+      .video-icon {
+        margin-right: 5px;
+      }
     </style>
   </head>
   <body>
@@ -54,6 +71,15 @@
         plugin en configurant votre Base de Connaissances, vos
         Questions-Pré-définies et en sélectionnant des avatars personnalisés.
       </p>
+
+      <a
+        href="https://www.youtube.com/watch?v=Lg07fpMY8_Y"
+        target="_blank"
+        class="video-button"
+      >
+        <span class="video-icon">▶</span> Regarder le tutoriel : Démonstration
+        complète du processus
+      </a>
 
       <h2>Prérequis : Récupération de vos clés API</h2>
       <ol>
@@ -68,6 +94,14 @@
             >. Connectez-vous ou créez un compte, générez une nouvelle clé API
             et copiez la chaîne de caractères.
           </p>
+          <a
+            href="https://www.youtube.com/watch?v=ZmthgvlBnoI"
+            target="_blank"
+            class="video-button"
+          >
+            <span class="video-icon">▶</span> Regarder le tutoriel : Comment
+            obtenir votre clé API OpenAI
+          </a>
         </li>
         <li>
           <strong
@@ -82,10 +116,10 @@
           </p>
           <ul>
             <li>
-              Activez l’<strong>API Cloud Text-to-Speech</strong> et l’<strong
+              Activez l'<strong>API Cloud Text-to-Speech</strong> et l'<strong
                 >API Cloud Translation</strong
               >
-              dans la bibliothèque d’API.
+              dans la bibliothèque d'API.
             </li>
             <li>
               Allez dans
@@ -97,6 +131,14 @@
               Créez et téléchargez un fichier JSON pour ce compte de service.
             </li>
           </ul>
+          <a
+            href="https://www.youtube.com/watch?v=DSNGTBc3FOE"
+            target="_blank"
+            class="video-button"
+          >
+            <span class="video-icon">▶</span> Regarder le tutoriel : Comment
+            obtenir vos identifiants de compte de service GCP
+          </a>
           <p>
             Vous téléchargerez ce fichier JSON lors de la génération de votre
             plugin.
