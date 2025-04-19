@@ -15,6 +15,18 @@ This project provides a web application that allows Christine's clients to gener
 
 ## Getting Started
 
+### Live Service
+
+You can access the plugin generator online without any local setup at:
+[https://createcustomchatbotplugin.com/](https://createcustomchatbotplugin.com/)
+
+This is a production deployment running as a dockerized serverless container function on Google Cloud Run, providing:
+
+- Scalable, high-availability access
+- No local installation required
+- Automatic updates with latest features
+- Fast plugin generation without local resource consumption
+
 ### Without Docker
 
 1. Clone the repository:
@@ -78,7 +90,7 @@ create-custom-chatbot-avatar-wordpress-plugin/
 
 ## Usage
 
-1. Open the application in your browser by going to [http://localhost:8080](http://localhost:8080).
+1. Open the application in your browser by going to [https://createcustomchatbotplugin.com/](https://createcustomchatbotplugin.com/) or [http://localhost:8080](http://localhost:8080) if running locally.
 2. Fill in the fields for:
    - **Knowledge Base:** Enter the specific details of your business or organization.
    - **Predefined Questions:** Provide frequently asked questions for the chatbot to address.
@@ -161,6 +173,25 @@ create-custom-chatbot-avatar-wordpress-plugin/
 5. **Owner Email:** Provide your email address to receive the emails of users who interact with the chatbot.
 
 The generated plugin will contain these customizations and provide a tailored experience on their WordPress site.
+
+---
+
+## Cloud Deployment Architecture
+
+The live service at [createcustomchatbotplugin.com](https://createcustomchatbotplugin.com/) runs on Google Cloud Run with the following architecture:
+
+- **Container**: Dockerized PHP application running on Google Cloud Run
+- **Scaling**: Automatically scales from zero to multiple instances based on traffic
+- **Domain**: Custom domain with SSL certificates managed by Google Cloud
+- **Storage**: Ephemeral file storage with automatic cleanup
+- **Security**: HTTPS enforced for all connections
+
+If you wish to deploy your own version of this service on Google Cloud Run:
+
+1. Build the Docker image (see Docker instructions above)
+2. Push the image to Google Container Registry or Artifact Registry
+3. Deploy to Google Cloud Run with appropriate memory and CPU settings
+4. Set up a custom domain and SSL certificate if desired
 
 ---
 
