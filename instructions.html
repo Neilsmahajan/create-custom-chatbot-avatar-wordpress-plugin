@@ -4,144 +4,332 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instructions - How to Use the Chatbot Service</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
+      :root {
+        --primary: #4361ee;
+        --primary-light: #4895ef;
+        --primary-dark: #3a0ca3;
+        --secondary: #f8f9fd;
+        --text-primary: #212529;
+        --text-secondary: #495057;
+        --success: #2ecc71;
+        --border: #dee2e6;
+        --code-bg: #f8f9fa;
+      }
+
+      * {
+        box-sizing: border-box;
         margin: 0;
-        padding: 20px;
+        padding: 0;
       }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background-color: var(--secondary);
+        margin: 0;
+        padding: 0;
+        color: var(--text-primary);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 40px auto 80px;
+        padding: 0 20px;
+      }
+
       .content {
-        max-width: 800px;
-        margin: 0 auto;
         background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
       }
-      h1,
-      h2,
+
+      h1 {
+        font-size: 32px;
+        color: var(--primary-dark);
+        margin-bottom: 24px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        border-bottom: 2px solid #eaecef;
+        padding-bottom: 16px;
+      }
+
+      h2 {
+        font-size: 24px;
+        color: var(--primary-dark);
+        margin: 40px 0 16px;
+        font-weight: 600;
+      }
+
       h3 {
-        color: #333;
+        font-size: 20px;
+        color: var(--primary-dark);
+        margin: 30px 0 12px;
+        font-weight: 600;
       }
+
+      p,
+      li {
+        color: var(--text-primary);
+        font-size: 16px;
+        line-height: 1.7;
+        margin-bottom: 16px;
+      }
+
       a.button {
         display: inline-block;
-        margin-top: 20px;
-        padding: 10px 15px;
-        background-color: #007bff;
+        margin-top: 24px;
+        padding: 12px 24px;
+        background-color: var(--primary);
         color: white;
         text-decoration: none;
-        border-radius: 5px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.2s ease;
       }
+
       a.button:hover {
-        background-color: #0056b3;
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(74, 97, 238, 0.2);
       }
+
       pre {
-        background: #eee;
-        padding: 10px;
-        border-radius: 5px;
+        background: var(--code-bg);
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
         overflow-x: auto;
+        border-left: 4px solid var(--primary);
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+        line-height: 1.5;
       }
+
       .video-button {
-        display: inline-block;
-        margin: 10px 0;
-        padding: 8px 12px;
-        background-color: #cc0000; /* YouTube red */
+        display: inline-flex;
+        align-items: center;
+        margin: 16px 0;
+        padding: 10px 16px;
+        background-color: #cc0000;
         color: white;
         text-decoration: none;
-        border-radius: 5px;
-        font-size: 14px;
-        transition: background-color 0.3s;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 500;
+        transition: all 0.2s ease;
       }
+
       .video-button:hover {
         background-color: #990000;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(204, 0, 0, 0.2);
       }
+
       .video-icon {
-        margin-right: 5px;
+        margin-right: 8px;
+      }
+
+      ol,
+      ul {
+        padding-left: 24px;
+        margin-bottom: 24px;
+      }
+
+      ol li,
+      ul li {
+        margin-bottom: 12px;
+      }
+
+      .nav-links {
+        margin-bottom: 32px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #eaecef;
+      }
+
+      .nav-links a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        margin-right: 16px;
+        transition: color 0.2s;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      .step-container {
+        background-color: #f8fafc;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 24px 0;
+        border-left: 4px solid var(--primary);
+      }
+
+      .step-title {
+        font-weight: 600;
+        font-size: 18px;
+        color: var(--primary-dark);
+        margin-bottom: 16px;
+      }
+
+      code {
+        background-color: #f1f1f4;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 14px;
+      }
+
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: var(--primary);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        opacity: 0;
+        transition: all 0.3s ease;
+        font-size: 24px;
+        transform: scale(0.8);
+      }
+
+      .back-to-top.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .back-to-top:hover {
+        background-color: var(--primary-dark);
+        transform: scale(1.1);
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .content {
+          padding: 24px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        h2 {
+          font-size: 22px;
+        }
+
+        .back-to-top {
+          right: 20px;
+          bottom: 20px;
+          width: 45px;
+          height: 45px;
+        }
       }
     </style>
   </head>
   <body>
-    <div class="content">
-      <h1>How to Use the Chatbot Avatar Plugin Service</h1>
-      <p>
-        This service allows you to generate a custom WordPress AI chatbot avatar
-        plugin tailored to your needs. You can personalize the plugin by setting
-        up your Knowledge Base, Predefined Questions, and selecting custom
-        avatars.
-      </p>
+    <div class="container">
+      <div class="content">
+        <div class="nav-links">
+          <a href="index.html">← Back to Customization</a>
+          <a href="instructions_fr.html">Instructions en français</a>
+        </div>
 
-      <a
-        href="https://www.youtube.com/watch?v=Lg07fpMY8_Y"
-        target="_blank"
-        class="video-button"
-      >
-        <span class="video-icon">▶</span> Watch Tutorial: Full Workflow
-        Demonstration
-      </a>
+        <h1>How to Use the Chatbot Avatar Plugin Service</h1>
+        <p>
+          This service allows you to generate a custom WordPress AI chatbot
+          avatar plugin tailored to your needs. You can personalize the plugin
+          by setting up your Knowledge Base, Predefined Questions, and selecting
+          custom avatars.
+        </p>
 
-      <h2>Prerequisites: Retrieving Your API Keys</h2>
-      <ol>
-        <li>
-          <strong>OpenAI API Key:</strong>
-          <p>
-            Visit the
+        <a
+          href="https://www.youtube.com/watch?v=Lg07fpMY8_Y"
+          target="_blank"
+          class="video-button"
+        >
+          <span class="video-icon">▶</span> Watch Tutorial: Full Workflow
+          Demonstration
+        </a>
+
+        <h2>Prerequisites: Retrieving Your API Keys</h2>
+        <ol>
+          <li>
+            <strong>OpenAI API Key:</strong>
+            <p>
+              Visit the
+              <a
+                href="https://platform.openai.com/account/api-keys"
+                target="_blank"
+                >OpenAI API Keys page</a
+              >. Sign in or create an account and generate a new API key. Copy
+              the API key string.
+            </p>
             <a
-              href="https://platform.openai.com/account/api-keys"
+              href="https://www.youtube.com/watch?v=ZmthgvlBnoI"
               target="_blank"
-              >OpenAI API Keys page</a
-            >. Sign in or create an account and generate a new API key. Copy the
-            API key string.
-          </p>
-          <a
-            href="https://www.youtube.com/watch?v=ZmthgvlBnoI"
-            target="_blank"
-            class="video-button"
-          >
-            <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
-            OpenAI API Key
-          </a>
-        </li>
-        <li>
-          <strong>Google Cloud Platform Service Account Credentials:</strong>
-          <p>
-            Go to the
-            <a href="https://console.cloud.google.com/" target="_blank"
-              >Google Cloud Console</a
+              class="video-button"
             >
-            and create (or select) a project.
-          </p>
-          <ul>
-            <li>
-              Enable the <strong>Cloud Text-to-Speech API</strong> and the
-              <strong>Cloud Translation API</strong> in the API Library.
-            </li>
-            <li>
-              Navigate to
-              <strong>IAM & Admin &rarr; Service Accounts</strong> and create a
-              new service account, granting it the required permissions.
-            </li>
-            <li>Create and download a JSON key for the service account.</li>
-          </ul>
-          <a
-            href="https://www.youtube.com/watch?v=DSNGTBc3FOE"
-            target="_blank"
-            class="video-button"
-          >
-            <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
-            GCP Service Account Credentials
-          </a>
-          <p>You will upload this JSON file when generating your plugin.</p>
-        </li>
-      </ol>
+              <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
+              OpenAI API Key
+            </a>
+          </li>
+          <li>
+            <strong>Google Cloud Platform Service Account Credentials:</strong>
+            <p>
+              Go to the
+              <a href="https://console.cloud.google.com/" target="_blank"
+                >Google Cloud Console</a
+              >
+              and create (or select) a project.
+            </p>
+            <ul>
+              <li>
+                Enable the <strong>Cloud Text-to-Speech API</strong> and the
+                <strong>Cloud Translation API</strong> in the API Library.
+              </li>
+              <li>
+                Navigate to
+                <strong>IAM & Admin → Service Accounts</strong> and create a new
+                service account, granting it the required permissions.
+              </li>
+              <li>Create and download a JSON key for the service account.</li>
+            </ul>
+            <a
+              href="https://www.youtube.com/watch?v=DSNGTBc3FOE"
+              target="_blank"
+              class="video-button"
+            >
+              <span class="video-icon">▶</span> Watch Tutorial: How to Get Your
+              GCP Service Account Credentials
+            </a>
+            <p>You will upload this JSON file when generating your plugin.</p>
+          </li>
+        </ol>
 
-      <h2>Steps to Get Started</h2>
-      <ol>
-        <li>
-          <strong>Enter Your Content:</strong>
+        <h2>Steps to Get Started</h2>
+        <div class="step-container">
+          <div class="step-title">1. Enter Your Content</div>
           <ul>
             <li>
-              Fill in the “Knowledge Base” field with details about your
+              Fill in the "Knowledge Base" field with details about your
               business or organization.
             </li>
             <li>
@@ -149,92 +337,118 @@
               area.
             </li>
           </ul>
-        </li>
-        <li>
-          <strong>Select or Upload Avatars:</strong>
+        </div>
+
+        <div class="step-container">
+          <div class="step-title">2. Select or Upload Avatars</div>
           <ul>
             <li>
-              Select a Speaking Avatar and an Idle Avatar from the predefined
-              options or upload your own custom images.
+              Select a Speaking Avatar (shown when the chatbot is speaking) and
+              an Idle Avatar (shown when the chatbot is waiting) from the
+              predefined options or upload your own custom images.
             </li>
           </ul>
-        </li>
-        <li>
-          <strong>Input Your API Keys:</strong>
+        </div>
+
+        <div class="step-container">
+          <div class="step-title">3. Input Your API Keys</div>
           <ul>
             <li>Enter your OpenAI API key in the provided field.</li>
             <li>Upload your GCP Service Account Credentials JSON key file.</li>
           </ul>
-        </li>
-        <li>
-          <strong>Customize Appearance:</strong>
+        </div>
+
+        <div class="step-container">
+          <div class="step-title">4. Customize Appearance</div>
           <ul>
             <li>
               Set your preferred Primary and Secondary colors for the plugin
               style.
             </li>
           </ul>
-        </li>
-        <li>
-          <strong>Owner Email:</strong>
+        </div>
+
+        <div class="step-container">
+          <div class="step-title">5. Owner Email</div>
           <ul>
             <li>
               Provide your email address so that you can receive updates from
               users interacting with your chatbot.
             </li>
           </ul>
-        </li>
-        <li>
-          <strong>Plugin Generation:</strong>
+        </div>
+
+        <div class="step-container">
+          <div class="step-title">6. Plugin Generation</div>
           <ul>
             <li>
-              Click “Submit” to generate your custom plugin. A
+              Click "Generate Chatbot Plugin" to create your custom plugin. A
               <code>chatbot.zip</code> file will be created for you to download.
             </li>
           </ul>
-        </li>
-      </ol>
+        </div>
 
-      <h2>Adding the Plugin to Your WordPress Site</h2>
-      <ol>
-        <li>Log in to your WordPress admin dashboard.</li>
-        <li>
-          Navigate to <strong>Plugins &gt; Add New</strong> and click on the
-          <strong>Upload Plugin</strong> button.
-        </li>
-        <li>
-          Select the <code>chatbot.zip</code> file you downloaded and click
-          <strong>Install Now</strong>.
-        </li>
-        <li>Once installed, click <strong>Activate Plugin</strong>.</li>
-        <li>
-          To display the chatbot, add the shortcode
-          <code>[chatbot_avatar language="en-US"]</code> (or
-          <code>[chatbot_avatar language="fr-CA"]</code> for Canadian French) to
-          any page or post.
-        </li>
-      </ol>
+        <h2>Adding the Plugin to Your WordPress Site</h2>
+        <ol>
+          <li>Log in to your WordPress admin dashboard.</li>
+          <li>
+            Navigate to <strong>Plugins &gt; Add New</strong> and click on the
+            <strong>Upload Plugin</strong> button.
+          </li>
+          <li>
+            Select the <code>chatbot.zip</code> file you downloaded and click
+            <strong>Install Now</strong>.
+          </li>
+          <li>Once installed, click <strong>Activate Plugin</strong>.</li>
+          <li>
+            To display the chatbot, add the shortcode
+            <code>[chatbot_avatar language="en-US"]</code> (or
+            <code>[chatbot_avatar language="fr-CA"]</code> for Canadian French)
+            to any page or post.
+          </li>
+        </ol>
 
-      <h2>Example Workflow</h2>
-      <p>
-        For instance, if you operate a real estate business, you might enter the
-        following in your Knowledge Base:
-      </p>
-      <pre>
-You are a helpful assistant for a real estate business called My Real Estate. 
-Currently, we operate in the downtown area and have several properties available.
-      </pre>
-      <p>And define a FAQ pair such as:</p>
-      <pre>
+        <h2>Example Workflow</h2>
+        <p>
+          For instance, if you operate a real estate business, you might enter
+          the following in your Knowledge Base:
+        </p>
+        <pre>
+You are a helpful assistant for a real estate business called My Real Estate.
+Currently, we operate in the downtown area and have several properties available.</pre
+        >
+        <p>And define a FAQ pair such as:</p>
+        <pre>
 Question: What are your business hours?
-Answer: We are open from 9 AM to 5 PM, Monday through Friday.
-      </pre>
-      <p>
-        Follow the steps above to generate your custom plugin and integrate it
-        into your WordPress site.
-      </p>
+Answer: We are open from 9 AM to 5 PM, Monday through Friday.</pre
+        >
+        <p>
+          Follow the steps above to generate your custom plugin and integrate it
+          into your WordPress site.
+        </p>
 
-      <a class="button" href="index.html">Back to Home</a>
+        <a class="button" href="index.html">Back to Customization</a>
+      </div>
     </div>
+
+    <a href="#" class="back-to-top" id="back-to-top">↑</a>
+
+    <script>
+      // Back to top button functionality
+      const backToTopButton = document.getElementById("back-to-top");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.add("visible");
+        } else {
+          backToTopButton.classList.remove("visible");
+        }
+      });
+
+      backToTopButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    </script>
   </body>
 </html>
