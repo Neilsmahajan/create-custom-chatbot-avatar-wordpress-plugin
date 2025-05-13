@@ -1,6 +1,6 @@
 # Create Custom Chatbot Avatar WordPress Plugin
 
-This project provides a web application that allows Christine's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Speaking and Idle Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.zip` file tailored to the client's needs, which can be deployed directly into their WordPress site.
+This project provides a web application that allows Vloe's clients to generate a customized WordPress AI chatbot avatar plugin for their websites. Each client can personalize the chatbot plugin by inputting their own **Knowledge Base**, **Predefined Questions**, **Speaking and Idle Avatar Selection**, and **Language Preference**. The web application then generates a `chatbot.zip` file tailored to the client's needs, which can be deployed directly into their WordPress site.
 
 ## Features
 
@@ -250,9 +250,10 @@ php -S localhost:8000
 
 ## Contact
 
-For questions or feedback, please contact **Neil Mahajan** at neilsmahajan@gmail.com or nsmahaj1@asu.edu.<br/>
-Other team members:
+For questions or feedback, please email contact@createcustomchatbotplugin.com<br/>
 
+**Team members:**
+- **Neil Mahajan (Project Leader):** nsmahaj1@asu.edu
 - **Pranav Vad:** pvad1@asu.edu
 - **Abbhijit Venkatachalam:** avenka97@asu.edu
 - **Sai Kolla:** slkolla@asu.edu
